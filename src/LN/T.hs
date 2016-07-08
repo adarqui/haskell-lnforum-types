@@ -19,6 +19,7 @@ import           LN.T.GroupMember         as A
 import           LN.T.Leuron              as A
 import           LN.T.LeuronTraining      as A
 import           LN.T.Like                as A
+import           LN.T.Like.Extra          as A
 import           LN.T.Membership          as A
 import           LN.T.Organization        as A
 import           LN.T.Pack.Board          as A
