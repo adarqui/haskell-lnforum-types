@@ -26,6 +26,7 @@ import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
+import           Data.Default
 
 data ThreadPackResponse = ThreadPackResponse {
   threadPackResponseThread :: ThreadResponse,

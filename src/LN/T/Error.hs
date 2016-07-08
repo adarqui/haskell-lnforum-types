@@ -18,6 +18,7 @@ import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
+import           Data.Default
 
 data ApplicationError
   = Error_Unknown 
@@ -147,6 +148,9 @@ instance Show ApplicationError where
   show Error_Unexpected = "error_unexpected"
 
 
+instance Default ApplicationError where
+  def = Error_Unknown
+
 data ValidationError
   = Validate ValidationErrorCode (Maybe Text)
 
@@ -181,6 +185,9 @@ instance Eq ValidationError where
 instance Show ValidationError where
   show (Validate x0 x1) = "validate: " <> show x0 <> " " <> show x1
 
+
+instance Default ValidationError where
+  def = Validate Validate_Unknown Nothing
 
 data ValidationErrorCode
   = Validate_Unknown 
@@ -306,4 +313,7 @@ instance Show ValidationErrorCode where
   show Validate_SmallerThanMinimum = "validate_smaller_than_minimum"
   show (Validate_Reason x0) = "validate_reason: " <> show x0
 
+
+instance Default ValidationErrorCode where
+  def = Validate_Unknown
 -- footer
