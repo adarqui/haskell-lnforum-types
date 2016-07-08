@@ -8,15 +8,23 @@
 module LN.T.Pack.Organization where
 
 
+import LN.T.Organization
+import LN.T.User
+import LN.T.Team
+import LN.T.Like
+import LN.T.Star
+import LN.T.Permission
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype OrganizationPackResponse = OrganizationPackResponse {
+data OrganizationPackResponse = OrganizationPackResponse {
   organizationPackResponseUser :: UserSanitizedResponse,
   organizationPackResponseUserId :: Int64,
   organizationPackResponseOrganization :: OrganizationResponse,
@@ -75,7 +83,7 @@ instance Eq OrganizationPackResponse where
 instance Show OrganizationPackResponse where
     show rec = "organizationPackResponseUser: " <> show (organizationPackResponseUser rec) <> ", " <> "organizationPackResponseUserId: " <> show (organizationPackResponseUserId rec) <> ", " <> "organizationPackResponseOrganization: " <> show (organizationPackResponseOrganization rec) <> ", " <> "organizationPackResponseOrganizationId: " <> show (organizationPackResponseOrganizationId rec) <> ", " <> "organizationPackResponseStat: " <> show (organizationPackResponseStat rec) <> ", " <> "organizationPackResponseLike: " <> show (organizationPackResponseLike rec) <> ", " <> "organizationPackResponseStar: " <> show (organizationPackResponseStar rec) <> ", " <> "organizationPackResponsePermissions: " <> show (organizationPackResponsePermissions rec) <> ", " <> "organizationPackResponseTeams: " <> show (organizationPackResponseTeams rec)
 
-newtype OrganizationPackResponses = OrganizationPackResponses {
+data OrganizationPackResponses = OrganizationPackResponses {
   organizationPackResponses :: [OrganizationPackResponse]
 }
 

@@ -10,13 +10,16 @@ module LN.T.GroupMember where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype GroupMemberRequest = GroupMemberRequest {
+data GroupMemberRequest = GroupMemberRequest {
   groupMemberRequestGuard :: Int
 }
 
@@ -43,7 +46,7 @@ instance Eq GroupMemberRequest where
 instance Show GroupMemberRequest where
     show rec = "groupMemberRequestGuard: " <> show (groupMemberRequestGuard rec)
 
-newtype GroupMemberResponse = GroupMemberResponse {
+data GroupMemberResponse = GroupMemberResponse {
   groupMemberResponseId :: Int64,
   groupMemberResponseUserId :: Int64,
   groupMemberResponseGlobalGroupId :: Int64,
@@ -94,7 +97,7 @@ instance Eq GroupMemberResponse where
 instance Show GroupMemberResponse where
     show rec = "groupMemberResponseId: " <> show (groupMemberResponseId rec) <> ", " <> "groupMemberResponseUserId: " <> show (groupMemberResponseUserId rec) <> ", " <> "groupMemberResponseGlobalGroupId: " <> show (groupMemberResponseGlobalGroupId rec) <> ", " <> "groupMemberResponseCreatedAt: " <> show (groupMemberResponseCreatedAt rec) <> ", " <> "groupMemberResponseModifiedBy: " <> show (groupMemberResponseModifiedBy rec) <> ", " <> "groupMemberResponseModifiedAt: " <> show (groupMemberResponseModifiedAt rec) <> ", " <> "groupMemberResponseActivityAt: " <> show (groupMemberResponseActivityAt rec)
 
-newtype GroupMemberResponses = GroupMemberResponses {
+data GroupMemberResponses = GroupMemberResponses {
   groupMemberResponses :: [GroupMemberResponse]
 }
 

@@ -10,13 +10,16 @@ module LN.T.Thread where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ThreadRequest = ThreadRequest {
+data ThreadRequest = ThreadRequest {
   threadRequestDisplayName :: Text,
   threadRequestDescription :: (Maybe Text),
   threadRequestSticky :: Bool,
@@ -71,7 +74,7 @@ instance Eq ThreadRequest where
 instance Show ThreadRequest where
     show rec = "threadRequestDisplayName: " <> show (threadRequestDisplayName rec) <> ", " <> "threadRequestDescription: " <> show (threadRequestDescription rec) <> ", " <> "threadRequestSticky: " <> show (threadRequestSticky rec) <> ", " <> "threadRequestLocked: " <> show (threadRequestLocked rec) <> ", " <> "threadRequestPoll: " <> show (threadRequestPoll rec) <> ", " <> "threadRequestIcon: " <> show (threadRequestIcon rec) <> ", " <> "threadRequestTags: " <> show (threadRequestTags rec) <> ", " <> "threadRequestGuard: " <> show (threadRequestGuard rec)
 
-newtype ThreadResponse = ThreadResponse {
+data ThreadResponse = ThreadResponse {
   threadResponseId :: Int64,
   threadResponseUserId :: Int64,
   threadResponseOrgId :: Int64,
@@ -170,7 +173,7 @@ instance Eq ThreadResponse where
 instance Show ThreadResponse where
     show rec = "threadResponseId: " <> show (threadResponseId rec) <> ", " <> "threadResponseUserId: " <> show (threadResponseUserId rec) <> ", " <> "threadResponseOrgId: " <> show (threadResponseOrgId rec) <> ", " <> "threadResponseForumId: " <> show (threadResponseForumId rec) <> ", " <> "threadResponseBoardId: " <> show (threadResponseBoardId rec) <> ", " <> "threadResponseName: " <> show (threadResponseName rec) <> ", " <> "threadResponseDisplayName: " <> show (threadResponseDisplayName rec) <> ", " <> "threadResponseDescription: " <> show (threadResponseDescription rec) <> ", " <> "threadResponseSticky: " <> show (threadResponseSticky rec) <> ", " <> "threadResponseLocked: " <> show (threadResponseLocked rec) <> ", " <> "threadResponsePoll: " <> show (threadResponsePoll rec) <> ", " <> "threadResponseIcon: " <> show (threadResponseIcon rec) <> ", " <> "threadResponseTags: " <> show (threadResponseTags rec) <> ", " <> "threadResponseActive: " <> show (threadResponseActive rec) <> ", " <> "threadResponseGuard: " <> show (threadResponseGuard rec) <> ", " <> "threadResponseCreatedAt: " <> show (threadResponseCreatedAt rec) <> ", " <> "threadResponseModifiedBy: " <> show (threadResponseModifiedBy rec) <> ", " <> "threadResponseModifiedAt: " <> show (threadResponseModifiedAt rec) <> ", " <> "threadResponseActivityAt: " <> show (threadResponseActivityAt rec)
 
-newtype ThreadResponses = ThreadResponses {
+data ThreadResponses = ThreadResponses {
   threadResponses :: [ThreadResponse]
 }
 
@@ -197,7 +200,7 @@ instance Eq ThreadResponses where
 instance Show ThreadResponses where
     show rec = "threadResponses: " <> show (threadResponses rec)
 
-newtype ThreadStatResponse = ThreadStatResponse {
+data ThreadStatResponse = ThreadStatResponse {
   threadStatResponseThreadId :: Int64,
   threadStatResponseThreadPosts :: Int64,
   threadStatResponseViews :: Int64
@@ -232,7 +235,7 @@ instance Eq ThreadStatResponse where
 instance Show ThreadStatResponse where
     show rec = "threadStatResponseThreadId: " <> show (threadStatResponseThreadId rec) <> ", " <> "threadStatResponseThreadPosts: " <> show (threadStatResponseThreadPosts rec) <> ", " <> "threadStatResponseViews: " <> show (threadStatResponseViews rec)
 
-newtype ThreadStatResponses = ThreadStatResponses {
+data ThreadStatResponses = ThreadStatResponses {
   threadStatResponses :: [ThreadStatResponse]
 }
 

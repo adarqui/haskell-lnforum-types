@@ -10,13 +10,16 @@ module LN.T.TeamMember where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype TeamMemberRequest = TeamMemberRequest {
+data TeamMemberRequest = TeamMemberRequest {
   teamMemberRequestGuard :: Int
 }
 
@@ -43,7 +46,7 @@ instance Eq TeamMemberRequest where
 instance Show TeamMemberRequest where
     show rec = "teamMemberRequestGuard: " <> show (teamMemberRequestGuard rec)
 
-newtype TeamMemberResponse = TeamMemberResponse {
+data TeamMemberResponse = TeamMemberResponse {
   teamMemberResponseId :: Int64,
   teamMemberResponseUserId :: Int64,
   teamMemberResponseOrgId :: Int64,
@@ -122,7 +125,7 @@ instance Eq TeamMemberResponse where
 instance Show TeamMemberResponse where
     show rec = "teamMemberResponseId: " <> show (teamMemberResponseId rec) <> ", " <> "teamMemberResponseUserId: " <> show (teamMemberResponseUserId rec) <> ", " <> "teamMemberResponseOrgId: " <> show (teamMemberResponseOrgId rec) <> ", " <> "teamMemberResponseTeamId: " <> show (teamMemberResponseTeamId rec) <> ", " <> "teamMemberResponseIsAccepted: " <> show (teamMemberResponseIsAccepted rec) <> ", " <> "teamMemberResponseAcceptedAt: " <> show (teamMemberResponseAcceptedAt rec) <> ", " <> "teamMemberResponseIsBlocked: " <> show (teamMemberResponseIsBlocked rec) <> ", " <> "teamMemberResponseBlockedAt: " <> show (teamMemberResponseBlockedAt rec) <> ", " <> "teamMemberResponseActive: " <> show (teamMemberResponseActive rec) <> ", " <> "teamMemberResponseGuard: " <> show (teamMemberResponseGuard rec) <> ", " <> "teamMemberResponseCreatedAt: " <> show (teamMemberResponseCreatedAt rec) <> ", " <> "teamMemberResponseModifiedBy: " <> show (teamMemberResponseModifiedBy rec) <> ", " <> "teamMemberResponseModifiedAt: " <> show (teamMemberResponseModifiedAt rec) <> ", " <> "teamMemberResponseActivityAt: " <> show (teamMemberResponseActivityAt rec)
 
-newtype TeamMemberResponses = TeamMemberResponses {
+data TeamMemberResponses = TeamMemberResponses {
   teamMemberResponses :: [TeamMemberResponse]
 }
 
@@ -181,7 +184,7 @@ instance Show TeamMemberStatResponse where
   show TeamMemberStatResponse = "team_member_stat_response"
 
 
-newtype TeamMemberStatResponses = TeamMemberStatResponses {
+data TeamMemberStatResponses = TeamMemberStatResponses {
   teamMemberStatResponses :: [TeamMemberStatResponse]
 }
 

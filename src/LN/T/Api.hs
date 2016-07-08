@@ -10,13 +10,16 @@ module LN.T.Api where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ApiRequest = ApiRequest {
+data ApiRequest = ApiRequest {
   apiRequestComment :: (Maybe Text),
   apiRequestGuard :: Int
 }
@@ -47,7 +50,7 @@ instance Eq ApiRequest where
 instance Show ApiRequest where
     show rec = "apiRequestComment: " <> show (apiRequestComment rec) <> ", " <> "apiRequestGuard: " <> show (apiRequestGuard rec)
 
-newtype ApiResponse = ApiResponse {
+data ApiResponse = ApiResponse {
   apiResponseId :: Int64,
   apiResponseUserId :: Int64,
   apiResponseKey :: Text,
@@ -98,7 +101,7 @@ instance Eq ApiResponse where
 instance Show ApiResponse where
     show rec = "apiResponseId: " <> show (apiResponseId rec) <> ", " <> "apiResponseUserId: " <> show (apiResponseUserId rec) <> ", " <> "apiResponseKey: " <> show (apiResponseKey rec) <> ", " <> "apiResponseComment: " <> show (apiResponseComment rec) <> ", " <> "apiResponseGuard: " <> show (apiResponseGuard rec) <> ", " <> "apiResponseCreatedAt: " <> show (apiResponseCreatedAt rec) <> ", " <> "apiResponseModifiedAt: " <> show (apiResponseModifiedAt rec)
 
-newtype ApiResponses = ApiResponses {
+data ApiResponses = ApiResponses {
   apiResponses :: [ApiResponse]
 }
 

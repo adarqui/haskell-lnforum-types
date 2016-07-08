@@ -10,13 +10,16 @@ module LN.T.Board where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype BoardRequest = BoardRequest {
+data BoardRequest = BoardRequest {
   boardRequestDisplayName :: Text,
   boardRequestDescription :: (Maybe Text),
   boardRequestIsAnonymous :: Bool,
@@ -75,7 +78,7 @@ instance Eq BoardRequest where
 instance Show BoardRequest where
     show rec = "boardRequestDisplayName: " <> show (boardRequestDisplayName rec) <> ", " <> "boardRequestDescription: " <> show (boardRequestDescription rec) <> ", " <> "boardRequestIsAnonymous: " <> show (boardRequestIsAnonymous rec) <> ", " <> "boardRequestCanCreateSubBoards: " <> show (boardRequestCanCreateSubBoards rec) <> ", " <> "boardRequestCanCreateThreads: " <> show (boardRequestCanCreateThreads rec) <> ", " <> "boardRequestSuggestedTags: " <> show (boardRequestSuggestedTags rec) <> ", " <> "boardRequestIcon: " <> show (boardRequestIcon rec) <> ", " <> "boardRequestTags: " <> show (boardRequestTags rec) <> ", " <> "boardRequestGuard: " <> show (boardRequestGuard rec)
 
-newtype BoardResponse = BoardResponse {
+data BoardResponse = BoardResponse {
   boardResponseId :: Int64,
   boardResponseUserId :: Int64,
   boardResponseOrgId :: Int64,
@@ -178,7 +181,7 @@ instance Eq BoardResponse where
 instance Show BoardResponse where
     show rec = "boardResponseId: " <> show (boardResponseId rec) <> ", " <> "boardResponseUserId: " <> show (boardResponseUserId rec) <> ", " <> "boardResponseOrgId: " <> show (boardResponseOrgId rec) <> ", " <> "boardResponseForumId: " <> show (boardResponseForumId rec) <> ", " <> "boardResponseParentId: " <> show (boardResponseParentId rec) <> ", " <> "boardResponseName: " <> show (boardResponseName rec) <> ", " <> "boardResponseDisplayName: " <> show (boardResponseDisplayName rec) <> ", " <> "boardResponseDescription: " <> show (boardResponseDescription rec) <> ", " <> "boardResponseIsAnonymous: " <> show (boardResponseIsAnonymous rec) <> ", " <> "boardResponseCanCreateSubBoards: " <> show (boardResponseCanCreateSubBoards rec) <> ", " <> "boardResponseCanCreateThreads: " <> show (boardResponseCanCreateThreads rec) <> ", " <> "boardResponseSuggestedTags: " <> show (boardResponseSuggestedTags rec) <> ", " <> "boardResponseIcon: " <> show (boardResponseIcon rec) <> ", " <> "boardResponseTags: " <> show (boardResponseTags rec) <> ", " <> "boardResponseActive: " <> show (boardResponseActive rec) <> ", " <> "boardResponseGuard: " <> show (boardResponseGuard rec) <> ", " <> "boardResponseCreatedAt: " <> show (boardResponseCreatedAt rec) <> ", " <> "boardResponseModifiedBy: " <> show (boardResponseModifiedBy rec) <> ", " <> "boardResponseModifiedAt: " <> show (boardResponseModifiedAt rec) <> ", " <> "boardResponseActivityAt: " <> show (boardResponseActivityAt rec)
 
-newtype BoardResponses = BoardResponses {
+data BoardResponses = BoardResponses {
   boardResponses :: [BoardResponse]
 }
 
@@ -205,7 +208,7 @@ instance Eq BoardResponses where
 instance Show BoardResponses where
     show rec = "boardResponses: " <> show (boardResponses rec)
 
-newtype BoardStatResponse = BoardStatResponse {
+data BoardStatResponse = BoardStatResponse {
   boardStatResponseBoardId :: Int64,
   boardStatResponseThreads :: Int64,
   boardStatResponseThreadPosts :: Int64,
@@ -244,7 +247,7 @@ instance Eq BoardStatResponse where
 instance Show BoardStatResponse where
     show rec = "boardStatResponseBoardId: " <> show (boardStatResponseBoardId rec) <> ", " <> "boardStatResponseThreads: " <> show (boardStatResponseThreads rec) <> ", " <> "boardStatResponseThreadPosts: " <> show (boardStatResponseThreadPosts rec) <> ", " <> "boardStatResponseViews: " <> show (boardStatResponseViews rec)
 
-newtype BoardStatResponses = BoardStatResponses {
+data BoardStatResponses = BoardStatResponses {
   boardStatResponses :: [BoardStatResponse]
 }
 

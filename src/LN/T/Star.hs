@@ -8,15 +8,18 @@
 module LN.T.Star where
 
 
+import LN.T.Ent
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype StarRequest = StarRequest {
+data StarRequest = StarRequest {
   starRequestReason :: (Maybe Text),
   starRequestGuard :: Int
 }
@@ -47,7 +50,7 @@ instance Eq StarRequest where
 instance Show StarRequest where
     show rec = "starRequestReason: " <> show (starRequestReason rec) <> ", " <> "starRequestGuard: " <> show (starRequestGuard rec)
 
-newtype StarResponse = StarResponse {
+data StarResponse = StarResponse {
   starResponseId :: Int64,
   starResponseEnt :: Ent,
   starResponseEntId :: Int64,
@@ -106,7 +109,7 @@ instance Eq StarResponse where
 instance Show StarResponse where
     show rec = "starResponseId: " <> show (starResponseId rec) <> ", " <> "starResponseEnt: " <> show (starResponseEnt rec) <> ", " <> "starResponseEntId: " <> show (starResponseEntId rec) <> ", " <> "starResponseUserId: " <> show (starResponseUserId rec) <> ", " <> "starResponseReason: " <> show (starResponseReason rec) <> ", " <> "starResponseActive: " <> show (starResponseActive rec) <> ", " <> "starResponseGuard: " <> show (starResponseGuard rec) <> ", " <> "starResponseCreatedAt: " <> show (starResponseCreatedAt rec) <> ", " <> "starResponseModifiedAt: " <> show (starResponseModifiedAt rec)
 
-newtype StarResponses = StarResponses {
+data StarResponses = StarResponses {
   starResponses :: [StarResponse]
 }
 
@@ -133,7 +136,7 @@ instance Eq StarResponses where
 instance Show StarResponses where
     show rec = "starResponses: " <> show (starResponses rec)
 
-newtype StarStatResponse = StarStatResponse {
+data StarStatResponse = StarStatResponse {
   starStatResponseEnt :: Ent,
   starStatResponseEntId :: Int64,
   starStatResponseStars :: Int64
@@ -168,7 +171,7 @@ instance Eq StarStatResponse where
 instance Show StarStatResponse where
     show rec = "starStatResponseEnt: " <> show (starStatResponseEnt rec) <> ", " <> "starStatResponseEntId: " <> show (starStatResponseEntId rec) <> ", " <> "starStatResponseStars: " <> show (starStatResponseStars rec)
 
-newtype StarStatResponses = StarStatResponses {
+data StarStatResponses = StarStatResponses {
   starStatResponses :: [StarStatResponse]
 }
 

@@ -8,11 +8,15 @@
 module LN.T.Resource where
 
 
+import LN.T.DepList
+import LN.T.Visibility
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
@@ -172,7 +176,7 @@ instance Show TyResourceType where
   show TySourceNone = "ty_source_none"
 
 
-newtype ResourceRequest = ResourceRequest {
+data ResourceRequest = ResourceRequest {
   resourceRequestDisplayName :: Text,
   resourceRequestDescription :: Text,
   resourceRequestSource :: ResourceType,
@@ -247,7 +251,7 @@ instance Eq ResourceRequest where
 instance Show ResourceRequest where
     show rec = "resourceRequestDisplayName: " <> show (resourceRequestDisplayName rec) <> ", " <> "resourceRequestDescription: " <> show (resourceRequestDescription rec) <> ", " <> "resourceRequestSource: " <> show (resourceRequestSource rec) <> ", " <> "resourceRequestAuthor: " <> show (resourceRequestAuthor rec) <> ", " <> "resourceRequestPrerequisites: " <> show (resourceRequestPrerequisites rec) <> ", " <> "resourceRequestCategories: " <> show (resourceRequestCategories rec) <> ", " <> "resourceRequestVisibility: " <> show (resourceRequestVisibility rec) <> ", " <> "resourceRequestCounter: " <> show (resourceRequestCounter rec) <> ", " <> "resourceRequestVersion: " <> show (resourceRequestVersion rec) <> ", " <> "resourceRequestUrls: " <> show (resourceRequestUrls rec) <> ", " <> "resourceRequestIcon: " <> show (resourceRequestIcon rec) <> ", " <> "resourceRequestTags: " <> show (resourceRequestTags rec) <> ", " <> "resourceRequestGuard: " <> show (resourceRequestGuard rec)
 
-newtype ResourceResponse = ResourceResponse {
+data ResourceResponse = ResourceResponse {
   resourceResponseId :: Int64,
   resourceResponseUserId :: Int64,
   resourceResponseName :: Text,
@@ -350,7 +354,7 @@ instance Eq ResourceResponse where
 instance Show ResourceResponse where
     show rec = "resourceResponseId: " <> show (resourceResponseId rec) <> ", " <> "resourceResponseUserId: " <> show (resourceResponseUserId rec) <> ", " <> "resourceResponseName: " <> show (resourceResponseName rec) <> ", " <> "resourceResponseDisplayName: " <> show (resourceResponseDisplayName rec) <> ", " <> "resourceResponseDescription: " <> show (resourceResponseDescription rec) <> ", " <> "resourceResponseSource: " <> show (resourceResponseSource rec) <> ", " <> "resourceResponseAuthor: " <> show (resourceResponseAuthor rec) <> ", " <> "resourceResponsePrerequisites: " <> show (resourceResponsePrerequisites rec) <> ", " <> "resourceResponseCategories: " <> show (resourceResponseCategories rec) <> ", " <> "resourceResponseVisibility: " <> show (resourceResponseVisibility rec) <> ", " <> "resourceResponseCounter: " <> show (resourceResponseCounter rec) <> ", " <> "resourceResponseVersion: " <> show (resourceResponseVersion rec) <> ", " <> "resourceResponseUrls: " <> show (resourceResponseUrls rec) <> ", " <> "resourceResponseIcon: " <> show (resourceResponseIcon rec) <> ", " <> "resourceResponseTags: " <> show (resourceResponseTags rec) <> ", " <> "resourceResponseActive: " <> show (resourceResponseActive rec) <> ", " <> "resourceResponseGuard: " <> show (resourceResponseGuard rec) <> ", " <> "resourceResponseCreatedAt: " <> show (resourceResponseCreatedAt rec) <> ", " <> "resourceResponseModifiedAt: " <> show (resourceResponseModifiedAt rec) <> ", " <> "resourceResponseActivityAt: " <> show (resourceResponseActivityAt rec)
 
-newtype ResourceResponses = ResourceResponses {
+data ResourceResponses = ResourceResponses {
   resourceResponses :: [ResourceResponse]
 }
 
@@ -377,7 +381,7 @@ instance Eq ResourceResponses where
 instance Show ResourceResponses where
     show rec = "resourceResponses: " <> show (resourceResponses rec)
 
-newtype ResourceStatResponse = ResourceStatResponse {
+data ResourceStatResponse = ResourceStatResponse {
   resourceStatResponseResourceId :: Int64,
   resourceStatResponseLeurons :: Int64,
   resourceStatResponseLikes :: Int64,
@@ -428,7 +432,7 @@ instance Eq ResourceStatResponse where
 instance Show ResourceStatResponse where
     show rec = "resourceStatResponseResourceId: " <> show (resourceStatResponseResourceId rec) <> ", " <> "resourceStatResponseLeurons: " <> show (resourceStatResponseLeurons rec) <> ", " <> "resourceStatResponseLikes: " <> show (resourceStatResponseLikes rec) <> ", " <> "resourceStatResponseNeutral: " <> show (resourceStatResponseNeutral rec) <> ", " <> "resourceStatResponseDislikes: " <> show (resourceStatResponseDislikes rec) <> ", " <> "resourceStatResponseStars: " <> show (resourceStatResponseStars rec) <> ", " <> "resourceStatResponseViews: " <> show (resourceStatResponseViews rec)
 
-newtype ResourceStatResponses = ResourceStatResponses {
+data ResourceStatResponses = ResourceStatResponses {
   resourceStatResponses :: [ResourceStatResponse]
 }
 

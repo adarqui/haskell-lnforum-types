@@ -10,9 +10,12 @@ module LN.T.ThreadPost where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
@@ -113,7 +116,7 @@ instance Show PostData where
   show PostDataEmpty = "empty"
 
 
-newtype ThreadPostRequest = ThreadPostRequest {
+data ThreadPostRequest = ThreadPostRequest {
   threadPostRequestTitle :: (Maybe Text),
   threadPostRequestBody :: PostData,
   threadPostRequestTags :: [Text],
@@ -156,7 +159,7 @@ instance Eq ThreadPostRequest where
 instance Show ThreadPostRequest where
     show rec = "threadPostRequestTitle: " <> show (threadPostRequestTitle rec) <> ", " <> "threadPostRequestBody: " <> show (threadPostRequestBody rec) <> ", " <> "threadPostRequestTags: " <> show (threadPostRequestTags rec) <> ", " <> "threadPostRequestPrivateTags: " <> show (threadPostRequestPrivateTags rec) <> ", " <> "threadPostRequestGuard: " <> show (threadPostRequestGuard rec)
 
-newtype ThreadPostResponse = ThreadPostResponse {
+data ThreadPostResponse = ThreadPostResponse {
   threadPostResponseId :: Int64,
   threadPostResponseUserId :: Int64,
   threadPostResponseOrgId :: Int64,
@@ -247,7 +250,7 @@ instance Eq ThreadPostResponse where
 instance Show ThreadPostResponse where
     show rec = "threadPostResponseId: " <> show (threadPostResponseId rec) <> ", " <> "threadPostResponseUserId: " <> show (threadPostResponseUserId rec) <> ", " <> "threadPostResponseOrgId: " <> show (threadPostResponseOrgId rec) <> ", " <> "threadPostResponseForumId: " <> show (threadPostResponseForumId rec) <> ", " <> "threadPostResponseBoardId: " <> show (threadPostResponseBoardId rec) <> ", " <> "threadPostResponseThreadId: " <> show (threadPostResponseThreadId rec) <> ", " <> "threadPostResponseParentId: " <> show (threadPostResponseParentId rec) <> ", " <> "threadPostResponseTitle: " <> show (threadPostResponseTitle rec) <> ", " <> "threadPostResponseBody: " <> show (threadPostResponseBody rec) <> ", " <> "threadPostResponseTags: " <> show (threadPostResponseTags rec) <> ", " <> "threadPostResponsePrivateTags: " <> show (threadPostResponsePrivateTags rec) <> ", " <> "threadPostResponseActive: " <> show (threadPostResponseActive rec) <> ", " <> "threadPostResponseGuard: " <> show (threadPostResponseGuard rec) <> ", " <> "threadPostResponseCreatedAt: " <> show (threadPostResponseCreatedAt rec) <> ", " <> "threadPostResponseModifiedBy: " <> show (threadPostResponseModifiedBy rec) <> ", " <> "threadPostResponseModifiedAt: " <> show (threadPostResponseModifiedAt rec) <> ", " <> "threadPostResponseActivityAt: " <> show (threadPostResponseActivityAt rec)
 
-newtype ThreadPostResponses = ThreadPostResponses {
+data ThreadPostResponses = ThreadPostResponses {
   threadPostResponses :: [ThreadPostResponse]
 }
 
@@ -274,7 +277,7 @@ instance Eq ThreadPostResponses where
 instance Show ThreadPostResponses where
     show rec = "threadPostResponses: " <> show (threadPostResponses rec)
 
-newtype ThreadPostStatResponse = ThreadPostStatResponse {
+data ThreadPostStatResponse = ThreadPostStatResponse {
   threadPostStatResponseThreadPostId :: Int64,
   threadPostStatResponseLikes :: Int64,
   threadPostStatResponseNeutral :: Int64,
@@ -321,7 +324,7 @@ instance Eq ThreadPostStatResponse where
 instance Show ThreadPostStatResponse where
     show rec = "threadPostStatResponseThreadPostId: " <> show (threadPostStatResponseThreadPostId rec) <> ", " <> "threadPostStatResponseLikes: " <> show (threadPostStatResponseLikes rec) <> ", " <> "threadPostStatResponseNeutral: " <> show (threadPostStatResponseNeutral rec) <> ", " <> "threadPostStatResponseDislikes: " <> show (threadPostStatResponseDislikes rec) <> ", " <> "threadPostStatResponseStars: " <> show (threadPostStatResponseStars rec) <> ", " <> "threadPostStatResponseViews: " <> show (threadPostStatResponseViews rec)
 
-newtype ThreadPostStatResponses = ThreadPostStatResponses {
+data ThreadPostStatResponses = ThreadPostStatResponses {
   threadPostStatResponses :: [ThreadPostStatResponse]
 }
 

@@ -10,13 +10,16 @@ module LN.T.Group where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype GroupRequest = GroupRequest {
+data GroupRequest = GroupRequest {
   groupRequestGuard :: Int
 }
 
@@ -43,7 +46,7 @@ instance Eq GroupRequest where
 instance Show GroupRequest where
     show rec = "groupRequestGuard: " <> show (groupRequestGuard rec)
 
-newtype GroupResponse = GroupResponse {
+data GroupResponse = GroupResponse {
   groupResponseId :: Int64,
   groupResponseUserId :: Int64,
   groupResponseGlobalGroupId :: Int64,
@@ -106,7 +109,7 @@ instance Eq GroupResponse where
 instance Show GroupResponse where
     show rec = "groupResponseId: " <> show (groupResponseId rec) <> ", " <> "groupResponseUserId: " <> show (groupResponseUserId rec) <> ", " <> "groupResponseGlobalGroupId: " <> show (groupResponseGlobalGroupId rec) <> ", " <> "groupResponseOrganizationId: " <> show (groupResponseOrganizationId rec) <> ", " <> "groupResponseActive: " <> show (groupResponseActive rec) <> ", " <> "groupResponseGuard: " <> show (groupResponseGuard rec) <> ", " <> "groupResponseCreatedAt: " <> show (groupResponseCreatedAt rec) <> ", " <> "groupResponseModifiedBy: " <> show (groupResponseModifiedBy rec) <> ", " <> "groupResponseModifiedAt: " <> show (groupResponseModifiedAt rec) <> ", " <> "groupResponseActivityAt: " <> show (groupResponseActivityAt rec)
 
-newtype GroupResponses = GroupResponses {
+data GroupResponses = GroupResponses {
   groupResponses :: [GroupResponse]
 }
 
@@ -133,7 +136,7 @@ instance Eq GroupResponses where
 instance Show GroupResponses where
     show rec = "groupResponses: " <> show (groupResponses rec)
 
-newtype GroupStatResponse = GroupStatResponse {
+data GroupStatResponse = GroupStatResponse {
   groupStatResponseMembers :: Int64
 }
 
@@ -160,7 +163,7 @@ instance Eq GroupStatResponse where
 instance Show GroupStatResponse where
     show rec = "groupStatResponseMembers: " <> show (groupStatResponseMembers rec)
 
-newtype GroupStatResponses = GroupStatResponses {
+data GroupStatResponses = GroupStatResponses {
   groupStatResponses :: [GroupStatResponse]
 }
 

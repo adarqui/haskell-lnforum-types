@@ -10,9 +10,12 @@ module LN.T.LeuronTraining where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
@@ -119,7 +122,7 @@ instance Read LeuronTrainingSummary where
   readsPrec _ _ = []
 
 
-newtype LeuronTrainingRequest = LeuronTrainingRequest {
+data LeuronTrainingRequest = LeuronTrainingRequest {
   leuronTrainingRequestSummary :: LeuronTrainingSummary,
   leuronTrainingRequestGuard :: Int
 }
@@ -150,7 +153,7 @@ instance Eq LeuronTrainingRequest where
 instance Show LeuronTrainingRequest where
     show rec = "leuronTrainingRequestSummary: " <> show (leuronTrainingRequestSummary rec) <> ", " <> "leuronTrainingRequestGuard: " <> show (leuronTrainingRequestGuard rec)
 
-newtype LeuronTrainingResponse = LeuronTrainingResponse {
+data LeuronTrainingResponse = LeuronTrainingResponse {
   leuronTrainingResponseId :: Int64,
   leuronTrainingResponseUserId :: Int64,
   leuronTrainingResponseLeuronId :: Int64,
@@ -201,7 +204,7 @@ instance Eq LeuronTrainingResponse where
 instance Show LeuronTrainingResponse where
     show rec = "leuronTrainingResponseId: " <> show (leuronTrainingResponseId rec) <> ", " <> "leuronTrainingResponseUserId: " <> show (leuronTrainingResponseUserId rec) <> ", " <> "leuronTrainingResponseLeuronId: " <> show (leuronTrainingResponseLeuronId rec) <> ", " <> "leuronTrainingResponseSummary: " <> show (leuronTrainingResponseSummary rec) <> ", " <> "leuronTrainingResponseGuard: " <> show (leuronTrainingResponseGuard rec) <> ", " <> "leuronTrainingResponseCreatedAt: " <> show (leuronTrainingResponseCreatedAt rec) <> ", " <> "leuronTrainingResponseModifiedAt: " <> show (leuronTrainingResponseModifiedAt rec)
 
-newtype LeuronTrainingResponses = LeuronTrainingResponses {
+data LeuronTrainingResponses = LeuronTrainingResponses {
   leuronTrainingResponses :: [LeuronTrainingResponse]
 }
 
@@ -228,7 +231,7 @@ instance Eq LeuronTrainingResponses where
 instance Show LeuronTrainingResponses where
     show rec = "leuronTrainingResponses: " <> show (leuronTrainingResponses rec)
 
-newtype LeuronTrainingStatResponse = LeuronTrainingStatResponse {
+data LeuronTrainingStatResponse = LeuronTrainingStatResponse {
   leuronTrainingStatResponseLeuronTrainingId :: Int64
 }
 
@@ -255,7 +258,7 @@ instance Eq LeuronTrainingStatResponse where
 instance Show LeuronTrainingStatResponse where
     show rec = "leuronTrainingStatResponseLeuronTrainingId: " <> show (leuronTrainingStatResponseLeuronTrainingId rec)
 
-newtype LeuronTrainingStatResponses = LeuronTrainingStatResponses {
+data LeuronTrainingStatResponses = LeuronTrainingStatResponses {
   leuronTrainingStatResponses :: [LeuronTrainingStatResponse]
 }
 

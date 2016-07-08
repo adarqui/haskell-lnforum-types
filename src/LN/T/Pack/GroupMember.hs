@@ -8,15 +8,19 @@
 module LN.T.Pack.GroupMember where
 
 
+import LN.T.GroupMember
+import LN.T.User
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype GroupMemberPackResponse = GroupMemberPackResponse {
+data GroupMemberPackResponse = GroupMemberPackResponse {
   groupMemberPackResponseUser :: UserSanitizedResponse,
   groupMemberPackResponseUserId :: Int64,
   groupMemberPackResponseGroupMember :: GroupMemberResponse,
@@ -59,7 +63,7 @@ instance Eq GroupMemberPackResponse where
 instance Show GroupMemberPackResponse where
     show rec = "groupMemberPackResponseUser: " <> show (groupMemberPackResponseUser rec) <> ", " <> "groupMemberPackResponseUserId: " <> show (groupMemberPackResponseUserId rec) <> ", " <> "groupMemberPackResponseGroupMember: " <> show (groupMemberPackResponseGroupMember rec) <> ", " <> "groupMemberPackResponseGroupMemberId: " <> show (groupMemberPackResponseGroupMemberId rec) <> ", " <> "groupMemberPackResponseIsOwner: " <> show (groupMemberPackResponseIsOwner rec)
 
-newtype GroupMemberPackResponses = GroupMemberPackResponses {
+data GroupMemberPackResponses = GroupMemberPackResponses {
   groupMemberPackResponses :: [GroupMemberPackResponse]
 }
 

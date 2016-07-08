@@ -10,13 +10,16 @@ module LN.T.User where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype UserRequest = UserRequest {
+data UserRequest = UserRequest {
   userRequestDisplayName :: Text,
   userRequestFullName :: Text,
   userRequestEmail :: Text,
@@ -63,7 +66,7 @@ instance Eq UserRequest where
 instance Show UserRequest where
     show rec = "userRequestDisplayName: " <> show (userRequestDisplayName rec) <> ", " <> "userRequestFullName: " <> show (userRequestFullName rec) <> ", " <> "userRequestEmail: " <> show (userRequestEmail rec) <> ", " <> "userRequestPlugin: " <> show (userRequestPlugin rec) <> ", " <> "userRequestIdent: " <> show (userRequestIdent rec) <> ", " <> "userRequestAcceptTOS: " <> show (userRequestAcceptTOS rec)
 
-newtype UserResponse = UserResponse {
+data UserResponse = UserResponse {
   userResponseId :: Int64,
   userResponseName :: Text,
   userResponseDisplayName :: Text,
@@ -146,7 +149,7 @@ instance Eq UserResponse where
 instance Show UserResponse where
     show rec = "userResponseId: " <> show (userResponseId rec) <> ", " <> "userResponseName: " <> show (userResponseName rec) <> ", " <> "userResponseDisplayName: " <> show (userResponseDisplayName rec) <> ", " <> "userResponseFullName: " <> show (userResponseFullName rec) <> ", " <> "userResponseEmail: " <> show (userResponseEmail rec) <> ", " <> "userResponseEmailMD5: " <> show (userResponseEmailMD5 rec) <> ", " <> "userResponsePlugin: " <> show (userResponsePlugin rec) <> ", " <> "userResponseIdent: " <> show (userResponseIdent rec) <> ", " <> "userResponseAcceptTOS: " <> show (userResponseAcceptTOS rec) <> ", " <> "userResponseActive: " <> show (userResponseActive rec) <> ", " <> "userResponseGuard: " <> show (userResponseGuard rec) <> ", " <> "userResponseCreatedAt: " <> show (userResponseCreatedAt rec) <> ", " <> "userResponseModifiedAt: " <> show (userResponseModifiedAt rec) <> ", " <> "userResponseDeactivatedAt: " <> show (userResponseDeactivatedAt rec) <> ", " <> "userResponseActivityAt: " <> show (userResponseActivityAt rec)
 
-newtype UserResponses = UserResponses {
+data UserResponses = UserResponses {
   userResponses :: [UserResponse]
 }
 
@@ -173,7 +176,7 @@ instance Eq UserResponses where
 instance Show UserResponses where
     show rec = "userResponses: " <> show (userResponses rec)
 
-newtype UserSanitizedResponse = UserSanitizedResponse {
+data UserSanitizedResponse = UserSanitizedResponse {
   userSanitizedResponseId :: Int64,
   userSanitizedResponseName :: Text,
   userSanitizedResponseDisplayName :: Text,
@@ -228,7 +231,7 @@ instance Eq UserSanitizedResponse where
 instance Show UserSanitizedResponse where
     show rec = "userSanitizedResponseId: " <> show (userSanitizedResponseId rec) <> ", " <> "userSanitizedResponseName: " <> show (userSanitizedResponseName rec) <> ", " <> "userSanitizedResponseDisplayName: " <> show (userSanitizedResponseDisplayName rec) <> ", " <> "userSanitizedResponseEmailMD5: " <> show (userSanitizedResponseEmailMD5 rec) <> ", " <> "userSanitizedResponseActive: " <> show (userSanitizedResponseActive rec) <> ", " <> "userSanitizedResponseGuard: " <> show (userSanitizedResponseGuard rec) <> ", " <> "userSanitizedResponseCreatedAt: " <> show (userSanitizedResponseCreatedAt rec) <> ", " <> "userSanitizedResponseActivityAt: " <> show (userSanitizedResponseActivityAt rec)
 
-newtype UserSanitizedResponses = UserSanitizedResponses {
+data UserSanitizedResponses = UserSanitizedResponses {
   userSanitizedResponses :: [UserSanitizedResponse]
 }
 
@@ -255,7 +258,7 @@ instance Eq UserSanitizedResponses where
 instance Show UserSanitizedResponses where
     show rec = "userSanitizedResponses: " <> show (userSanitizedResponses rec)
 
-newtype UserSanitizedStatResponse = UserSanitizedStatResponse {
+data UserSanitizedStatResponse = UserSanitizedStatResponse {
   userSanitizedStatResponseUserId :: Int64,
   userSanitizedStatResponseThreads :: Int64,
   userSanitizedStatResponseThreadPosts :: Int64,
@@ -306,7 +309,7 @@ instance Eq UserSanitizedStatResponse where
 instance Show UserSanitizedStatResponse where
     show rec = "userSanitizedStatResponseUserId: " <> show (userSanitizedStatResponseUserId rec) <> ", " <> "userSanitizedStatResponseThreads: " <> show (userSanitizedStatResponseThreads rec) <> ", " <> "userSanitizedStatResponseThreadPosts: " <> show (userSanitizedStatResponseThreadPosts rec) <> ", " <> "userSanitizedStatResponseRespect: " <> show (userSanitizedStatResponseRespect rec) <> ", " <> "userSanitizedStatResponseResources: " <> show (userSanitizedStatResponseResources rec) <> ", " <> "userSanitizedStatResponseLeurons: " <> show (userSanitizedStatResponseLeurons rec) <> ", " <> "userSanitizedStatResponseWorkouts: " <> show (userSanitizedStatResponseWorkouts rec)
 
-newtype UserSanitizedStatResponses = UserSanitizedStatResponses {
+data UserSanitizedStatResponses = UserSanitizedStatResponses {
   userSanitizedStatResponses :: [UserSanitizedStatResponse]
 }
 

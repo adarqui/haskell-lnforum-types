@@ -10,13 +10,16 @@ module LN.T.Bucket where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype BucketRequest = BucketRequest {
+data BucketRequest = BucketRequest {
   bucketRequestDisplayName :: Text,
   bucketRequestDescription :: (Maybe Text),
   bucketRequestScoreLo :: Int,
@@ -75,7 +78,7 @@ instance Eq BucketRequest where
 instance Show BucketRequest where
     show rec = "bucketRequestDisplayName: " <> show (bucketRequestDisplayName rec) <> ", " <> "bucketRequestDescription: " <> show (bucketRequestDescription rec) <> ", " <> "bucketRequestScoreLo: " <> show (bucketRequestScoreLo rec) <> ", " <> "bucketRequestScoreHi: " <> show (bucketRequestScoreHi rec) <> ", " <> "bucketRequestLeurons: " <> show (bucketRequestLeurons rec) <> ", " <> "bucketRequestResources: " <> show (bucketRequestResources rec) <> ", " <> "bucketRequestCategories: " <> show (bucketRequestCategories rec) <> ", " <> "bucketRequestFilters: " <> show (bucketRequestFilters rec) <> ", " <> "bucketRequestGuard: " <> show (bucketRequestGuard rec)
 
-newtype BucketResponse = BucketResponse {
+data BucketResponse = BucketResponse {
   bucketResponseId :: Int64,
   bucketResponseUserId :: Int64,
   bucketResponseName :: Text,
@@ -162,7 +165,7 @@ instance Eq BucketResponse where
 instance Show BucketResponse where
     show rec = "bucketResponseId: " <> show (bucketResponseId rec) <> ", " <> "bucketResponseUserId: " <> show (bucketResponseUserId rec) <> ", " <> "bucketResponseName: " <> show (bucketResponseName rec) <> ", " <> "bucketResponseDisplayName: " <> show (bucketResponseDisplayName rec) <> ", " <> "bucketResponseDescription: " <> show (bucketResponseDescription rec) <> ", " <> "bucketResponseScoreLo: " <> show (bucketResponseScoreLo rec) <> ", " <> "bucketResponseScoreHi: " <> show (bucketResponseScoreHi rec) <> ", " <> "bucketResponseLeurons: " <> show (bucketResponseLeurons rec) <> ", " <> "bucketResponseResources: " <> show (bucketResponseResources rec) <> ", " <> "bucketResponseCategories: " <> show (bucketResponseCategories rec) <> ", " <> "bucketResponseFilters: " <> show (bucketResponseFilters rec) <> ", " <> "bucketResponseActive: " <> show (bucketResponseActive rec) <> ", " <> "bucketResponseGuard: " <> show (bucketResponseGuard rec) <> ", " <> "bucketResponseCreatedAt: " <> show (bucketResponseCreatedAt rec) <> ", " <> "bucketResponseModifiedAt: " <> show (bucketResponseModifiedAt rec) <> ", " <> "bucketResponseActivityAt: " <> show (bucketResponseActivityAt rec)
 
-newtype BucketResponses = BucketResponses {
+data BucketResponses = BucketResponses {
   bucketResponses :: [BucketResponse]
 }
 

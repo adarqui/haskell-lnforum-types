@@ -8,15 +8,26 @@
 module LN.T.Pack.Board where
 
 
+import LN.T.Permission
+import LN.T.Organization
+import LN.T.User
+import LN.T.Forum
+import LN.T.Board
+import LN.T.Thread
+import LN.T.ThreadPost
+import LN.T.Like
+import LN.T.Star
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype BoardPackResponse = BoardPackResponse {
+data BoardPackResponse = BoardPackResponse {
   boardPackResponseBoard :: BoardResponse,
   boardPackResponseBoardId :: Int64,
   boardPackResponseStat :: BoardStatResponse,
@@ -83,7 +94,7 @@ instance Eq BoardPackResponse where
 instance Show BoardPackResponse where
     show rec = "boardPackResponseBoard: " <> show (boardPackResponseBoard rec) <> ", " <> "boardPackResponseBoardId: " <> show (boardPackResponseBoardId rec) <> ", " <> "boardPackResponseStat: " <> show (boardPackResponseStat rec) <> ", " <> "boardPackResponseLike: " <> show (boardPackResponseLike rec) <> ", " <> "boardPackResponseStar: " <> show (boardPackResponseStar rec) <> ", " <> "boardPackResponseLatestThread: " <> show (boardPackResponseLatestThread rec) <> ", " <> "boardPackResponseLatestThreadPost: " <> show (boardPackResponseLatestThreadPost rec) <> ", " <> "boardPackResponseLatestThreadPostUser: " <> show (boardPackResponseLatestThreadPostUser rec) <> ", " <> "boardPackResponseWithOrganization: " <> show (boardPackResponseWithOrganization rec) <> ", " <> "boardPackResponseWithForum: " <> show (boardPackResponseWithForum rec) <> ", " <> "boardPackResponsePermissions: " <> show (boardPackResponsePermissions rec)
 
-newtype BoardPackResponses = BoardPackResponses {
+data BoardPackResponses = BoardPackResponses {
   boardPackResponses :: [BoardPackResponse]
 }
 

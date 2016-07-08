@@ -8,15 +8,26 @@
 module LN.T.Pack.Thread where
 
 
+import LN.T.Permission
+import LN.T.Organization
+import LN.T.User
+import LN.T.Forum
+import LN.T.Board
+import LN.T.Thread
+import LN.T.ThreadPost
+import LN.T.Like
+import LN.T.Star
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ThreadPackResponse = ThreadPackResponse {
+data ThreadPackResponse = ThreadPackResponse {
   threadPackResponseThread :: ThreadResponse,
   threadPackResponseThreadId :: Int64,
   threadPackResponseUser :: UserSanitizedResponse,
@@ -91,7 +102,7 @@ instance Eq ThreadPackResponse where
 instance Show ThreadPackResponse where
     show rec = "threadPackResponseThread: " <> show (threadPackResponseThread rec) <> ", " <> "threadPackResponseThreadId: " <> show (threadPackResponseThreadId rec) <> ", " <> "threadPackResponseUser: " <> show (threadPackResponseUser rec) <> ", " <> "threadPackResponseUserId: " <> show (threadPackResponseUserId rec) <> ", " <> "threadPackResponseStat: " <> show (threadPackResponseStat rec) <> ", " <> "threadPackResponseLike: " <> show (threadPackResponseLike rec) <> ", " <> "threadPackResponseStar: " <> show (threadPackResponseStar rec) <> ", " <> "threadPackResponseLatestThreadPost: " <> show (threadPackResponseLatestThreadPost rec) <> ", " <> "threadPackResponseLatestThreadPostUser: " <> show (threadPackResponseLatestThreadPostUser rec) <> ", " <> "threadPackResponseWithOrganization: " <> show (threadPackResponseWithOrganization rec) <> ", " <> "threadPackResponseWithForum: " <> show (threadPackResponseWithForum rec) <> ", " <> "threadPackResponseWithBoard: " <> show (threadPackResponseWithBoard rec) <> ", " <> "threadPackResponsePermissions: " <> show (threadPackResponsePermissions rec)
 
-newtype ThreadPackResponses = ThreadPackResponses {
+data ThreadPackResponses = ThreadPackResponses {
   threadPackResponses :: [ThreadPackResponse]
 }
 

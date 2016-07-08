@@ -8,15 +8,23 @@
 module LN.T.Pack.Forum where
 
 
+import LN.T.Forum
+import LN.T.User
+import LN.T.Permission
+import LN.T.Organization
+import LN.T.Star
+import LN.T.Like
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ForumPackResponse = ForumPackResponse {
+data ForumPackResponse = ForumPackResponse {
   forumPackResponseForum :: ForumResponse,
   forumPackResponseForumId :: Int64,
   forumPackResponseStat :: ForumStatResponse,
@@ -67,7 +75,7 @@ instance Eq ForumPackResponse where
 instance Show ForumPackResponse where
     show rec = "forumPackResponseForum: " <> show (forumPackResponseForum rec) <> ", " <> "forumPackResponseForumId: " <> show (forumPackResponseForumId rec) <> ", " <> "forumPackResponseStat: " <> show (forumPackResponseStat rec) <> ", " <> "forumPackResponseLike: " <> show (forumPackResponseLike rec) <> ", " <> "forumPackResponseStar: " <> show (forumPackResponseStar rec) <> ", " <> "forumPackResponseWithOrganization: " <> show (forumPackResponseWithOrganization rec) <> ", " <> "forumPackResponsePermissions: " <> show (forumPackResponsePermissions rec)
 
-newtype ForumPackResponses = ForumPackResponses {
+data ForumPackResponses = ForumPackResponses {
   forumPackResponses :: [ForumPackResponse]
 }
 

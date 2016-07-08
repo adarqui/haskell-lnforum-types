@@ -8,15 +8,18 @@
 module LN.T.Profile where
 
 
+import LN.T.Ent
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ProfileX = ProfileX {
+data ProfileX = ProfileX {
   profileLogin :: Text,
   profileName :: Text,
   profileEmail :: Text
@@ -110,7 +113,7 @@ instance Read ProfileGender where
   readsPrec _ _ = []
 
 
-newtype ProfileRequest = ProfileRequest {
+data ProfileRequest = ProfileRequest {
   profileRequestGender :: ProfileGender,
   profileRequestBirthdate :: UTCTime,
   profileRequestWebsite :: (Maybe Text),
@@ -161,7 +164,7 @@ instance Eq ProfileRequest where
 instance Show ProfileRequest where
     show rec = "profileRequestGender: " <> show (profileRequestGender rec) <> ", " <> "profileRequestBirthdate: " <> show (profileRequestBirthdate rec) <> ", " <> "profileRequestWebsite: " <> show (profileRequestWebsite rec) <> ", " <> "profileRequestLocation: " <> show (profileRequestLocation rec) <> ", " <> "profileRequestSignature: " <> show (profileRequestSignature rec) <> ", " <> "profileRequestDebug: " <> show (profileRequestDebug rec) <> ", " <> "profileRequestGuard: " <> show (profileRequestGuard rec)
 
-newtype ProfileResponse = ProfileResponse {
+data ProfileResponse = ProfileResponse {
   profileResponseId :: Int64,
   profileResponseEnt :: Ent,
   profileResponseEntId :: Int64,
@@ -240,7 +243,7 @@ instance Eq ProfileResponse where
 instance Show ProfileResponse where
     show rec = "profileResponseId: " <> show (profileResponseId rec) <> ", " <> "profileResponseEnt: " <> show (profileResponseEnt rec) <> ", " <> "profileResponseEntId: " <> show (profileResponseEntId rec) <> ", " <> "profileResponseGender: " <> show (profileResponseGender rec) <> ", " <> "profileResponseBirthdate: " <> show (profileResponseBirthdate rec) <> ", " <> "profileResponseWebsite: " <> show (profileResponseWebsite rec) <> ", " <> "profileResponseLocation: " <> show (profileResponseLocation rec) <> ", " <> "profileResponseSignature: " <> show (profileResponseSignature rec) <> ", " <> "profileResponseDebug: " <> show (profileResponseDebug rec) <> ", " <> "profileResponseKarmaGood: " <> show (profileResponseKarmaGood rec) <> ", " <> "profileResponseKarmaBad: " <> show (profileResponseKarmaBad rec) <> ", " <> "profileResponseGuard: " <> show (profileResponseGuard rec) <> ", " <> "profileResponseCreatedAt: " <> show (profileResponseCreatedAt rec) <> ", " <> "profileResponseModifiedAt: " <> show (profileResponseModifiedAt rec)
 
-newtype ProfileResponses = ProfileResponses {
+data ProfileResponses = ProfileResponses {
   profileResponses :: [ProfileResponse]
 }
 

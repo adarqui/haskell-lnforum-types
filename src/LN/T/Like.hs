@@ -8,11 +8,14 @@
 module LN.T.Like where
 
 
+import LN.T.Ent
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
@@ -75,7 +78,7 @@ instance Read LikeOpt where
   readsPrec _ _ = []
 
 
-newtype LikeRequest = LikeRequest {
+data LikeRequest = LikeRequest {
   likeRequestOpt :: LikeOpt,
   likeRequestReason :: (Maybe Text),
   likeRequestGuard :: Int
@@ -110,7 +113,7 @@ instance Eq LikeRequest where
 instance Show LikeRequest where
     show rec = "likeRequestOpt: " <> show (likeRequestOpt rec) <> ", " <> "likeRequestReason: " <> show (likeRequestReason rec) <> ", " <> "likeRequestGuard: " <> show (likeRequestGuard rec)
 
-newtype LikeResponse = LikeResponse {
+data LikeResponse = LikeResponse {
   likeResponseId :: Int64,
   likeResponseEnt :: Ent,
   likeResponseEntId :: Int64,
@@ -177,7 +180,7 @@ instance Eq LikeResponse where
 instance Show LikeResponse where
     show rec = "likeResponseId: " <> show (likeResponseId rec) <> ", " <> "likeResponseEnt: " <> show (likeResponseEnt rec) <> ", " <> "likeResponseEntId: " <> show (likeResponseEntId rec) <> ", " <> "likeResponseUserId: " <> show (likeResponseUserId rec) <> ", " <> "likeResponseOpt: " <> show (likeResponseOpt rec) <> ", " <> "likeResponseScore: " <> show (likeResponseScore rec) <> ", " <> "likeResponseReason: " <> show (likeResponseReason rec) <> ", " <> "likeResponseActive: " <> show (likeResponseActive rec) <> ", " <> "likeResponseGuard: " <> show (likeResponseGuard rec) <> ", " <> "likeResponseCreatedAt: " <> show (likeResponseCreatedAt rec) <> ", " <> "likeResponseModifiedAt: " <> show (likeResponseModifiedAt rec)
 
-newtype LikeResponses = LikeResponses {
+data LikeResponses = LikeResponses {
   likeResponses :: [LikeResponse]
 }
 
@@ -204,7 +207,7 @@ instance Eq LikeResponses where
 instance Show LikeResponses where
     show rec = "likeResponses: " <> show (likeResponses rec)
 
-newtype LikeStatResponse = LikeStatResponse {
+data LikeStatResponse = LikeStatResponse {
   likeStatResponseEnt :: Ent,
   likeStatResponseEntId :: Int64,
   likeStatResponseScore :: Int64,
@@ -251,7 +254,7 @@ instance Eq LikeStatResponse where
 instance Show LikeStatResponse where
     show rec = "likeStatResponseEnt: " <> show (likeStatResponseEnt rec) <> ", " <> "likeStatResponseEntId: " <> show (likeStatResponseEntId rec) <> ", " <> "likeStatResponseScore: " <> show (likeStatResponseScore rec) <> ", " <> "likeStatResponseLike: " <> show (likeStatResponseLike rec) <> ", " <> "likeStatResponseNeutral: " <> show (likeStatResponseNeutral rec) <> ", " <> "likeStatResponseDislike: " <> show (likeStatResponseDislike rec)
 
-newtype LikeStatResponses = LikeStatResponses {
+data LikeStatResponses = LikeStatResponses {
   likeStatResponses :: [LikeStatResponse]
 }
 

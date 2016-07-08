@@ -8,15 +8,22 @@
 module LN.T.Pack.Resource where
 
 
+import LN.T.Resource
+import LN.T.User
+import LN.T.Permission
+import LN.T.Like
+import LN.T.Star
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ResourcePackResponse = ResourcePackResponse {
+data ResourcePackResponse = ResourcePackResponse {
   resourcePackResponseResource :: ResourceResponse,
   resourcePackResponseResourceId :: Int64,
   resourcePackResponseUser :: UserSanitizedResponse,
@@ -71,7 +78,7 @@ instance Eq ResourcePackResponse where
 instance Show ResourcePackResponse where
     show rec = "resourcePackResponseResource: " <> show (resourcePackResponseResource rec) <> ", " <> "resourcePackResponseResourceId: " <> show (resourcePackResponseResourceId rec) <> ", " <> "resourcePackResponseUser: " <> show (resourcePackResponseUser rec) <> ", " <> "resourcePackResponseUserId: " <> show (resourcePackResponseUserId rec) <> ", " <> "resourcePackResponseStat: " <> show (resourcePackResponseStat rec) <> ", " <> "resourcePackResponseLike: " <> show (resourcePackResponseLike rec) <> ", " <> "resourcePackResponseStar: " <> show (resourcePackResponseStar rec) <> ", " <> "resourcePackResponsePermissions: " <> show (resourcePackResponsePermissions rec)
 
-newtype ResourcePackResponses = ResourcePackResponses {
+data ResourcePackResponses = ResourcePackResponses {
   resourcePackResponses :: [ResourcePackResponse]
 }
 

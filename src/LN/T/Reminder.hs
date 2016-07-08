@@ -8,15 +8,18 @@
 module LN.T.Reminder where
 
 
+import LN.T.Visibility
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ReminderRequest = ReminderRequest {
+data ReminderRequest = ReminderRequest {
   reminderRequestData :: Text,
   reminderRequestGuard :: Int
 }
@@ -47,7 +50,7 @@ instance Eq ReminderRequest where
 instance Show ReminderRequest where
     show rec = "reminderRequestData: " <> show (reminderRequestData rec) <> ", " <> "reminderRequestGuard: " <> show (reminderRequestGuard rec)
 
-newtype ReminderResponse = ReminderResponse {
+data ReminderResponse = ReminderResponse {
   reminderResponseId :: Int64,
   reminderResponseUserId :: Int64,
   reminderResponseParentFolderId :: Int64,
@@ -106,7 +109,7 @@ instance Eq ReminderResponse where
 instance Show ReminderResponse where
     show rec = "reminderResponseId: " <> show (reminderResponseId rec) <> ", " <> "reminderResponseUserId: " <> show (reminderResponseUserId rec) <> ", " <> "reminderResponseParentFolderId: " <> show (reminderResponseParentFolderId rec) <> ", " <> "reminderResponseData: " <> show (reminderResponseData rec) <> ", " <> "reminderResponseActive: " <> show (reminderResponseActive rec) <> ", " <> "reminderResponseGuard: " <> show (reminderResponseGuard rec) <> ", " <> "reminderResponseCreatedAt: " <> show (reminderResponseCreatedAt rec) <> ", " <> "reminderResponseModifiedAt: " <> show (reminderResponseModifiedAt rec) <> ", " <> "reminderResponseActivityAt: " <> show (reminderResponseActivityAt rec)
 
-newtype ReminderResponses = ReminderResponses {
+data ReminderResponses = ReminderResponses {
   reminderResponses :: [ReminderResponse]
 }
 
@@ -133,7 +136,7 @@ instance Eq ReminderResponses where
 instance Show ReminderResponses where
     show rec = "reminderResponses: " <> show (reminderResponses rec)
 
-newtype ReminderFolderRequest = ReminderFolderRequest {
+data ReminderFolderRequest = ReminderFolderRequest {
   reminderFolderRequestDisplayName :: Text,
   reminderFolderRequestDescription :: (Maybe Text),
   reminderFolderRequestVisibility :: Visibility,
@@ -172,7 +175,7 @@ instance Eq ReminderFolderRequest where
 instance Show ReminderFolderRequest where
     show rec = "reminderFolderRequestDisplayName: " <> show (reminderFolderRequestDisplayName rec) <> ", " <> "reminderFolderRequestDescription: " <> show (reminderFolderRequestDescription rec) <> ", " <> "reminderFolderRequestVisibility: " <> show (reminderFolderRequestVisibility rec) <> ", " <> "reminderFolderRequestGuard: " <> show (reminderFolderRequestGuard rec)
 
-newtype ReminderFolderResponse = ReminderFolderResponse {
+data ReminderFolderResponse = ReminderFolderResponse {
   reminderFolderResponseId :: Int64,
   reminderFolderResponseUserId :: Int64,
   reminderFolderResponseParentFolderId :: (Maybe Int64),
@@ -243,7 +246,7 @@ instance Eq ReminderFolderResponse where
 instance Show ReminderFolderResponse where
     show rec = "reminderFolderResponseId: " <> show (reminderFolderResponseId rec) <> ", " <> "reminderFolderResponseUserId: " <> show (reminderFolderResponseUserId rec) <> ", " <> "reminderFolderResponseParentFolderId: " <> show (reminderFolderResponseParentFolderId rec) <> ", " <> "reminderFolderResponseName: " <> show (reminderFolderResponseName rec) <> ", " <> "reminderFolderResponseDisplayName: " <> show (reminderFolderResponseDisplayName rec) <> ", " <> "reminderFolderResponseVisibility: " <> show (reminderFolderResponseVisibility rec) <> ", " <> "reminderFolderResponseDescription: " <> show (reminderFolderResponseDescription rec) <> ", " <> "reminderFolderResponseActive: " <> show (reminderFolderResponseActive rec) <> ", " <> "reminderFolderResponseGuard: " <> show (reminderFolderResponseGuard rec) <> ", " <> "reminderFolderResponseCreatedAt: " <> show (reminderFolderResponseCreatedAt rec) <> ", " <> "reminderFolderResponseModifiedAt: " <> show (reminderFolderResponseModifiedAt rec) <> ", " <> "reminderFolderResponseActivityAt: " <> show (reminderFolderResponseActivityAt rec)
 
-newtype ReminderFolderResponses = ReminderFolderResponses {
+data ReminderFolderResponses = ReminderFolderResponses {
   reminderFolderResponses :: [ReminderFolderResponse]
 }
 

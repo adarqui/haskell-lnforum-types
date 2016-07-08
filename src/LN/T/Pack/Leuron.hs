@@ -8,15 +8,23 @@
 module LN.T.Pack.Leuron where
 
 
+import LN.T.Leuron
+import LN.T.LeuronTraining
+import LN.T.User
+import LN.T.Permission
+import LN.T.Star
+import LN.T.Like
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype LeuronPackResponse = LeuronPackResponse {
+data LeuronPackResponse = LeuronPackResponse {
   leuronPackResponseLeuron :: LeuronResponse,
   leuronPackResponseLeuronId :: Int64,
   leuronPackResponseUser :: UserSanitizedResponse,
@@ -75,7 +83,7 @@ instance Eq LeuronPackResponse where
 instance Show LeuronPackResponse where
     show rec = "leuronPackResponseLeuron: " <> show (leuronPackResponseLeuron rec) <> ", " <> "leuronPackResponseLeuronId: " <> show (leuronPackResponseLeuronId rec) <> ", " <> "leuronPackResponseUser: " <> show (leuronPackResponseUser rec) <> ", " <> "leuronPackResponseUserId: " <> show (leuronPackResponseUserId rec) <> ", " <> "leuronPackResponseTraining: " <> show (leuronPackResponseTraining rec) <> ", " <> "leuronPackResponseStat: " <> show (leuronPackResponseStat rec) <> ", " <> "leuronPackResponseLike: " <> show (leuronPackResponseLike rec) <> ", " <> "leuronPackResponseStar: " <> show (leuronPackResponseStar rec) <> ", " <> "leuronPackResponsePermissions: " <> show (leuronPackResponsePermissions rec)
 
-newtype LeuronPackResponses = LeuronPackResponses {
+data LeuronPackResponses = LeuronPackResponses {
   leuronPackResponses :: [LeuronPackResponse]
 }
 

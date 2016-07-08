@@ -8,15 +8,26 @@
 module LN.T.Pack.ThreadPost where
 
 
+import LN.T.Permission
+import LN.T.Organization
+import LN.T.User
+import LN.T.Forum
+import LN.T.Board
+import LN.T.Thread
+import LN.T.ThreadPost
+import LN.T.Like
+import LN.T.Star
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype ThreadPostPackResponse = ThreadPostPackResponse {
+data ThreadPostPackResponse = ThreadPostPackResponse {
   threadPostPackResponseThreadPost :: ThreadPostResponse,
   threadPostPackResponseThreadPostId :: Int64,
   threadPostPackResponseUser :: UserSanitizedResponse,
@@ -87,7 +98,7 @@ instance Eq ThreadPostPackResponse where
 instance Show ThreadPostPackResponse where
     show rec = "threadPostPackResponseThreadPost: " <> show (threadPostPackResponseThreadPost rec) <> ", " <> "threadPostPackResponseThreadPostId: " <> show (threadPostPackResponseThreadPostId rec) <> ", " <> "threadPostPackResponseUser: " <> show (threadPostPackResponseUser rec) <> ", " <> "threadPostPackResponseUserId: " <> show (threadPostPackResponseUserId rec) <> ", " <> "threadPostPackResponseStat: " <> show (threadPostPackResponseStat rec) <> ", " <> "threadPostPackResponseLike: " <> show (threadPostPackResponseLike rec) <> ", " <> "threadPostPackResponseStar: " <> show (threadPostPackResponseStar rec) <> ", " <> "threadPostPackResponseWithOrganization: " <> show (threadPostPackResponseWithOrganization rec) <> ", " <> "threadPostPackResponseWithForum: " <> show (threadPostPackResponseWithForum rec) <> ", " <> "threadPostPackResponseWithBoard: " <> show (threadPostPackResponseWithBoard rec) <> ", " <> "threadPostPackResponseWithThread: " <> show (threadPostPackResponseWithThread rec) <> ", " <> "threadPostPackResponsePermissions: " <> show (threadPostPackResponsePermissions rec)
 
-newtype ThreadPostPackResponses = ThreadPostPackResponses {
+data ThreadPostPackResponses = ThreadPostPackResponses {
   threadPostPackResponses :: [ThreadPostPackResponse]
 }
 

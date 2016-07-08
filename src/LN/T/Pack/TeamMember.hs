@@ -8,15 +8,20 @@
 module LN.T.Pack.TeamMember where
 
 
+import LN.T.TeamMember
+import LN.T.User
+import LN.T.Permission
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype TeamMemberPackResponse = TeamMemberPackResponse {
+data TeamMemberPackResponse = TeamMemberPackResponse {
   teamMemberPackResponseUser :: UserSanitizedResponse,
   teamMemberPackResponseUserId :: Int64,
   teamMemberPackResponseTeamMember :: TeamMemberResponse,
@@ -59,7 +64,7 @@ instance Eq TeamMemberPackResponse where
 instance Show TeamMemberPackResponse where
     show rec = "teamMemberPackResponseUser: " <> show (teamMemberPackResponseUser rec) <> ", " <> "teamMemberPackResponseUserId: " <> show (teamMemberPackResponseUserId rec) <> ", " <> "teamMemberPackResponseTeamMember: " <> show (teamMemberPackResponseTeamMember rec) <> ", " <> "teamMemberPackResponseTeamMemberId: " <> show (teamMemberPackResponseTeamMemberId rec) <> ", " <> "teamMemberPackResponsePermissions: " <> show (teamMemberPackResponsePermissions rec)
 
-newtype TeamMemberPackResponses = TeamMemberPackResponses {
+data TeamMemberPackResponses = TeamMemberPackResponses {
   teamMemberPackResponses :: [TeamMemberPackResponse]
 }
 

@@ -8,15 +8,19 @@
 module LN.T.Pack.PmIn where
 
 
+import LN.T.PmIn
+import LN.T.User
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype PmInPackResponse = PmInPackResponse {
+data PmInPackResponse = PmInPackResponse {
   pmInPackResponsePmIn :: PmInResponse,
   pmInPackResponsePmInId :: Int64,
   pmInPackResponseUser :: UserSanitizedResponse,
@@ -55,7 +59,7 @@ instance Eq PmInPackResponse where
 instance Show PmInPackResponse where
     show rec = "pmInPackResponsePmIn: " <> show (pmInPackResponsePmIn rec) <> ", " <> "pmInPackResponsePmInId: " <> show (pmInPackResponsePmInId rec) <> ", " <> "pmInPackResponseUser: " <> show (pmInPackResponseUser rec) <> ", " <> "pmInPackResponseUserId: " <> show (pmInPackResponseUserId rec)
 
-newtype PmInPackResponses = PmInPackResponses {
+data PmInPackResponses = PmInPackResponses {
   pmInPackResponses :: [PmInPackResponse]
 }
 

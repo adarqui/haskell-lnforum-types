@@ -10,13 +10,16 @@ module LN.T.PmIn where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype PmInRequest = PmInRequest {
+data PmInRequest = PmInRequest {
   pmInRequestLabel :: (Maybe Text),
   pmInRequestIsRead :: Bool,
   pmInRequestIsStarred :: Bool,
@@ -55,7 +58,7 @@ instance Eq PmInRequest where
 instance Show PmInRequest where
     show rec = "pmInRequestLabel: " <> show (pmInRequestLabel rec) <> ", " <> "pmInRequestIsRead: " <> show (pmInRequestIsRead rec) <> ", " <> "pmInRequestIsStarred: " <> show (pmInRequestIsStarred rec) <> ", " <> "pmInRequestGuard: " <> show (pmInRequestGuard rec)
 
-newtype PmInResponse = PmInResponse {
+data PmInResponse = PmInResponse {
   pmInResponseId :: Int64,
   pmInResponsePmId :: Int64,
   pmInResponseUserId :: Int64,
@@ -126,7 +129,7 @@ instance Eq PmInResponse where
 instance Show PmInResponse where
     show rec = "pmInResponseId: " <> show (pmInResponseId rec) <> ", " <> "pmInResponsePmId: " <> show (pmInResponsePmId rec) <> ", " <> "pmInResponseUserId: " <> show (pmInResponseUserId rec) <> ", " <> "pmInResponseLabel: " <> show (pmInResponseLabel rec) <> ", " <> "pmInResponseIsRead: " <> show (pmInResponseIsRead rec) <> ", " <> "pmInResponseIsStarred: " <> show (pmInResponseIsStarred rec) <> ", " <> "pmInResponseIsNew: " <> show (pmInResponseIsNew rec) <> ", " <> "pmInResponseIsSaved: " <> show (pmInResponseIsSaved rec) <> ", " <> "pmInResponseActive: " <> show (pmInResponseActive rec) <> ", " <> "pmInResponseGuard: " <> show (pmInResponseGuard rec) <> ", " <> "pmInResponseCreatedAt: " <> show (pmInResponseCreatedAt rec) <> ", " <> "pmInResponseModifiedAt: " <> show (pmInResponseModifiedAt rec)
 
-newtype PmInResponses = PmInResponses {
+data PmInResponses = PmInResponses {
   pmInResponses :: [PmInResponse]
 }
 

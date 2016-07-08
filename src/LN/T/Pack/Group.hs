@@ -8,15 +8,21 @@
 module LN.T.Pack.Group where
 
 
+import LN.T.Group
+import LN.T.User
+import LN.T.Permission
+import LN.T.Organization
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype GroupPackResponse = GroupPackResponse {
+data GroupPackResponse = GroupPackResponse {
   groupPackResponseUser :: UserSanitizedResponse,
   groupPackResponseUserId :: Int64,
   groupPackResponseGroup :: GroupResponse,
@@ -71,7 +77,7 @@ instance Eq GroupPackResponse where
 instance Show GroupPackResponse where
     show rec = "groupPackResponseUser: " <> show (groupPackResponseUser rec) <> ", " <> "groupPackResponseUserId: " <> show (groupPackResponseUserId rec) <> ", " <> "groupPackResponseGroup: " <> show (groupPackResponseGroup rec) <> ", " <> "groupPackResponseGroupId: " <> show (groupPackResponseGroupId rec) <> ", " <> "groupPackResponseOrganization: " <> show (groupPackResponseOrganization rec) <> ", " <> "groupPackResponseOrganizationId: " <> show (groupPackResponseOrganizationId rec) <> ", " <> "groupPackResponseStat: " <> show (groupPackResponseStat rec) <> ", " <> "groupPackResponsePermissions: " <> show (groupPackResponsePermissions rec)
 
-newtype GroupPackResponses = GroupPackResponses {
+data GroupPackResponses = GroupPackResponses {
   groupPackResponses :: [GroupPackResponse]
 }
 

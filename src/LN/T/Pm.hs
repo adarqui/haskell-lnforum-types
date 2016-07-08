@@ -10,13 +10,16 @@ module LN.T.Pm where
 
 
 
+
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype PmRequest = PmRequest {
+data PmRequest = PmRequest {
   pmRequestSubject :: Text,
   pmRequestBody :: Text,
   pmRequestGuard :: Int
@@ -51,7 +54,7 @@ instance Eq PmRequest where
 instance Show PmRequest where
     show rec = "pmRequestSubject: " <> show (pmRequestSubject rec) <> ", " <> "pmRequestBody: " <> show (pmRequestBody rec) <> ", " <> "pmRequestGuard: " <> show (pmRequestGuard rec)
 
-newtype PmResponse = PmResponse {
+data PmResponse = PmResponse {
   pmResponseId :: Int64,
   pmResponseUserId :: Int64,
   pmResponseToUserId :: Int64,
@@ -114,7 +117,7 @@ instance Eq PmResponse where
 instance Show PmResponse where
     show rec = "pmResponseId: " <> show (pmResponseId rec) <> ", " <> "pmResponseUserId: " <> show (pmResponseUserId rec) <> ", " <> "pmResponseToUserId: " <> show (pmResponseToUserId rec) <> ", " <> "pmResponseSubject: " <> show (pmResponseSubject rec) <> ", " <> "pmResponseBody: " <> show (pmResponseBody rec) <> ", " <> "pmResponseActive: " <> show (pmResponseActive rec) <> ", " <> "pmResponseGuard: " <> show (pmResponseGuard rec) <> ", " <> "pmResponseCreatedAt: " <> show (pmResponseCreatedAt rec) <> ", " <> "pmResponseModifiedAt: " <> show (pmResponseModifiedAt rec) <> ", " <> "pmResponseActivityAt: " <> show (pmResponseActivityAt rec)
 
-newtype PmResponses = PmResponses {
+data PmResponses = PmResponses {
   pmResponses :: [PmResponse]
 }
 

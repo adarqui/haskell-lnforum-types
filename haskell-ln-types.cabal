@@ -72,6 +72,7 @@ library
                      , bytestring
                      , containers
                      , text
+                     , time
                      , haskell-api-helpers
   ghc-options:         -Wall
   default-language:    Haskell2010

@@ -8,15 +8,20 @@
 module LN.T.Leuron where
 
 
+import LN.T.DepList
+import LN.T.Splits
+import LN.T.Substitutions
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype LeuronRequest = LeuronRequest {
+data LeuronRequest = LeuronRequest {
   leuronRequestData :: LeuronData,
   leuronRequestTitle :: (Maybe Text),
   leuronRequestDescription :: (Maybe Text),
@@ -91,7 +96,7 @@ instance Eq LeuronRequest where
 instance Show LeuronRequest where
     show rec = "leuronRequestData: " <> show (leuronRequestData rec) <> ", " <> "leuronRequestTitle: " <> show (leuronRequestTitle rec) <> ", " <> "leuronRequestDescription: " <> show (leuronRequestDescription rec) <> ", " <> "leuronRequestSection: " <> show (leuronRequestSection rec) <> ", " <> "leuronRequestPage: " <> show (leuronRequestPage rec) <> ", " <> "leuronRequestExamples: " <> show (leuronRequestExamples rec) <> ", " <> "leuronRequestStrengths: " <> show (leuronRequestStrengths rec) <> ", " <> "leuronRequestCategories: " <> show (leuronRequestCategories rec) <> ", " <> "leuronRequestSplits: " <> show (leuronRequestSplits rec) <> ", " <> "leuronRequestSubstitutions: " <> show (leuronRequestSubstitutions rec) <> ", " <> "leuronRequestTags: " <> show (leuronRequestTags rec) <> ", " <> "leuronRequestStyle: " <> show (leuronRequestStyle rec) <> ", " <> "leuronRequestGuard: " <> show (leuronRequestGuard rec)
 
-newtype LeuronResponse = LeuronResponse {
+data LeuronResponse = LeuronResponse {
   leuronResponseId :: Int64,
   leuronResponseUserId :: Int64,
   leuronResponseResourceId :: Int64,
@@ -194,7 +199,7 @@ instance Eq LeuronResponse where
 instance Show LeuronResponse where
     show rec = "leuronResponseId: " <> show (leuronResponseId rec) <> ", " <> "leuronResponseUserId: " <> show (leuronResponseUserId rec) <> ", " <> "leuronResponseResourceId: " <> show (leuronResponseResourceId rec) <> ", " <> "leuronResponseData: " <> show (leuronResponseData rec) <> ", " <> "leuronResponseTitle: " <> show (leuronResponseTitle rec) <> ", " <> "leuronResponseDescription: " <> show (leuronResponseDescription rec) <> ", " <> "leuronResponseSection: " <> show (leuronResponseSection rec) <> ", " <> "leuronResponsePage: " <> show (leuronResponsePage rec) <> ", " <> "leuronResponseExamples: " <> show (leuronResponseExamples rec) <> ", " <> "leuronResponseStrengths: " <> show (leuronResponseStrengths rec) <> ", " <> "leuronResponseCategories: " <> show (leuronResponseCategories rec) <> ", " <> "leuronResponseSplits: " <> show (leuronResponseSplits rec) <> ", " <> "leuronResponseSubstitutions: " <> show (leuronResponseSubstitutions rec) <> ", " <> "leuronResponseTags: " <> show (leuronResponseTags rec) <> ", " <> "leuronResponseStyle: " <> show (leuronResponseStyle rec) <> ", " <> "leuronResponseActive: " <> show (leuronResponseActive rec) <> ", " <> "leuronResponseGuard: " <> show (leuronResponseGuard rec) <> ", " <> "leuronResponseCreatedAt: " <> show (leuronResponseCreatedAt rec) <> ", " <> "leuronResponseModifiedAt: " <> show (leuronResponseModifiedAt rec) <> ", " <> "leuronResponseActivityAt: " <> show (leuronResponseActivityAt rec)
 
-newtype LeuronResponses = LeuronResponses {
+data LeuronResponses = LeuronResponses {
   leuronResponses :: [LeuronResponse]
 }
 
@@ -221,7 +226,7 @@ instance Eq LeuronResponses where
 instance Show LeuronResponses where
     show rec = "leuronResponses: " <> show (leuronResponses rec)
 
-newtype LeuronStatResponse = LeuronStatResponse {
+data LeuronStatResponse = LeuronStatResponse {
   leuronStatResponseLeuronId :: Int64,
   leuronStatResponseLikes :: Int64,
   leuronStatResponseNeutral :: Int64,
@@ -268,7 +273,7 @@ instance Eq LeuronStatResponse where
 instance Show LeuronStatResponse where
     show rec = "leuronStatResponseLeuronId: " <> show (leuronStatResponseLeuronId rec) <> ", " <> "leuronStatResponseLikes: " <> show (leuronStatResponseLikes rec) <> ", " <> "leuronStatResponseNeutral: " <> show (leuronStatResponseNeutral rec) <> ", " <> "leuronStatResponseDislikes: " <> show (leuronStatResponseDislikes rec) <> ", " <> "leuronStatResponseStars: " <> show (leuronStatResponseStars rec) <> ", " <> "leuronStatResponseViews: " <> show (leuronStatResponseViews rec)
 
-newtype LeuronStatResponses = LeuronStatResponses {
+data LeuronStatResponses = LeuronStatResponses {
   leuronStatResponses :: [LeuronStatResponse]
 }
 
@@ -701,7 +706,7 @@ instance Show TyLeuron where
   show TyLnEmpty = "ty_ln_empty"
 
 
-newtype Fact = Fact {
+data Fact = Fact {
   factText :: Text
 }
 
@@ -728,7 +733,7 @@ instance Eq Fact where
 instance Show Fact where
     show rec = "factText: " <> show (factText rec)
 
-newtype FactList = FactList {
+data FactList = FactList {
   factListFact :: Text,
   factListList :: [Text]
 }
@@ -759,7 +764,7 @@ instance Eq FactList where
 instance Show FactList where
     show rec = "factListFact: " <> show (factListFact rec) <> ", " <> "factListList: " <> show (factListList rec)
 
-newtype Card = Card {
+data Card = Card {
   cardFront :: Text,
   cardBack :: Text
 }
@@ -790,7 +795,7 @@ instance Eq Card where
 instance Show Card where
     show rec = "cardFront: " <> show (cardFront rec) <> ", " <> "cardBack: " <> show (cardBack rec)
 
-newtype DCard = DCard {
+data DCard = DCard {
   dcardFront :: Text,
   dcardBack :: Text
 }
@@ -821,7 +826,7 @@ instance Eq DCard where
 instance Show DCard where
     show rec = "dcardFront: " <> show (dcardFront rec) <> ", " <> "dcardBack: " <> show (dcardBack rec)
 
-newtype DCardX = DCardX {
+data DCardX = DCardX {
   dcardxFront :: [Text],
   dcardxBack :: [Text]
 }
@@ -852,7 +857,7 @@ instance Eq DCardX where
 instance Show DCardX where
     show rec = "dcardxFront: " <> show (dcardxFront rec) <> ", " <> "dcardxBack: " <> show (dcardxBack rec)
 
-newtype Acronym = Acronym {
+data Acronym = Acronym {
   acronymAbbreviation :: Text,
   acronymMeaning :: Text
 }
@@ -883,7 +888,7 @@ instance Eq Acronym where
 instance Show Acronym where
     show rec = "acronymAbbreviation: " <> show (acronymAbbreviation rec) <> ", " <> "acronymMeaning: " <> show (acronymMeaning rec)
 
-newtype Synonym = Synonym {
+data Synonym = Synonym {
   synonymA :: Text,
   synonymB :: Text
 }
@@ -914,7 +919,7 @@ instance Eq Synonym where
 instance Show Synonym where
     show rec = "synonymA: " <> show (synonymA rec) <> ", " <> "synonymB: " <> show (synonymB rec)
 
-newtype Antonym = Antonym {
+data Antonym = Antonym {
   antonymA :: Text,
   antonymB :: Text
 }
@@ -945,7 +950,7 @@ instance Eq Antonym where
 instance Show Antonym where
     show rec = "antonymA: " <> show (antonymA rec) <> ", " <> "antonymB: " <> show (antonymB rec)
 
-newtype Template = Template {
+data Template = Template {
   template :: Text,
   templateValues :: [TemplateValue]
 }
@@ -976,10 +981,10 @@ instance Eq Template where
 instance Show Template where
     show rec = "template: " <> show (template rec) <> ", " <> "templateValues: " <> show (templateValues rec)
 
-type TemplateValue  = ((Tuple Text) [Text])
+type TemplateValue  = (((,) Text) [Text])
 
 
-newtype ImageAssociation = ImageAssociation {
+data ImageAssociation = ImageAssociation {
   imageUrl :: [Text],
   assocBy :: [Text],
   assocResult :: [Text]
@@ -1014,7 +1019,7 @@ instance Eq ImageAssociation where
 instance Show ImageAssociation where
     show rec = "imageUrl: " <> show (imageUrl rec) <> ", " <> "assocBy: " <> show (assocBy rec) <> ", " <> "assocResult: " <> show (assocResult rec)
 
-newtype Script = Script {
+data Script = Script {
   scriptTitle :: Text,
   scriptDesc :: Text,
   scriptUrl :: Text
@@ -1055,10 +1060,10 @@ type LDContent  = Text
 type LDHint  = (Maybe Text)
 
 
-type LinearDemoNode  = ((Tuple LDContent) LDHint)
+type LinearDemoNode  = (((,) LDContent) LDHint)
 
 
-newtype LinearDemo = LinearDemo {
+data LinearDemo = LinearDemo {
   linearDemoLabel :: Text,
   linearDemoContent :: [LinearDemoNode]
 }
@@ -1089,7 +1094,7 @@ instance Eq LinearDemo where
 instance Show LinearDemo where
     show rec = "linearDemoLabel: " <> show (linearDemoLabel rec) <> ", " <> "linearDemoContent: " <> show (linearDemoContent rec)
 
-newtype QA = QA {
+data QA = QA {
   qaQuestion :: Text,
   qaAnswer :: Text
 }
@@ -1120,7 +1125,7 @@ instance Eq QA where
 instance Show QA where
     show rec = "qaQuestion: " <> show (qaQuestion rec) <> ", " <> "qaAnswer: " <> show (qaAnswer rec)
 
-newtype Table = Table {
+data Table = Table {
   tableTitle :: Text,
   tableColumns :: [Text],
   tableRows :: [[(Maybe Text)]]

@@ -8,15 +8,20 @@
 module LN.T.Pack.GlobalGroup where
 
 
+import LN.T.GlobalGroup
+import LN.T.User
+import LN.T.Permission
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-newtype GlobalGroupPackResponse = GlobalGroupPackResponse {
+data GlobalGroupPackResponse = GlobalGroupPackResponse {
   globalGroupPackResponseUser :: UserSanitizedResponse,
   globalGroupPackResponseUserId :: Int64,
   globalGroupPackResponseGlobalGroup :: GlobalGroupResponse,
@@ -63,7 +68,7 @@ instance Eq GlobalGroupPackResponse where
 instance Show GlobalGroupPackResponse where
     show rec = "globalGroupPackResponseUser: " <> show (globalGroupPackResponseUser rec) <> ", " <> "globalGroupPackResponseUserId: " <> show (globalGroupPackResponseUserId rec) <> ", " <> "globalGroupPackResponseGlobalGroup: " <> show (globalGroupPackResponseGlobalGroup rec) <> ", " <> "globalGroupPackResponseGlobalGroupId: " <> show (globalGroupPackResponseGlobalGroupId rec) <> ", " <> "globalGroupPackResponseStat: " <> show (globalGroupPackResponseStat rec) <> ", " <> "globalGroupPackResponsePermissions: " <> show (globalGroupPackResponsePermissions rec)
 
-newtype GlobalGroupPackResponses = GlobalGroupPackResponses {
+data GlobalGroupPackResponses = GlobalGroupPackResponses {
   globalGroupPackResponses :: [GlobalGroupPackResponse]
 }
 

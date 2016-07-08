@@ -8,11 +8,15 @@
 module LN.T.Team where
 
 
+import LN.T.Visibility
+import LN.T.Membership
 
 
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
+import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
@@ -64,7 +68,7 @@ instance Read SystemTeam where
   readsPrec _ _ = []
 
 
-newtype TeamRequest = TeamRequest {
+data TeamRequest = TeamRequest {
   teamRequestMembership :: Membership,
   teamRequestIcon :: (Maybe Text),
   teamRequestTags :: [Text],
@@ -107,7 +111,7 @@ instance Eq TeamRequest where
 instance Show TeamRequest where
     show rec = "teamRequestMembership: " <> show (teamRequestMembership rec) <> ", " <> "teamRequestIcon: " <> show (teamRequestIcon rec) <> ", " <> "teamRequestTags: " <> show (teamRequestTags rec) <> ", " <> "teamRequestVisibility: " <> show (teamRequestVisibility rec) <> ", " <> "teamRequestGuard: " <> show (teamRequestGuard rec)
 
-newtype TeamResponse = TeamResponse {
+data TeamResponse = TeamResponse {
   teamResponseId :: Int64,
   teamResponseUserId :: Int64,
   teamResponseOrgId :: Int64,
@@ -186,7 +190,7 @@ instance Eq TeamResponse where
 instance Show TeamResponse where
     show rec = "teamResponseId: " <> show (teamResponseId rec) <> ", " <> "teamResponseUserId: " <> show (teamResponseUserId rec) <> ", " <> "teamResponseOrgId: " <> show (teamResponseOrgId rec) <> ", " <> "teamResponseSystem: " <> show (teamResponseSystem rec) <> ", " <> "teamResponseMembership: " <> show (teamResponseMembership rec) <> ", " <> "teamResponseIcon: " <> show (teamResponseIcon rec) <> ", " <> "teamResponseTags: " <> show (teamResponseTags rec) <> ", " <> "teamResponseVisibility: " <> show (teamResponseVisibility rec) <> ", " <> "teamResponseActive: " <> show (teamResponseActive rec) <> ", " <> "teamResponseGuard: " <> show (teamResponseGuard rec) <> ", " <> "teamResponseCreatedAt: " <> show (teamResponseCreatedAt rec) <> ", " <> "teamResponseModifiedBy: " <> show (teamResponseModifiedBy rec) <> ", " <> "teamResponseModifiedAt: " <> show (teamResponseModifiedAt rec) <> ", " <> "teamResponseActivityAt: " <> show (teamResponseActivityAt rec)
 
-newtype TeamResponses = TeamResponses {
+data TeamResponses = TeamResponses {
   teamResponses :: [TeamResponse]
 }
 
@@ -213,7 +217,7 @@ instance Eq TeamResponses where
 instance Show TeamResponses where
     show rec = "teamResponses: " <> show (teamResponses rec)
 
-newtype TeamStatResponse = TeamStatResponse {
+data TeamStatResponse = TeamStatResponse {
   teamStatResponseMembers :: Int64
 }
 
@@ -240,7 +244,7 @@ instance Eq TeamStatResponse where
 instance Show TeamStatResponse where
     show rec = "teamStatResponseMembers: " <> show (teamStatResponseMembers rec)
 
-newtype TeamStatResponses = TeamStatResponses {
+data TeamStatResponses = TeamStatResponses {
   teamStatResponses :: [TeamStatResponse]
 }
 
