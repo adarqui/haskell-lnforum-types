@@ -5,6 +5,7 @@ module LN.T.Like.Extra (
 
 
 
+import           Data.Text    (Text)
 import qualified Data.Text    as T (toLower)
 import           LN.T.DepList
 
