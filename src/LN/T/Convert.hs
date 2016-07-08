@@ -18,7 +18,7 @@ import           Data.Time           (UTCTime)
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
-import LN.T.Internal.Types
+import LN.T
 
 apiRequestToApiResponse :: Int64 -> Int64 -> Text -> (Maybe Text) -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> ApiRequest -> ApiResponse
 apiRequestToApiResponse apiResponseId apiResponseUserId apiResponseKey apiResponseComment apiResponseGuard apiResponseCreatedAt apiResponseModifiedAt ApiRequest{..} =
@@ -116,24 +116,6 @@ bucketResponseToBucketRequest bucketRequestDisplayName bucketRequestDescription 
     bucketRequestCategories = bucketRequestCategories,
     bucketRequestFilters = bucketRequestFilters,
     bucketRequestGuard = bucketRequestGuard
-  }
-
-
-emptyRequestToEmptyResponse :: Int64 -> Int64 -> Bool -> (Maybe UTCTime) -> (Maybe UTCTime) -> EmptyRequest -> EmptyResponse
-emptyRequestToEmptyResponse emptyResponseId emptyResponseUserId emptyResponseValue emptyResponseCreatedAt emptyResponseModifiedAt EmptyRequest{..} =
-  EmptyResponse {
-    emptyResponseId = emptyResponseId,
-    emptyResponseUserId = emptyResponseUserId,
-    emptyResponseValue = emptyResponseValue,
-    emptyResponseCreatedAt = emptyResponseCreatedAt,
-    emptyResponseModifiedAt = emptyResponseModifiedAt
-  }
-
-
-emptyResponseToEmptyRequest :: Bool -> EmptyResponse -> EmptyRequest
-emptyResponseToEmptyRequest emptyRequestValue EmptyResponse{..} =
-  EmptyRequest {
-    emptyRequestValue = emptyRequestValue
   }
 
 

@@ -46,9 +46,9 @@ import           LN.T.Profile             as A
 import           LN.T.Reminder            as A
 import           LN.T.Resource            as A
 import           LN.T.Size                as A
-import           LN.T.Splits              as A ()
+import           LN.T.Splits              as A
 import           LN.T.Star                as A
-import           LN.T.Substitutions       as A ()
+import           LN.T.Substitutions       as A
 import           LN.T.Team                as A
 import           LN.T.TeamMember          as A
 import           LN.T.Thread              as A
