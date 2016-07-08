@@ -15,8 +15,65 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib
+  exposed-modules:     LN.T
+                       LN.T.ACL
+                       LN.T.Api
+                       LN.T.Board
+                       LN.T.Bucket
+                       LN.T.Count
+                       LN.T.DepList
+                       LN.T.Ent
+                       LN.T.Error
+                       LN.T.Forum
+                       LN.T.GlobalGroup
+                       LN.T.Group
+                       LN.T.GroupMember
+                       LN.T.Leuron
+                       LN.T.LeuronTraining
+                       LN.T.Like
+                       LN.T.Membership
+                       LN.T.Organization
+                       LN.T.Param
+                       LN.T.Pack.Organization
+                       LN.T.Pack.Team
+                       LN.T.Pack.TeamMember
+                       LN.T.Pack.User
+                       LN.T.Pack.Sanitized.User
+                       LN.T.Pack.GlobalGroup
+                       LN.T.Pack.Group
+                       LN.T.Pack.GroupMember
+                       LN.T.Pack.Forum
+                       LN.T.Pack.Board
+                       LN.T.Pack.Thread
+                       LN.T.Pack.ThreadPost
+                       LN.T.Pack.Resource
+                       LN.T.Pack.Leuron
+                       LN.T.Pack.PmIn
+                       LN.T.Pack.PmOut
+                       LN.T.Permission
+                       LN.T.Pm
+                       LN.T.PmIn
+                       LN.T.PmOut
+                       LN.T.Profile
+                       LN.T.Reminder
+                       LN.T.Resource
+                       LN.T.Size
+                       LN.T.Splits
+                       LN.T.Substitutions
+                       LN.T.Star
+                       LN.T.Team
+                       LN.T.TeamMember
+                       LN.T.Thread
+                       LN.T.ThreadPost
+                       LN.T.User
+                       LN.T.Visibility
   build-depends:       base >= 4.7 && < 5
+                     , aeson
+                     , bytestring
+                     , containers
+                     , text
+                     , haskell-api-helpers
+  ghc-options:         -Wall
   default-language:    Haskell2010
 
 test-suite haskell-ln-types-test

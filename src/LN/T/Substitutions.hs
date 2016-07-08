@@ -5,7 +5,7 @@
 {-# LANGUAGE RankNTypes           #-}
 {-# LANGUAGE ScopedTypeVariables  #-}
 
-module LN.T.Substitution where
+module LN.T.Substitutions where
 
 
 
