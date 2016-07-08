@@ -72,6 +72,7 @@ library
                      , aeson
                      , bytestring
                      , containers
+                     , data-default
                      , text
                      , time
                      , haskell-api-helpers
