@@ -29,6 +29,7 @@ library
                        LN.T.GlobalGroup
                        LN.T.Group
                        LN.T.GroupMember
+                       LN.T.Job
                        LN.T.Leuron
                        LN.T.LeuronTraining
                        LN.T.Like
