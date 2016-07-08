@@ -16,6 +16,11 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype TeamMemberRequest = TeamMemberRequest {
+  teamMemberRequestGuard :: Int
+}
+
+
 instance FromJSON TeamMemberRequest where
   parseJSON (Object o) = do
     teamMemberRequestGuard <- o .: ("guard" :: Text)
@@ -37,6 +42,24 @@ instance Eq TeamMemberRequest where
 
 instance Show TeamMemberRequest where
     show rec = "teamMemberRequestGuard: " <> show (teamMemberRequestGuard rec)
+
+newtype TeamMemberResponse = TeamMemberResponse {
+  teamMemberResponseId :: Int64,
+  teamMemberResponseUserId :: Int64,
+  teamMemberResponseOrgId :: Int64,
+  teamMemberResponseTeamId :: Int64,
+  teamMemberResponseIsAccepted :: Bool,
+  teamMemberResponseAcceptedAt :: (Maybe UTCTime),
+  teamMemberResponseIsBlocked :: Bool,
+  teamMemberResponseBlockedAt :: (Maybe UTCTime),
+  teamMemberResponseActive :: Bool,
+  teamMemberResponseGuard :: Int,
+  teamMemberResponseCreatedAt :: (Maybe UTCTime),
+  teamMemberResponseModifiedBy :: (Maybe Int64),
+  teamMemberResponseModifiedAt :: (Maybe UTCTime),
+  teamMemberResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON TeamMemberResponse where
   parseJSON (Object o) = do
@@ -99,6 +122,11 @@ instance Eq TeamMemberResponse where
 instance Show TeamMemberResponse where
     show rec = "teamMemberResponseId: " <> show (teamMemberResponseId rec) <> ", " <> "teamMemberResponseUserId: " <> show (teamMemberResponseUserId rec) <> ", " <> "teamMemberResponseOrgId: " <> show (teamMemberResponseOrgId rec) <> ", " <> "teamMemberResponseTeamId: " <> show (teamMemberResponseTeamId rec) <> ", " <> "teamMemberResponseIsAccepted: " <> show (teamMemberResponseIsAccepted rec) <> ", " <> "teamMemberResponseAcceptedAt: " <> show (teamMemberResponseAcceptedAt rec) <> ", " <> "teamMemberResponseIsBlocked: " <> show (teamMemberResponseIsBlocked rec) <> ", " <> "teamMemberResponseBlockedAt: " <> show (teamMemberResponseBlockedAt rec) <> ", " <> "teamMemberResponseActive: " <> show (teamMemberResponseActive rec) <> ", " <> "teamMemberResponseGuard: " <> show (teamMemberResponseGuard rec) <> ", " <> "teamMemberResponseCreatedAt: " <> show (teamMemberResponseCreatedAt rec) <> ", " <> "teamMemberResponseModifiedBy: " <> show (teamMemberResponseModifiedBy rec) <> ", " <> "teamMemberResponseModifiedAt: " <> show (teamMemberResponseModifiedAt rec) <> ", " <> "teamMemberResponseActivityAt: " <> show (teamMemberResponseActivityAt rec)
 
+newtype TeamMemberResponses = TeamMemberResponses {
+  teamMemberResponses :: [TeamMemberResponse]
+}
+
+
 instance FromJSON TeamMemberResponses where
   parseJSON (Object o) = do
     teamMemberResponses <- o .: ("team_member_responses" :: Text)
@@ -120,6 +148,11 @@ instance Eq TeamMemberResponses where
 
 instance Show TeamMemberResponses where
     show rec = "teamMemberResponses: " <> show (teamMemberResponses rec)
+
+data TeamMemberStatResponse
+  = TeamMemberStatResponse 
+
+
 
 instance FromJSON TeamMemberStatResponse where
   parseJSON (Object o) = do
@@ -146,6 +179,11 @@ instance Eq TeamMemberStatResponse where
 
 instance Show TeamMemberStatResponse where
   show TeamMemberStatResponse = "team_member_stat_response"
+
+
+newtype TeamMemberStatResponses = TeamMemberStatResponses {
+  teamMemberStatResponses :: [TeamMemberStatResponse]
+}
 
 
 instance FromJSON TeamMemberStatResponses where

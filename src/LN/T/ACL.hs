@@ -16,6 +16,12 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data ACL
+  = ACL_Grant Permissions
+  | ACL_Deny 
+
+
+
 instance FromJSON ACL where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)

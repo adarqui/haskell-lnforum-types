@@ -16,6 +16,12 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype ApiRequest = ApiRequest {
+  apiRequestComment :: (Maybe Text),
+  apiRequestGuard :: Int
+}
+
+
 instance FromJSON ApiRequest where
   parseJSON (Object o) = do
     apiRequestComment <- o .: ("comment" :: Text)
@@ -40,6 +46,17 @@ instance Eq ApiRequest where
 
 instance Show ApiRequest where
     show rec = "apiRequestComment: " <> show (apiRequestComment rec) <> ", " <> "apiRequestGuard: " <> show (apiRequestGuard rec)
+
+newtype ApiResponse = ApiResponse {
+  apiResponseId :: Int64,
+  apiResponseUserId :: Int64,
+  apiResponseKey :: Text,
+  apiResponseComment :: (Maybe Text),
+  apiResponseGuard :: Int,
+  apiResponseCreatedAt :: (Maybe UTCTime),
+  apiResponseModifiedAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON ApiResponse where
   parseJSON (Object o) = do
@@ -80,6 +97,11 @@ instance Eq ApiResponse where
 
 instance Show ApiResponse where
     show rec = "apiResponseId: " <> show (apiResponseId rec) <> ", " <> "apiResponseUserId: " <> show (apiResponseUserId rec) <> ", " <> "apiResponseKey: " <> show (apiResponseKey rec) <> ", " <> "apiResponseComment: " <> show (apiResponseComment rec) <> ", " <> "apiResponseGuard: " <> show (apiResponseGuard rec) <> ", " <> "apiResponseCreatedAt: " <> show (apiResponseCreatedAt rec) <> ", " <> "apiResponseModifiedAt: " <> show (apiResponseModifiedAt rec)
+
+newtype ApiResponses = ApiResponses {
+  apiResponses :: [ApiResponse]
+}
+
 
 instance FromJSON ApiResponses where
   parseJSON (Object o) = do

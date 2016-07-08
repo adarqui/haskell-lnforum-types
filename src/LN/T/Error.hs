@@ -16,6 +16,20 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data ApplicationError
+  = Error_Unknown 
+  | Error_NotFound 
+  | Error_PermissionDenied 
+  | Error_AlreadyExists 
+  | Error_Visibility 
+  | Error_Membership 
+  | Error_Validation ValidationError
+  | Error_NotImplemented 
+  | Error_InvalidArguments Text
+  | Error_Unexpected 
+
+
+
 instance FromJSON ApplicationError where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -130,6 +144,11 @@ instance Show ApplicationError where
   show Error_Unexpected = "error_unexpected"
 
 
+data ValidationError
+  = Validate ValidationErrorCode (Maybe Text)
+
+
+
 instance FromJSON ValidationError where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -158,6 +177,20 @@ instance Eq ValidationError where
 
 instance Show ValidationError where
   show (Validate x0 x1) = "validate: " <> show x0 <> " " <> show x1
+
+
+data ValidationErrorCode
+  = Validate_Unknown 
+  | Validate_InvalidCharacters 
+  | Validate_InvalidEmail 
+  | Validate_InvalidDate 
+  | Validate_CannotBeEmpty 
+  | Validate_TooLong 
+  | Validate_TooShort 
+  | Validate_GreaterThanMaximum 
+  | Validate_SmallerThanMinimum 
+  | Validate_Reason Text
+
 
 
 instance FromJSON ValidationErrorCode where

@@ -16,6 +16,21 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype ForumRequest = ForumRequest {
+  forumRequestDisplayName :: Text,
+  forumRequestDescription :: (Maybe Text),
+  forumRequestThreadsPerBoard :: Int,
+  forumRequestThreadPostsPerThread :: Int,
+  forumRequestRecentThreadsLimit :: Int,
+  forumRequestRecentPostsLimit :: Int,
+  forumRequestMotwLimit :: Int,
+  forumRequestIcon :: (Maybe Text),
+  forumRequestTags :: [Text],
+  forumRequestVisibility :: Visibility,
+  forumRequestGuard :: Int
+}
+
+
 instance FromJSON ForumRequest where
   parseJSON (Object o) = do
     forumRequestDisplayName <- o .: ("display_name" :: Text)
@@ -67,6 +82,30 @@ instance Eq ForumRequest where
 
 instance Show ForumRequest where
     show rec = "forumRequestDisplayName: " <> show (forumRequestDisplayName rec) <> ", " <> "forumRequestDescription: " <> show (forumRequestDescription rec) <> ", " <> "forumRequestThreadsPerBoard: " <> show (forumRequestThreadsPerBoard rec) <> ", " <> "forumRequestThreadPostsPerThread: " <> show (forumRequestThreadPostsPerThread rec) <> ", " <> "forumRequestRecentThreadsLimit: " <> show (forumRequestRecentThreadsLimit rec) <> ", " <> "forumRequestRecentPostsLimit: " <> show (forumRequestRecentPostsLimit rec) <> ", " <> "forumRequestMotwLimit: " <> show (forumRequestMotwLimit rec) <> ", " <> "forumRequestIcon: " <> show (forumRequestIcon rec) <> ", " <> "forumRequestTags: " <> show (forumRequestTags rec) <> ", " <> "forumRequestVisibility: " <> show (forumRequestVisibility rec) <> ", " <> "forumRequestGuard: " <> show (forumRequestGuard rec)
+
+newtype ForumResponse = ForumResponse {
+  forumResponseId :: Int64,
+  forumResponseUserId :: Int64,
+  forumResponseOrgId :: Int64,
+  forumResponseName :: Text,
+  forumResponseDisplayName :: Text,
+  forumResponseDescription :: (Maybe Text),
+  forumResponseThreadsPerBoard :: Int,
+  forumResponseThreadPostsPerThread :: Int,
+  forumResponseRecentThreadsLimit :: Int,
+  forumResponseRecentPostsLimit :: Int,
+  forumResponseMotwLimit :: Int,
+  forumResponseIcon :: (Maybe Text),
+  forumResponseTags :: [Text],
+  forumResponseVisibility :: Visibility,
+  forumResponseActive :: Bool,
+  forumResponseGuard :: Int,
+  forumResponseCreatedAt :: (Maybe UTCTime),
+  forumResponseModifiedBy :: (Maybe Int64),
+  forumResponseModifiedAt :: (Maybe UTCTime),
+  forumResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON ForumResponse where
   parseJSON (Object o) = do
@@ -147,6 +186,11 @@ instance Eq ForumResponse where
 instance Show ForumResponse where
     show rec = "forumResponseId: " <> show (forumResponseId rec) <> ", " <> "forumResponseUserId: " <> show (forumResponseUserId rec) <> ", " <> "forumResponseOrgId: " <> show (forumResponseOrgId rec) <> ", " <> "forumResponseName: " <> show (forumResponseName rec) <> ", " <> "forumResponseDisplayName: " <> show (forumResponseDisplayName rec) <> ", " <> "forumResponseDescription: " <> show (forumResponseDescription rec) <> ", " <> "forumResponseThreadsPerBoard: " <> show (forumResponseThreadsPerBoard rec) <> ", " <> "forumResponseThreadPostsPerThread: " <> show (forumResponseThreadPostsPerThread rec) <> ", " <> "forumResponseRecentThreadsLimit: " <> show (forumResponseRecentThreadsLimit rec) <> ", " <> "forumResponseRecentPostsLimit: " <> show (forumResponseRecentPostsLimit rec) <> ", " <> "forumResponseMotwLimit: " <> show (forumResponseMotwLimit rec) <> ", " <> "forumResponseIcon: " <> show (forumResponseIcon rec) <> ", " <> "forumResponseTags: " <> show (forumResponseTags rec) <> ", " <> "forumResponseVisibility: " <> show (forumResponseVisibility rec) <> ", " <> "forumResponseActive: " <> show (forumResponseActive rec) <> ", " <> "forumResponseGuard: " <> show (forumResponseGuard rec) <> ", " <> "forumResponseCreatedAt: " <> show (forumResponseCreatedAt rec) <> ", " <> "forumResponseModifiedBy: " <> show (forumResponseModifiedBy rec) <> ", " <> "forumResponseModifiedAt: " <> show (forumResponseModifiedAt rec) <> ", " <> "forumResponseActivityAt: " <> show (forumResponseActivityAt rec)
 
+newtype ForumResponses = ForumResponses {
+  forumResponses :: [ForumResponse]
+}
+
+
 instance FromJSON ForumResponses where
   parseJSON (Object o) = do
     forumResponses <- o .: ("forum_responses" :: Text)
@@ -168,6 +212,15 @@ instance Eq ForumResponses where
 
 instance Show ForumResponses where
     show rec = "forumResponses: " <> show (forumResponses rec)
+
+newtype ForumStatResponse = ForumStatResponse {
+  forumStatResponseForumId :: Int64,
+  forumStatResponseBoards :: Int64,
+  forumStatResponseThreads :: Int64,
+  forumStatResponseThreadPosts :: Int64,
+  forumStatResponseViews :: Int64
+}
+
 
 instance FromJSON ForumStatResponse where
   parseJSON (Object o) = do
@@ -202,6 +255,11 @@ instance Eq ForumStatResponse where
 
 instance Show ForumStatResponse where
     show rec = "forumStatResponseForumId: " <> show (forumStatResponseForumId rec) <> ", " <> "forumStatResponseBoards: " <> show (forumStatResponseBoards rec) <> ", " <> "forumStatResponseThreads: " <> show (forumStatResponseThreads rec) <> ", " <> "forumStatResponseThreadPosts: " <> show (forumStatResponseThreadPosts rec) <> ", " <> "forumStatResponseViews: " <> show (forumStatResponseViews rec)
+
+newtype ForumStatResponses = ForumStatResponses {
+  forumStatResponses :: [ForumStatResponse]
+}
+
 
 instance FromJSON ForumStatResponses where
   parseJSON (Object o) = do

@@ -16,6 +16,12 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data Visibility
+  = Public 
+  | Private 
+
+
+
 instance FromJSON Visibility where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)

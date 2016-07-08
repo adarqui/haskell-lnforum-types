@@ -16,6 +16,12 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype PmOutRequest = PmOutRequest {
+  pmOutRequestLabel :: (Maybe Text),
+  pmOutRequestGuard :: Int
+}
+
+
 instance FromJSON PmOutRequest where
   parseJSON (Object o) = do
     pmOutRequestLabel <- o .: ("label" :: Text)
@@ -40,6 +46,19 @@ instance Eq PmOutRequest where
 
 instance Show PmOutRequest where
     show rec = "pmOutRequestLabel: " <> show (pmOutRequestLabel rec) <> ", " <> "pmOutRequestGuard: " <> show (pmOutRequestGuard rec)
+
+newtype PmOutResponse = PmOutResponse {
+  pmOutResponseId :: Int64,
+  pmOutResponsePmId :: Int64,
+  pmOutResponseUserId :: Int64,
+  pmOutResponseLabel :: (Maybe Text),
+  pmOutResponseIsSaved :: Bool,
+  pmOutResponseActive :: Bool,
+  pmOutResponseGuard :: Int,
+  pmOutResponseCreatedAt :: (Maybe UTCTime),
+  pmOutResponseModifiedAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON PmOutResponse where
   parseJSON (Object o) = do
@@ -86,6 +105,11 @@ instance Eq PmOutResponse where
 
 instance Show PmOutResponse where
     show rec = "pmOutResponseId: " <> show (pmOutResponseId rec) <> ", " <> "pmOutResponsePmId: " <> show (pmOutResponsePmId rec) <> ", " <> "pmOutResponseUserId: " <> show (pmOutResponseUserId rec) <> ", " <> "pmOutResponseLabel: " <> show (pmOutResponseLabel rec) <> ", " <> "pmOutResponseIsSaved: " <> show (pmOutResponseIsSaved rec) <> ", " <> "pmOutResponseActive: " <> show (pmOutResponseActive rec) <> ", " <> "pmOutResponseGuard: " <> show (pmOutResponseGuard rec) <> ", " <> "pmOutResponseCreatedAt: " <> show (pmOutResponseCreatedAt rec) <> ", " <> "pmOutResponseModifiedAt: " <> show (pmOutResponseModifiedAt rec)
+
+newtype PmOutResponses = PmOutResponses {
+  pmOutResponses :: [PmOutResponse]
+}
+
 
 instance FromJSON PmOutResponses where
   parseJSON (Object o) = do

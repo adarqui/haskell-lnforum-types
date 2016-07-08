@@ -16,6 +16,11 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype GroupMemberRequest = GroupMemberRequest {
+  groupMemberRequestGuard :: Int
+}
+
+
 instance FromJSON GroupMemberRequest where
   parseJSON (Object o) = do
     groupMemberRequestGuard <- o .: ("guard" :: Text)
@@ -37,6 +42,17 @@ instance Eq GroupMemberRequest where
 
 instance Show GroupMemberRequest where
     show rec = "groupMemberRequestGuard: " <> show (groupMemberRequestGuard rec)
+
+newtype GroupMemberResponse = GroupMemberResponse {
+  groupMemberResponseId :: Int64,
+  groupMemberResponseUserId :: Int64,
+  groupMemberResponseGlobalGroupId :: Int64,
+  groupMemberResponseCreatedAt :: (Maybe UTCTime),
+  groupMemberResponseModifiedBy :: (Maybe Int64),
+  groupMemberResponseModifiedAt :: (Maybe UTCTime),
+  groupMemberResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON GroupMemberResponse where
   parseJSON (Object o) = do
@@ -78,6 +94,11 @@ instance Eq GroupMemberResponse where
 instance Show GroupMemberResponse where
     show rec = "groupMemberResponseId: " <> show (groupMemberResponseId rec) <> ", " <> "groupMemberResponseUserId: " <> show (groupMemberResponseUserId rec) <> ", " <> "groupMemberResponseGlobalGroupId: " <> show (groupMemberResponseGlobalGroupId rec) <> ", " <> "groupMemberResponseCreatedAt: " <> show (groupMemberResponseCreatedAt rec) <> ", " <> "groupMemberResponseModifiedBy: " <> show (groupMemberResponseModifiedBy rec) <> ", " <> "groupMemberResponseModifiedAt: " <> show (groupMemberResponseModifiedAt rec) <> ", " <> "groupMemberResponseActivityAt: " <> show (groupMemberResponseActivityAt rec)
 
+newtype GroupMemberResponses = GroupMemberResponses {
+  groupMemberResponses :: [GroupMemberResponse]
+}
+
+
 instance FromJSON GroupMemberResponses where
   parseJSON (Object o) = do
     groupMemberResponses <- o .: ("group_member_responses" :: Text)
@@ -99,6 +120,11 @@ instance Eq GroupMemberResponses where
 
 instance Show GroupMemberResponses where
     show rec = "groupMemberResponses: " <> show (groupMemberResponses rec)
+
+data GroupMemberStatResponse
+  = GroupMemberStatResponse 
+
+
 
 instance FromJSON GroupMemberStatResponse where
   parseJSON (Object o) = do
@@ -125,6 +151,11 @@ instance Eq GroupMemberStatResponse where
 
 instance Show GroupMemberStatResponse where
   show GroupMemberStatResponse = "group_member_stat_response"
+
+
+data GroupMemberStatResponses
+  = GroupMemberStatResponses 
+
 
 
 instance FromJSON GroupMemberStatResponses where

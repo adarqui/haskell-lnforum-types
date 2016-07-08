@@ -16,6 +16,16 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data PostData
+  = PostDataRaw Text
+  | PostDataMarkdown Text
+  | PostDataBBCode Text
+  | PostDataCode Text Text
+  | PostDataOther Text Text
+  | PostDataEmpty 
+
+
+
 instance FromJSON PostData where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -103,6 +113,15 @@ instance Show PostData where
   show PostDataEmpty = "empty"
 
 
+newtype ThreadPostRequest = ThreadPostRequest {
+  threadPostRequestTitle :: (Maybe Text),
+  threadPostRequestBody :: PostData,
+  threadPostRequestTags :: [Text],
+  threadPostRequestPrivateTags :: [Text],
+  threadPostRequestGuard :: Int
+}
+
+
 instance FromJSON ThreadPostRequest where
   parseJSON (Object o) = do
     threadPostRequestTitle <- o .: ("title" :: Text)
@@ -136,6 +155,27 @@ instance Eq ThreadPostRequest where
 
 instance Show ThreadPostRequest where
     show rec = "threadPostRequestTitle: " <> show (threadPostRequestTitle rec) <> ", " <> "threadPostRequestBody: " <> show (threadPostRequestBody rec) <> ", " <> "threadPostRequestTags: " <> show (threadPostRequestTags rec) <> ", " <> "threadPostRequestPrivateTags: " <> show (threadPostRequestPrivateTags rec) <> ", " <> "threadPostRequestGuard: " <> show (threadPostRequestGuard rec)
+
+newtype ThreadPostResponse = ThreadPostResponse {
+  threadPostResponseId :: Int64,
+  threadPostResponseUserId :: Int64,
+  threadPostResponseOrgId :: Int64,
+  threadPostResponseForumId :: Int64,
+  threadPostResponseBoardId :: Int64,
+  threadPostResponseThreadId :: Int64,
+  threadPostResponseParentId :: (Maybe Int64),
+  threadPostResponseTitle :: (Maybe Text),
+  threadPostResponseBody :: PostData,
+  threadPostResponseTags :: [Text],
+  threadPostResponsePrivateTags :: [Text],
+  threadPostResponseActive :: Bool,
+  threadPostResponseGuard :: Int,
+  threadPostResponseCreatedAt :: (Maybe UTCTime),
+  threadPostResponseModifiedBy :: (Maybe Int64),
+  threadPostResponseModifiedAt :: (Maybe UTCTime),
+  threadPostResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON ThreadPostResponse where
   parseJSON (Object o) = do
@@ -207,6 +247,11 @@ instance Eq ThreadPostResponse where
 instance Show ThreadPostResponse where
     show rec = "threadPostResponseId: " <> show (threadPostResponseId rec) <> ", " <> "threadPostResponseUserId: " <> show (threadPostResponseUserId rec) <> ", " <> "threadPostResponseOrgId: " <> show (threadPostResponseOrgId rec) <> ", " <> "threadPostResponseForumId: " <> show (threadPostResponseForumId rec) <> ", " <> "threadPostResponseBoardId: " <> show (threadPostResponseBoardId rec) <> ", " <> "threadPostResponseThreadId: " <> show (threadPostResponseThreadId rec) <> ", " <> "threadPostResponseParentId: " <> show (threadPostResponseParentId rec) <> ", " <> "threadPostResponseTitle: " <> show (threadPostResponseTitle rec) <> ", " <> "threadPostResponseBody: " <> show (threadPostResponseBody rec) <> ", " <> "threadPostResponseTags: " <> show (threadPostResponseTags rec) <> ", " <> "threadPostResponsePrivateTags: " <> show (threadPostResponsePrivateTags rec) <> ", " <> "threadPostResponseActive: " <> show (threadPostResponseActive rec) <> ", " <> "threadPostResponseGuard: " <> show (threadPostResponseGuard rec) <> ", " <> "threadPostResponseCreatedAt: " <> show (threadPostResponseCreatedAt rec) <> ", " <> "threadPostResponseModifiedBy: " <> show (threadPostResponseModifiedBy rec) <> ", " <> "threadPostResponseModifiedAt: " <> show (threadPostResponseModifiedAt rec) <> ", " <> "threadPostResponseActivityAt: " <> show (threadPostResponseActivityAt rec)
 
+newtype ThreadPostResponses = ThreadPostResponses {
+  threadPostResponses :: [ThreadPostResponse]
+}
+
+
 instance FromJSON ThreadPostResponses where
   parseJSON (Object o) = do
     threadPostResponses <- o .: ("thread_post_responses" :: Text)
@@ -228,6 +273,16 @@ instance Eq ThreadPostResponses where
 
 instance Show ThreadPostResponses where
     show rec = "threadPostResponses: " <> show (threadPostResponses rec)
+
+newtype ThreadPostStatResponse = ThreadPostStatResponse {
+  threadPostStatResponseThreadPostId :: Int64,
+  threadPostStatResponseLikes :: Int64,
+  threadPostStatResponseNeutral :: Int64,
+  threadPostStatResponseDislikes :: Int64,
+  threadPostStatResponseStars :: Int64,
+  threadPostStatResponseViews :: Int64
+}
+
 
 instance FromJSON ThreadPostStatResponse where
   parseJSON (Object o) = do
@@ -265,6 +320,11 @@ instance Eq ThreadPostStatResponse where
 
 instance Show ThreadPostStatResponse where
     show rec = "threadPostStatResponseThreadPostId: " <> show (threadPostStatResponseThreadPostId rec) <> ", " <> "threadPostStatResponseLikes: " <> show (threadPostStatResponseLikes rec) <> ", " <> "threadPostStatResponseNeutral: " <> show (threadPostStatResponseNeutral rec) <> ", " <> "threadPostStatResponseDislikes: " <> show (threadPostStatResponseDislikes rec) <> ", " <> "threadPostStatResponseStars: " <> show (threadPostStatResponseStars rec) <> ", " <> "threadPostStatResponseViews: " <> show (threadPostStatResponseViews rec)
+
+newtype ThreadPostStatResponses = ThreadPostStatResponses {
+  threadPostStatResponses :: [ThreadPostStatResponse]
+}
+
 
 instance FromJSON ThreadPostStatResponses where
   parseJSON (Object o) = do

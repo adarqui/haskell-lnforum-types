@@ -16,6 +16,23 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype LeuronRequest = LeuronRequest {
+  leuronRequestData :: LeuronData,
+  leuronRequestTitle :: (Maybe Text),
+  leuronRequestDescription :: (Maybe Text),
+  leuronRequestSection :: (Maybe Text),
+  leuronRequestPage :: (Maybe Text),
+  leuronRequestExamples :: (Maybe [Text]),
+  leuronRequestStrengths :: (Maybe [Text]),
+  leuronRequestCategories :: (DepList Text),
+  leuronRequestSplits :: (Maybe [Splits]),
+  leuronRequestSubstitutions :: (Maybe [Substitutions]),
+  leuronRequestTags :: [Text],
+  leuronRequestStyle :: (Maybe [Text]),
+  leuronRequestGuard :: Int
+}
+
+
 instance FromJSON LeuronRequest where
   parseJSON (Object o) = do
     leuronRequestData <- o .: ("data" :: Text)
@@ -73,6 +90,30 @@ instance Eq LeuronRequest where
 
 instance Show LeuronRequest where
     show rec = "leuronRequestData: " <> show (leuronRequestData rec) <> ", " <> "leuronRequestTitle: " <> show (leuronRequestTitle rec) <> ", " <> "leuronRequestDescription: " <> show (leuronRequestDescription rec) <> ", " <> "leuronRequestSection: " <> show (leuronRequestSection rec) <> ", " <> "leuronRequestPage: " <> show (leuronRequestPage rec) <> ", " <> "leuronRequestExamples: " <> show (leuronRequestExamples rec) <> ", " <> "leuronRequestStrengths: " <> show (leuronRequestStrengths rec) <> ", " <> "leuronRequestCategories: " <> show (leuronRequestCategories rec) <> ", " <> "leuronRequestSplits: " <> show (leuronRequestSplits rec) <> ", " <> "leuronRequestSubstitutions: " <> show (leuronRequestSubstitutions rec) <> ", " <> "leuronRequestTags: " <> show (leuronRequestTags rec) <> ", " <> "leuronRequestStyle: " <> show (leuronRequestStyle rec) <> ", " <> "leuronRequestGuard: " <> show (leuronRequestGuard rec)
+
+newtype LeuronResponse = LeuronResponse {
+  leuronResponseId :: Int64,
+  leuronResponseUserId :: Int64,
+  leuronResponseResourceId :: Int64,
+  leuronResponseData :: LeuronData,
+  leuronResponseTitle :: (Maybe Text),
+  leuronResponseDescription :: (Maybe Text),
+  leuronResponseSection :: (Maybe Text),
+  leuronResponsePage :: (Maybe Text),
+  leuronResponseExamples :: (Maybe [Text]),
+  leuronResponseStrengths :: (Maybe [Text]),
+  leuronResponseCategories :: (DepList Text),
+  leuronResponseSplits :: (Maybe [Splits]),
+  leuronResponseSubstitutions :: (Maybe [Substitutions]),
+  leuronResponseTags :: [Text],
+  leuronResponseStyle :: (Maybe [Text]),
+  leuronResponseActive :: Bool,
+  leuronResponseGuard :: Int,
+  leuronResponseCreatedAt :: (Maybe UTCTime),
+  leuronResponseModifiedAt :: (Maybe UTCTime),
+  leuronResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON LeuronResponse where
   parseJSON (Object o) = do
@@ -153,6 +194,11 @@ instance Eq LeuronResponse where
 instance Show LeuronResponse where
     show rec = "leuronResponseId: " <> show (leuronResponseId rec) <> ", " <> "leuronResponseUserId: " <> show (leuronResponseUserId rec) <> ", " <> "leuronResponseResourceId: " <> show (leuronResponseResourceId rec) <> ", " <> "leuronResponseData: " <> show (leuronResponseData rec) <> ", " <> "leuronResponseTitle: " <> show (leuronResponseTitle rec) <> ", " <> "leuronResponseDescription: " <> show (leuronResponseDescription rec) <> ", " <> "leuronResponseSection: " <> show (leuronResponseSection rec) <> ", " <> "leuronResponsePage: " <> show (leuronResponsePage rec) <> ", " <> "leuronResponseExamples: " <> show (leuronResponseExamples rec) <> ", " <> "leuronResponseStrengths: " <> show (leuronResponseStrengths rec) <> ", " <> "leuronResponseCategories: " <> show (leuronResponseCategories rec) <> ", " <> "leuronResponseSplits: " <> show (leuronResponseSplits rec) <> ", " <> "leuronResponseSubstitutions: " <> show (leuronResponseSubstitutions rec) <> ", " <> "leuronResponseTags: " <> show (leuronResponseTags rec) <> ", " <> "leuronResponseStyle: " <> show (leuronResponseStyle rec) <> ", " <> "leuronResponseActive: " <> show (leuronResponseActive rec) <> ", " <> "leuronResponseGuard: " <> show (leuronResponseGuard rec) <> ", " <> "leuronResponseCreatedAt: " <> show (leuronResponseCreatedAt rec) <> ", " <> "leuronResponseModifiedAt: " <> show (leuronResponseModifiedAt rec) <> ", " <> "leuronResponseActivityAt: " <> show (leuronResponseActivityAt rec)
 
+newtype LeuronResponses = LeuronResponses {
+  leuronResponses :: [LeuronResponse]
+}
+
+
 instance FromJSON LeuronResponses where
   parseJSON (Object o) = do
     leuronResponses <- o .: ("leuron_responses" :: Text)
@@ -174,6 +220,16 @@ instance Eq LeuronResponses where
 
 instance Show LeuronResponses where
     show rec = "leuronResponses: " <> show (leuronResponses rec)
+
+newtype LeuronStatResponse = LeuronStatResponse {
+  leuronStatResponseLeuronId :: Int64,
+  leuronStatResponseLikes :: Int64,
+  leuronStatResponseNeutral :: Int64,
+  leuronStatResponseDislikes :: Int64,
+  leuronStatResponseStars :: Int64,
+  leuronStatResponseViews :: Int64
+}
+
 
 instance FromJSON LeuronStatResponse where
   parseJSON (Object o) = do
@@ -212,6 +268,11 @@ instance Eq LeuronStatResponse where
 instance Show LeuronStatResponse where
     show rec = "leuronStatResponseLeuronId: " <> show (leuronStatResponseLeuronId rec) <> ", " <> "leuronStatResponseLikes: " <> show (leuronStatResponseLikes rec) <> ", " <> "leuronStatResponseNeutral: " <> show (leuronStatResponseNeutral rec) <> ", " <> "leuronStatResponseDislikes: " <> show (leuronStatResponseDislikes rec) <> ", " <> "leuronStatResponseStars: " <> show (leuronStatResponseStars rec) <> ", " <> "leuronStatResponseViews: " <> show (leuronStatResponseViews rec)
 
+newtype LeuronStatResponses = LeuronStatResponses {
+  leuronStatResponses :: [LeuronStatResponse]
+}
+
+
 instance FromJSON LeuronStatResponses where
   parseJSON (Object o) = do
     leuronStatResponses <- o .: ("leuron_stat_responses" :: Text)
@@ -233,6 +294,26 @@ instance Eq LeuronStatResponses where
 
 instance Show LeuronStatResponses where
     show rec = "leuronStatResponses: " <> show (leuronStatResponses rec)
+
+data LeuronData
+  = LnFact Fact
+  | LnFactList FactList
+  | LnCard Card
+  | LnDCard DCard
+  | LnDCardX DCardX
+  | LnAcronym Acronym
+  | LnSynonym Synonym
+  | LnAntonym Antonym
+  | LnTemplate Template
+  | LnImageAssociation ImageAssociation
+  | LnLinearDemo LinearDemo
+  | LnTable Table
+  | LnScript Script
+  | LnQA QA
+  | LnExamples 
+  | LnEmpty 
+
+
 
 instance FromJSON LeuronData where
   parseJSON (Object o) = do
@@ -438,6 +519,26 @@ instance Show LeuronData where
   show LnEmpty = "ln_empty"
 
 
+data TyLeuron
+  = TyLnFact 
+  | TyLnFactList 
+  | TyLnCard 
+  | TyLnDCard 
+  | TyLnDCardX 
+  | TyLnAcronym 
+  | TyLnSynonym 
+  | TyLnAntonym 
+  | TyLnTemplate 
+  | TyLnImageAssociation 
+  | TyLnLinearDemo 
+  | TyLnTable 
+  | TyLnScript 
+  | TyLnQA 
+  | TyLnExamples 
+  | TyLnEmpty 
+
+
+
 instance FromJSON TyLeuron where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -600,6 +701,11 @@ instance Show TyLeuron where
   show TyLnEmpty = "ty_ln_empty"
 
 
+newtype Fact = Fact {
+  factText :: Text
+}
+
+
 instance FromJSON Fact where
   parseJSON (Object o) = do
     factText <- o .: ("text" :: Text)
@@ -621,6 +727,12 @@ instance Eq Fact where
 
 instance Show Fact where
     show rec = "factText: " <> show (factText rec)
+
+newtype FactList = FactList {
+  factListFact :: Text,
+  factListList :: [Text]
+}
+
 
 instance FromJSON FactList where
   parseJSON (Object o) = do
@@ -647,6 +759,12 @@ instance Eq FactList where
 instance Show FactList where
     show rec = "factListFact: " <> show (factListFact rec) <> ", " <> "factListList: " <> show (factListList rec)
 
+newtype Card = Card {
+  cardFront :: Text,
+  cardBack :: Text
+}
+
+
 instance FromJSON Card where
   parseJSON (Object o) = do
     cardFront <- o .: ("front" :: Text)
@@ -671,6 +789,12 @@ instance Eq Card where
 
 instance Show Card where
     show rec = "cardFront: " <> show (cardFront rec) <> ", " <> "cardBack: " <> show (cardBack rec)
+
+newtype DCard = DCard {
+  dcardFront :: Text,
+  dcardBack :: Text
+}
+
 
 instance FromJSON DCard where
   parseJSON (Object o) = do
@@ -697,6 +821,12 @@ instance Eq DCard where
 instance Show DCard where
     show rec = "dcardFront: " <> show (dcardFront rec) <> ", " <> "dcardBack: " <> show (dcardBack rec)
 
+newtype DCardX = DCardX {
+  dcardxFront :: [Text],
+  dcardxBack :: [Text]
+}
+
+
 instance FromJSON DCardX where
   parseJSON (Object o) = do
     dcardxFront <- o .: ("front" :: Text)
@@ -721,6 +851,12 @@ instance Eq DCardX where
 
 instance Show DCardX where
     show rec = "dcardxFront: " <> show (dcardxFront rec) <> ", " <> "dcardxBack: " <> show (dcardxBack rec)
+
+newtype Acronym = Acronym {
+  acronymAbbreviation :: Text,
+  acronymMeaning :: Text
+}
+
 
 instance FromJSON Acronym where
   parseJSON (Object o) = do
@@ -747,6 +883,12 @@ instance Eq Acronym where
 instance Show Acronym where
     show rec = "acronymAbbreviation: " <> show (acronymAbbreviation rec) <> ", " <> "acronymMeaning: " <> show (acronymMeaning rec)
 
+newtype Synonym = Synonym {
+  synonymA :: Text,
+  synonymB :: Text
+}
+
+
 instance FromJSON Synonym where
   parseJSON (Object o) = do
     synonymA <- o .: ("a" :: Text)
@@ -771,6 +913,12 @@ instance Eq Synonym where
 
 instance Show Synonym where
     show rec = "synonymA: " <> show (synonymA rec) <> ", " <> "synonymB: " <> show (synonymB rec)
+
+newtype Antonym = Antonym {
+  antonymA :: Text,
+  antonymB :: Text
+}
+
 
 instance FromJSON Antonym where
   parseJSON (Object o) = do
@@ -797,6 +945,12 @@ instance Eq Antonym where
 instance Show Antonym where
     show rec = "antonymA: " <> show (antonymA rec) <> ", " <> "antonymB: " <> show (antonymB rec)
 
+newtype Template = Template {
+  template :: Text,
+  templateValues :: [TemplateValue]
+}
+
+
 instance FromJSON Template where
   parseJSON (Object o) = do
     template <- o .: ("template" :: Text)
@@ -821,6 +975,16 @@ instance Eq Template where
 
 instance Show Template where
     show rec = "template: " <> show (template rec) <> ", " <> "templateValues: " <> show (templateValues rec)
+
+type TemplateValue  = ((Tuple Text) [Text])
+
+
+newtype ImageAssociation = ImageAssociation {
+  imageUrl :: [Text],
+  assocBy :: [Text],
+  assocResult :: [Text]
+}
+
 
 instance FromJSON ImageAssociation where
   parseJSON (Object o) = do
@@ -850,6 +1014,13 @@ instance Eq ImageAssociation where
 instance Show ImageAssociation where
     show rec = "imageUrl: " <> show (imageUrl rec) <> ", " <> "assocBy: " <> show (assocBy rec) <> ", " <> "assocResult: " <> show (assocResult rec)
 
+newtype Script = Script {
+  scriptTitle :: Text,
+  scriptDesc :: Text,
+  scriptUrl :: Text
+}
+
+
 instance FromJSON Script where
   parseJSON (Object o) = do
     scriptTitle <- o .: ("title" :: Text)
@@ -878,6 +1049,21 @@ instance Eq Script where
 instance Show Script where
     show rec = "scriptTitle: " <> show (scriptTitle rec) <> ", " <> "scriptDesc: " <> show (scriptDesc rec) <> ", " <> "scriptUrl: " <> show (scriptUrl rec)
 
+type LDContent  = Text
+
+
+type LDHint  = (Maybe Text)
+
+
+type LinearDemoNode  = ((Tuple LDContent) LDHint)
+
+
+newtype LinearDemo = LinearDemo {
+  linearDemoLabel :: Text,
+  linearDemoContent :: [LinearDemoNode]
+}
+
+
 instance FromJSON LinearDemo where
   parseJSON (Object o) = do
     linearDemoLabel <- o .: ("label" :: Text)
@@ -903,6 +1089,12 @@ instance Eq LinearDemo where
 instance Show LinearDemo where
     show rec = "linearDemoLabel: " <> show (linearDemoLabel rec) <> ", " <> "linearDemoContent: " <> show (linearDemoContent rec)
 
+newtype QA = QA {
+  qaQuestion :: Text,
+  qaAnswer :: Text
+}
+
+
 instance FromJSON QA where
   parseJSON (Object o) = do
     qaQuestion <- o .: ("question" :: Text)
@@ -927,6 +1119,13 @@ instance Eq QA where
 
 instance Show QA where
     show rec = "qaQuestion: " <> show (qaQuestion rec) <> ", " <> "qaAnswer: " <> show (qaAnswer rec)
+
+newtype Table = Table {
+  tableTitle :: Text,
+  tableColumns :: [Text],
+  tableRows :: [[(Maybe Text)]]
+}
+
 
 instance FromJSON Table where
   parseJSON (Object o) = do

@@ -16,6 +16,19 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype LeuronPackResponse = LeuronPackResponse {
+  leuronPackResponseLeuron :: LeuronResponse,
+  leuronPackResponseLeuronId :: Int64,
+  leuronPackResponseUser :: UserSanitizedResponse,
+  leuronPackResponseUserId :: Int64,
+  leuronPackResponseTraining :: LeuronTrainingResponse,
+  leuronPackResponseStat :: LeuronStatResponse,
+  leuronPackResponseLike :: (Maybe LikeResponse),
+  leuronPackResponseStar :: (Maybe StarResponse),
+  leuronPackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON LeuronPackResponse where
   parseJSON (Object o) = do
     leuronPackResponseLeuron <- o .: ("leuron" :: Text)
@@ -61,6 +74,11 @@ instance Eq LeuronPackResponse where
 
 instance Show LeuronPackResponse where
     show rec = "leuronPackResponseLeuron: " <> show (leuronPackResponseLeuron rec) <> ", " <> "leuronPackResponseLeuronId: " <> show (leuronPackResponseLeuronId rec) <> ", " <> "leuronPackResponseUser: " <> show (leuronPackResponseUser rec) <> ", " <> "leuronPackResponseUserId: " <> show (leuronPackResponseUserId rec) <> ", " <> "leuronPackResponseTraining: " <> show (leuronPackResponseTraining rec) <> ", " <> "leuronPackResponseStat: " <> show (leuronPackResponseStat rec) <> ", " <> "leuronPackResponseLike: " <> show (leuronPackResponseLike rec) <> ", " <> "leuronPackResponseStar: " <> show (leuronPackResponseStar rec) <> ", " <> "leuronPackResponsePermissions: " <> show (leuronPackResponsePermissions rec)
+
+newtype LeuronPackResponses = LeuronPackResponses {
+  leuronPackResponses :: [LeuronPackResponse]
+}
+
 
 instance FromJSON LeuronPackResponses where
   parseJSON (Object o) = do

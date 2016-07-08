@@ -16,6 +16,16 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype UserRequest = UserRequest {
+  userRequestDisplayName :: Text,
+  userRequestFullName :: Text,
+  userRequestEmail :: Text,
+  userRequestPlugin :: Text,
+  userRequestIdent :: Text,
+  userRequestAcceptTOS :: (Maybe UTCTime)
+}
+
+
 instance FromJSON UserRequest where
   parseJSON (Object o) = do
     userRequestDisplayName <- o .: ("display_name" :: Text)
@@ -52,6 +62,25 @@ instance Eq UserRequest where
 
 instance Show UserRequest where
     show rec = "userRequestDisplayName: " <> show (userRequestDisplayName rec) <> ", " <> "userRequestFullName: " <> show (userRequestFullName rec) <> ", " <> "userRequestEmail: " <> show (userRequestEmail rec) <> ", " <> "userRequestPlugin: " <> show (userRequestPlugin rec) <> ", " <> "userRequestIdent: " <> show (userRequestIdent rec) <> ", " <> "userRequestAcceptTOS: " <> show (userRequestAcceptTOS rec)
+
+newtype UserResponse = UserResponse {
+  userResponseId :: Int64,
+  userResponseName :: Text,
+  userResponseDisplayName :: Text,
+  userResponseFullName :: Text,
+  userResponseEmail :: Text,
+  userResponseEmailMD5 :: Text,
+  userResponsePlugin :: Text,
+  userResponseIdent :: Text,
+  userResponseAcceptTOS :: (Maybe UTCTime),
+  userResponseActive :: Bool,
+  userResponseGuard :: Int,
+  userResponseCreatedAt :: (Maybe UTCTime),
+  userResponseModifiedAt :: (Maybe UTCTime),
+  userResponseDeactivatedAt :: (Maybe UTCTime),
+  userResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON UserResponse where
   parseJSON (Object o) = do
@@ -117,6 +146,11 @@ instance Eq UserResponse where
 instance Show UserResponse where
     show rec = "userResponseId: " <> show (userResponseId rec) <> ", " <> "userResponseName: " <> show (userResponseName rec) <> ", " <> "userResponseDisplayName: " <> show (userResponseDisplayName rec) <> ", " <> "userResponseFullName: " <> show (userResponseFullName rec) <> ", " <> "userResponseEmail: " <> show (userResponseEmail rec) <> ", " <> "userResponseEmailMD5: " <> show (userResponseEmailMD5 rec) <> ", " <> "userResponsePlugin: " <> show (userResponsePlugin rec) <> ", " <> "userResponseIdent: " <> show (userResponseIdent rec) <> ", " <> "userResponseAcceptTOS: " <> show (userResponseAcceptTOS rec) <> ", " <> "userResponseActive: " <> show (userResponseActive rec) <> ", " <> "userResponseGuard: " <> show (userResponseGuard rec) <> ", " <> "userResponseCreatedAt: " <> show (userResponseCreatedAt rec) <> ", " <> "userResponseModifiedAt: " <> show (userResponseModifiedAt rec) <> ", " <> "userResponseDeactivatedAt: " <> show (userResponseDeactivatedAt rec) <> ", " <> "userResponseActivityAt: " <> show (userResponseActivityAt rec)
 
+newtype UserResponses = UserResponses {
+  userResponses :: [UserResponse]
+}
+
+
 instance FromJSON UserResponses where
   parseJSON (Object o) = do
     userResponses <- o .: ("user_responses" :: Text)
@@ -138,6 +172,18 @@ instance Eq UserResponses where
 
 instance Show UserResponses where
     show rec = "userResponses: " <> show (userResponses rec)
+
+newtype UserSanitizedResponse = UserSanitizedResponse {
+  userSanitizedResponseId :: Int64,
+  userSanitizedResponseName :: Text,
+  userSanitizedResponseDisplayName :: Text,
+  userSanitizedResponseEmailMD5 :: Text,
+  userSanitizedResponseActive :: Bool,
+  userSanitizedResponseGuard :: Int,
+  userSanitizedResponseCreatedAt :: (Maybe UTCTime),
+  userSanitizedResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON UserSanitizedResponse where
   parseJSON (Object o) = do
@@ -182,6 +228,11 @@ instance Eq UserSanitizedResponse where
 instance Show UserSanitizedResponse where
     show rec = "userSanitizedResponseId: " <> show (userSanitizedResponseId rec) <> ", " <> "userSanitizedResponseName: " <> show (userSanitizedResponseName rec) <> ", " <> "userSanitizedResponseDisplayName: " <> show (userSanitizedResponseDisplayName rec) <> ", " <> "userSanitizedResponseEmailMD5: " <> show (userSanitizedResponseEmailMD5 rec) <> ", " <> "userSanitizedResponseActive: " <> show (userSanitizedResponseActive rec) <> ", " <> "userSanitizedResponseGuard: " <> show (userSanitizedResponseGuard rec) <> ", " <> "userSanitizedResponseCreatedAt: " <> show (userSanitizedResponseCreatedAt rec) <> ", " <> "userSanitizedResponseActivityAt: " <> show (userSanitizedResponseActivityAt rec)
 
+newtype UserSanitizedResponses = UserSanitizedResponses {
+  userSanitizedResponses :: [UserSanitizedResponse]
+}
+
+
 instance FromJSON UserSanitizedResponses where
   parseJSON (Object o) = do
     userSanitizedResponses <- o .: ("user_sanitized_responses" :: Text)
@@ -203,6 +254,17 @@ instance Eq UserSanitizedResponses where
 
 instance Show UserSanitizedResponses where
     show rec = "userSanitizedResponses: " <> show (userSanitizedResponses rec)
+
+newtype UserSanitizedStatResponse = UserSanitizedStatResponse {
+  userSanitizedStatResponseUserId :: Int64,
+  userSanitizedStatResponseThreads :: Int64,
+  userSanitizedStatResponseThreadPosts :: Int64,
+  userSanitizedStatResponseRespect :: Int64,
+  userSanitizedStatResponseResources :: Int64,
+  userSanitizedStatResponseLeurons :: Int64,
+  userSanitizedStatResponseWorkouts :: Int64
+}
+
 
 instance FromJSON UserSanitizedStatResponse where
   parseJSON (Object o) = do
@@ -243,6 +305,11 @@ instance Eq UserSanitizedStatResponse where
 
 instance Show UserSanitizedStatResponse where
     show rec = "userSanitizedStatResponseUserId: " <> show (userSanitizedStatResponseUserId rec) <> ", " <> "userSanitizedStatResponseThreads: " <> show (userSanitizedStatResponseThreads rec) <> ", " <> "userSanitizedStatResponseThreadPosts: " <> show (userSanitizedStatResponseThreadPosts rec) <> ", " <> "userSanitizedStatResponseRespect: " <> show (userSanitizedStatResponseRespect rec) <> ", " <> "userSanitizedStatResponseResources: " <> show (userSanitizedStatResponseResources rec) <> ", " <> "userSanitizedStatResponseLeurons: " <> show (userSanitizedStatResponseLeurons rec) <> ", " <> "userSanitizedStatResponseWorkouts: " <> show (userSanitizedStatResponseWorkouts rec)
+
+newtype UserSanitizedStatResponses = UserSanitizedStatResponses {
+  userSanitizedStatResponses :: [UserSanitizedStatResponse]
+}
+
 
 instance FromJSON UserSanitizedStatResponses where
   parseJSON (Object o) = do

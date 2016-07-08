@@ -16,6 +16,13 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype PmRequest = PmRequest {
+  pmRequestSubject :: Text,
+  pmRequestBody :: Text,
+  pmRequestGuard :: Int
+}
+
+
 instance FromJSON PmRequest where
   parseJSON (Object o) = do
     pmRequestSubject <- o .: ("subject" :: Text)
@@ -43,6 +50,20 @@ instance Eq PmRequest where
 
 instance Show PmRequest where
     show rec = "pmRequestSubject: " <> show (pmRequestSubject rec) <> ", " <> "pmRequestBody: " <> show (pmRequestBody rec) <> ", " <> "pmRequestGuard: " <> show (pmRequestGuard rec)
+
+newtype PmResponse = PmResponse {
+  pmResponseId :: Int64,
+  pmResponseUserId :: Int64,
+  pmResponseToUserId :: Int64,
+  pmResponseSubject :: Text,
+  pmResponseBody :: Text,
+  pmResponseActive :: Bool,
+  pmResponseGuard :: Int,
+  pmResponseCreatedAt :: (Maybe UTCTime),
+  pmResponseModifiedAt :: (Maybe UTCTime),
+  pmResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON PmResponse where
   parseJSON (Object o) = do
@@ -92,6 +113,11 @@ instance Eq PmResponse where
 
 instance Show PmResponse where
     show rec = "pmResponseId: " <> show (pmResponseId rec) <> ", " <> "pmResponseUserId: " <> show (pmResponseUserId rec) <> ", " <> "pmResponseToUserId: " <> show (pmResponseToUserId rec) <> ", " <> "pmResponseSubject: " <> show (pmResponseSubject rec) <> ", " <> "pmResponseBody: " <> show (pmResponseBody rec) <> ", " <> "pmResponseActive: " <> show (pmResponseActive rec) <> ", " <> "pmResponseGuard: " <> show (pmResponseGuard rec) <> ", " <> "pmResponseCreatedAt: " <> show (pmResponseCreatedAt rec) <> ", " <> "pmResponseModifiedAt: " <> show (pmResponseModifiedAt rec) <> ", " <> "pmResponseActivityAt: " <> show (pmResponseActivityAt rec)
+
+newtype PmResponses = PmResponses {
+  pmResponses :: [PmResponse]
+}
+
 
 instance FromJSON PmResponses where
   parseJSON (Object o) = do

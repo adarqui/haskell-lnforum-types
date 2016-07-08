@@ -16,6 +16,17 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data LeuronTrainingSummary
+  = LTS_View 
+  | LTS_Skip 
+  | LTS_Know 
+  | LTS_DontKnow 
+  | LTS_DontUnderstand 
+  | LTS_DontCare 
+  | LTS_Protest 
+
+
+
 instance FromJSON LeuronTrainingSummary where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -108,6 +119,12 @@ instance Read LeuronTrainingSummary where
   readsPrec _ _ = []
 
 
+newtype LeuronTrainingRequest = LeuronTrainingRequest {
+  leuronTrainingRequestSummary :: LeuronTrainingSummary,
+  leuronTrainingRequestGuard :: Int
+}
+
+
 instance FromJSON LeuronTrainingRequest where
   parseJSON (Object o) = do
     leuronTrainingRequestSummary <- o .: ("summary" :: Text)
@@ -132,6 +149,17 @@ instance Eq LeuronTrainingRequest where
 
 instance Show LeuronTrainingRequest where
     show rec = "leuronTrainingRequestSummary: " <> show (leuronTrainingRequestSummary rec) <> ", " <> "leuronTrainingRequestGuard: " <> show (leuronTrainingRequestGuard rec)
+
+newtype LeuronTrainingResponse = LeuronTrainingResponse {
+  leuronTrainingResponseId :: Int64,
+  leuronTrainingResponseUserId :: Int64,
+  leuronTrainingResponseLeuronId :: Int64,
+  leuronTrainingResponseSummary :: LeuronTrainingSummary,
+  leuronTrainingResponseGuard :: Int,
+  leuronTrainingResponseCreatedAt :: (Maybe UTCTime),
+  leuronTrainingResponseModifiedAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON LeuronTrainingResponse where
   parseJSON (Object o) = do
@@ -173,6 +201,11 @@ instance Eq LeuronTrainingResponse where
 instance Show LeuronTrainingResponse where
     show rec = "leuronTrainingResponseId: " <> show (leuronTrainingResponseId rec) <> ", " <> "leuronTrainingResponseUserId: " <> show (leuronTrainingResponseUserId rec) <> ", " <> "leuronTrainingResponseLeuronId: " <> show (leuronTrainingResponseLeuronId rec) <> ", " <> "leuronTrainingResponseSummary: " <> show (leuronTrainingResponseSummary rec) <> ", " <> "leuronTrainingResponseGuard: " <> show (leuronTrainingResponseGuard rec) <> ", " <> "leuronTrainingResponseCreatedAt: " <> show (leuronTrainingResponseCreatedAt rec) <> ", " <> "leuronTrainingResponseModifiedAt: " <> show (leuronTrainingResponseModifiedAt rec)
 
+newtype LeuronTrainingResponses = LeuronTrainingResponses {
+  leuronTrainingResponses :: [LeuronTrainingResponse]
+}
+
+
 instance FromJSON LeuronTrainingResponses where
   parseJSON (Object o) = do
     leuronTrainingResponses <- o .: ("leuron_training_responses" :: Text)
@@ -195,6 +228,11 @@ instance Eq LeuronTrainingResponses where
 instance Show LeuronTrainingResponses where
     show rec = "leuronTrainingResponses: " <> show (leuronTrainingResponses rec)
 
+newtype LeuronTrainingStatResponse = LeuronTrainingStatResponse {
+  leuronTrainingStatResponseLeuronTrainingId :: Int64
+}
+
+
 instance FromJSON LeuronTrainingStatResponse where
   parseJSON (Object o) = do
     leuronTrainingStatResponseLeuronTrainingId <- o .: ("leuron_training_id" :: Text)
@@ -216,6 +254,11 @@ instance Eq LeuronTrainingStatResponse where
 
 instance Show LeuronTrainingStatResponse where
     show rec = "leuronTrainingStatResponseLeuronTrainingId: " <> show (leuronTrainingStatResponseLeuronTrainingId rec)
+
+newtype LeuronTrainingStatResponses = LeuronTrainingStatResponses {
+  leuronTrainingStatResponses :: [LeuronTrainingStatResponse]
+}
+
 
 instance FromJSON LeuronTrainingStatResponses where
   parseJSON (Object o) = do

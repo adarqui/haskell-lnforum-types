@@ -16,6 +16,14 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data Membership
+  = Membership_InviteOnly 
+  | Membership_RequestInvite 
+  | Membership_Join 
+  | Membership_Locked 
+
+
+
 instance FromJSON Membership where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)

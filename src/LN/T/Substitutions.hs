@@ -16,6 +16,14 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data Substitutions
+  = SubsExpr Substitutions Substitutions
+  | SubsOneOf [Text]
+  | SubsAllOf [Text]
+  | SubsBoth Substitutions Substitutions
+
+
+
 instance FromJSON Substitutions where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -80,6 +88,14 @@ instance Show Substitutions where
   show (SubsOneOf x0) = "subs_one_of: " <> show x0
   show (SubsAllOf x0) = "subs_all_of: " <> show x0
   show (SubsBoth x0 x1) = "subs_both: " <> show x0 <> " " <> show x1
+
+
+data TySubstitutions
+  = TySubsExpr 
+  | TySubsOneOf 
+  | TySubsAllOf 
+  | TySubsBoth 
+
 
 
 instance FromJSON TySubstitutions where

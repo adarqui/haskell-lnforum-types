@@ -16,6 +16,16 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype GlobalGroupPackResponse = GlobalGroupPackResponse {
+  globalGroupPackResponseUser :: UserSanitizedResponse,
+  globalGroupPackResponseUserId :: Int64,
+  globalGroupPackResponseGlobalGroup :: GlobalGroupResponse,
+  globalGroupPackResponseGlobalGroupId :: Int64,
+  globalGroupPackResponseStat :: GlobalGroupStatResponse,
+  globalGroupPackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON GlobalGroupPackResponse where
   parseJSON (Object o) = do
     globalGroupPackResponseUser <- o .: ("user" :: Text)
@@ -52,6 +62,11 @@ instance Eq GlobalGroupPackResponse where
 
 instance Show GlobalGroupPackResponse where
     show rec = "globalGroupPackResponseUser: " <> show (globalGroupPackResponseUser rec) <> ", " <> "globalGroupPackResponseUserId: " <> show (globalGroupPackResponseUserId rec) <> ", " <> "globalGroupPackResponseGlobalGroup: " <> show (globalGroupPackResponseGlobalGroup rec) <> ", " <> "globalGroupPackResponseGlobalGroupId: " <> show (globalGroupPackResponseGlobalGroupId rec) <> ", " <> "globalGroupPackResponseStat: " <> show (globalGroupPackResponseStat rec) <> ", " <> "globalGroupPackResponsePermissions: " <> show (globalGroupPackResponsePermissions rec)
+
+newtype GlobalGroupPackResponses = GlobalGroupPackResponses {
+  globalGroupPackResponses :: [GlobalGroupPackResponse]
+}
+
 
 instance FromJSON GlobalGroupPackResponses where
   parseJSON (Object o) = do

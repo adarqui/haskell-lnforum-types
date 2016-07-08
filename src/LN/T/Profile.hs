@@ -16,6 +16,13 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype ProfileX = ProfileX {
+  profileLogin :: Text,
+  profileName :: Text,
+  profileEmail :: Text
+}
+
+
 instance FromJSON ProfileX where
   parseJSON (Object o) = do
     profileLogin <- o .: ("profile_login" :: Text)
@@ -43,6 +50,13 @@ instance Eq ProfileX where
 
 instance Show ProfileX where
     show rec = "profileLogin: " <> show (profileLogin rec) <> ", " <> "profileName: " <> show (profileName rec) <> ", " <> "profileEmail: " <> show (profileEmail rec)
+
+data ProfileGender
+  = GenderMale 
+  | GenderFemale 
+  | GenderUnknown 
+
+
 
 instance FromJSON ProfileGender where
   parseJSON (Object o) = do
@@ -96,6 +110,17 @@ instance Read ProfileGender where
   readsPrec _ _ = []
 
 
+newtype ProfileRequest = ProfileRequest {
+  profileRequestGender :: ProfileGender,
+  profileRequestBirthdate :: UTCTime,
+  profileRequestWebsite :: (Maybe Text),
+  profileRequestLocation :: (Maybe Text),
+  profileRequestSignature :: (Maybe Text),
+  profileRequestDebug :: Bool,
+  profileRequestGuard :: Int
+}
+
+
 instance FromJSON ProfileRequest where
   parseJSON (Object o) = do
     profileRequestGender <- o .: ("gender" :: Text)
@@ -135,6 +160,24 @@ instance Eq ProfileRequest where
 
 instance Show ProfileRequest where
     show rec = "profileRequestGender: " <> show (profileRequestGender rec) <> ", " <> "profileRequestBirthdate: " <> show (profileRequestBirthdate rec) <> ", " <> "profileRequestWebsite: " <> show (profileRequestWebsite rec) <> ", " <> "profileRequestLocation: " <> show (profileRequestLocation rec) <> ", " <> "profileRequestSignature: " <> show (profileRequestSignature rec) <> ", " <> "profileRequestDebug: " <> show (profileRequestDebug rec) <> ", " <> "profileRequestGuard: " <> show (profileRequestGuard rec)
+
+newtype ProfileResponse = ProfileResponse {
+  profileResponseId :: Int64,
+  profileResponseEnt :: Ent,
+  profileResponseEntId :: Int64,
+  profileResponseGender :: ProfileGender,
+  profileResponseBirthdate :: UTCTime,
+  profileResponseWebsite :: (Maybe Text),
+  profileResponseLocation :: (Maybe Text),
+  profileResponseSignature :: (Maybe Text),
+  profileResponseDebug :: Bool,
+  profileResponseKarmaGood :: Int,
+  profileResponseKarmaBad :: Int,
+  profileResponseGuard :: Int,
+  profileResponseCreatedAt :: (Maybe UTCTime),
+  profileResponseModifiedAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON ProfileResponse where
   parseJSON (Object o) = do
@@ -196,6 +239,11 @@ instance Eq ProfileResponse where
 
 instance Show ProfileResponse where
     show rec = "profileResponseId: " <> show (profileResponseId rec) <> ", " <> "profileResponseEnt: " <> show (profileResponseEnt rec) <> ", " <> "profileResponseEntId: " <> show (profileResponseEntId rec) <> ", " <> "profileResponseGender: " <> show (profileResponseGender rec) <> ", " <> "profileResponseBirthdate: " <> show (profileResponseBirthdate rec) <> ", " <> "profileResponseWebsite: " <> show (profileResponseWebsite rec) <> ", " <> "profileResponseLocation: " <> show (profileResponseLocation rec) <> ", " <> "profileResponseSignature: " <> show (profileResponseSignature rec) <> ", " <> "profileResponseDebug: " <> show (profileResponseDebug rec) <> ", " <> "profileResponseKarmaGood: " <> show (profileResponseKarmaGood rec) <> ", " <> "profileResponseKarmaBad: " <> show (profileResponseKarmaBad rec) <> ", " <> "profileResponseGuard: " <> show (profileResponseGuard rec) <> ", " <> "profileResponseCreatedAt: " <> show (profileResponseCreatedAt rec) <> ", " <> "profileResponseModifiedAt: " <> show (profileResponseModifiedAt rec)
+
+newtype ProfileResponses = ProfileResponses {
+  profileResponses :: [ProfileResponse]
+}
+
 
 instance FromJSON ProfileResponses where
   parseJSON (Object o) = do

@@ -16,6 +16,15 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype UserPackResponse = UserPackResponse {
+  userPackResponseUser :: UserResponse,
+  userPackResponseUserId :: Int64,
+  userPackResponseStat :: UserSanitizedStatResponse,
+  userPackResponseProfile :: ProfileResponse,
+  userPackResponseProfileId :: Int64
+}
+
+
 instance FromJSON UserPackResponse where
   parseJSON (Object o) = do
     userPackResponseUser <- o .: ("user" :: Text)
@@ -49,6 +58,11 @@ instance Eq UserPackResponse where
 
 instance Show UserPackResponse where
     show rec = "userPackResponseUser: " <> show (userPackResponseUser rec) <> ", " <> "userPackResponseUserId: " <> show (userPackResponseUserId rec) <> ", " <> "userPackResponseStat: " <> show (userPackResponseStat rec) <> ", " <> "userPackResponseProfile: " <> show (userPackResponseProfile rec) <> ", " <> "userPackResponseProfileId: " <> show (userPackResponseProfileId rec)
+
+newtype UserPackResponses = UserPackResponses {
+  userPackResponses :: [UserPackResponse]
+}
+
 
 instance FromJSON UserPackResponses where
   parseJSON (Object o) = do

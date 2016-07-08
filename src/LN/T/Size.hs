@@ -16,6 +16,15 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data Size
+  = XSmall 
+  | Small 
+  | Medium 
+  | Large 
+  | XLarge 
+
+
+
 instance FromJSON Size where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)

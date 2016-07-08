@@ -16,6 +16,19 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype OrganizationPackResponse = OrganizationPackResponse {
+  organizationPackResponseUser :: UserSanitizedResponse,
+  organizationPackResponseUserId :: Int64,
+  organizationPackResponseOrganization :: OrganizationResponse,
+  organizationPackResponseOrganizationId :: Int64,
+  organizationPackResponseStat :: OrganizationStatResponse,
+  organizationPackResponseLike :: (Maybe LikeResponse),
+  organizationPackResponseStar :: (Maybe StarResponse),
+  organizationPackResponsePermissions :: Permissions,
+  organizationPackResponseTeams :: [SystemTeam]
+}
+
+
 instance FromJSON OrganizationPackResponse where
   parseJSON (Object o) = do
     organizationPackResponseUser <- o .: ("user" :: Text)
@@ -61,6 +74,11 @@ instance Eq OrganizationPackResponse where
 
 instance Show OrganizationPackResponse where
     show rec = "organizationPackResponseUser: " <> show (organizationPackResponseUser rec) <> ", " <> "organizationPackResponseUserId: " <> show (organizationPackResponseUserId rec) <> ", " <> "organizationPackResponseOrganization: " <> show (organizationPackResponseOrganization rec) <> ", " <> "organizationPackResponseOrganizationId: " <> show (organizationPackResponseOrganizationId rec) <> ", " <> "organizationPackResponseStat: " <> show (organizationPackResponseStat rec) <> ", " <> "organizationPackResponseLike: " <> show (organizationPackResponseLike rec) <> ", " <> "organizationPackResponseStar: " <> show (organizationPackResponseStar rec) <> ", " <> "organizationPackResponsePermissions: " <> show (organizationPackResponsePermissions rec) <> ", " <> "organizationPackResponseTeams: " <> show (organizationPackResponseTeams rec)
+
+newtype OrganizationPackResponses = OrganizationPackResponses {
+  organizationPackResponses :: [OrganizationPackResponse]
+}
+
 
 instance FromJSON OrganizationPackResponses where
   parseJSON (Object o) = do

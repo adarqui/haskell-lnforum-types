@@ -16,6 +16,17 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype ForumPackResponse = ForumPackResponse {
+  forumPackResponseForum :: ForumResponse,
+  forumPackResponseForumId :: Int64,
+  forumPackResponseStat :: ForumStatResponse,
+  forumPackResponseLike :: (Maybe LikeResponse),
+  forumPackResponseStar :: (Maybe StarResponse),
+  forumPackResponseWithOrganization :: (Maybe OrganizationResponse),
+  forumPackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON ForumPackResponse where
   parseJSON (Object o) = do
     forumPackResponseForum <- o .: ("forum" :: Text)
@@ -55,6 +66,11 @@ instance Eq ForumPackResponse where
 
 instance Show ForumPackResponse where
     show rec = "forumPackResponseForum: " <> show (forumPackResponseForum rec) <> ", " <> "forumPackResponseForumId: " <> show (forumPackResponseForumId rec) <> ", " <> "forumPackResponseStat: " <> show (forumPackResponseStat rec) <> ", " <> "forumPackResponseLike: " <> show (forumPackResponseLike rec) <> ", " <> "forumPackResponseStar: " <> show (forumPackResponseStar rec) <> ", " <> "forumPackResponseWithOrganization: " <> show (forumPackResponseWithOrganization rec) <> ", " <> "forumPackResponsePermissions: " <> show (forumPackResponsePermissions rec)
+
+newtype ForumPackResponses = ForumPackResponses {
+  forumPackResponses :: [ForumPackResponse]
+}
+
 
 instance FromJSON ForumPackResponses where
   parseJSON (Object o) = do

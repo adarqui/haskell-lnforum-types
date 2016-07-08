@@ -16,6 +16,22 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype ThreadPostPackResponse = ThreadPostPackResponse {
+  threadPostPackResponseThreadPost :: ThreadPostResponse,
+  threadPostPackResponseThreadPostId :: Int64,
+  threadPostPackResponseUser :: UserSanitizedResponse,
+  threadPostPackResponseUserId :: Int64,
+  threadPostPackResponseStat :: ThreadPostStatResponse,
+  threadPostPackResponseLike :: (Maybe LikeResponse),
+  threadPostPackResponseStar :: (Maybe StarResponse),
+  threadPostPackResponseWithOrganization :: (Maybe OrganizationResponse),
+  threadPostPackResponseWithForum :: (Maybe ForumResponse),
+  threadPostPackResponseWithBoard :: (Maybe BoardResponse),
+  threadPostPackResponseWithThread :: (Maybe ThreadResponse),
+  threadPostPackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON ThreadPostPackResponse where
   parseJSON (Object o) = do
     threadPostPackResponseThreadPost <- o .: ("thread_post" :: Text)
@@ -70,6 +86,11 @@ instance Eq ThreadPostPackResponse where
 
 instance Show ThreadPostPackResponse where
     show rec = "threadPostPackResponseThreadPost: " <> show (threadPostPackResponseThreadPost rec) <> ", " <> "threadPostPackResponseThreadPostId: " <> show (threadPostPackResponseThreadPostId rec) <> ", " <> "threadPostPackResponseUser: " <> show (threadPostPackResponseUser rec) <> ", " <> "threadPostPackResponseUserId: " <> show (threadPostPackResponseUserId rec) <> ", " <> "threadPostPackResponseStat: " <> show (threadPostPackResponseStat rec) <> ", " <> "threadPostPackResponseLike: " <> show (threadPostPackResponseLike rec) <> ", " <> "threadPostPackResponseStar: " <> show (threadPostPackResponseStar rec) <> ", " <> "threadPostPackResponseWithOrganization: " <> show (threadPostPackResponseWithOrganization rec) <> ", " <> "threadPostPackResponseWithForum: " <> show (threadPostPackResponseWithForum rec) <> ", " <> "threadPostPackResponseWithBoard: " <> show (threadPostPackResponseWithBoard rec) <> ", " <> "threadPostPackResponseWithThread: " <> show (threadPostPackResponseWithThread rec) <> ", " <> "threadPostPackResponsePermissions: " <> show (threadPostPackResponsePermissions rec)
+
+newtype ThreadPostPackResponses = ThreadPostPackResponses {
+  threadPostPackResponses :: [ThreadPostPackResponse]
+}
+
 
 instance FromJSON ThreadPostPackResponses where
   parseJSON (Object o) = do

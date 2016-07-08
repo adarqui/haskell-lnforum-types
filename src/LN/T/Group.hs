@@ -16,6 +16,11 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype GroupRequest = GroupRequest {
+  groupRequestGuard :: Int
+}
+
+
 instance FromJSON GroupRequest where
   parseJSON (Object o) = do
     groupRequestGuard <- o .: ("guard" :: Text)
@@ -37,6 +42,20 @@ instance Eq GroupRequest where
 
 instance Show GroupRequest where
     show rec = "groupRequestGuard: " <> show (groupRequestGuard rec)
+
+newtype GroupResponse = GroupResponse {
+  groupResponseId :: Int64,
+  groupResponseUserId :: Int64,
+  groupResponseGlobalGroupId :: Int64,
+  groupResponseOrganizationId :: Int64,
+  groupResponseActive :: Bool,
+  groupResponseGuard :: Int,
+  groupResponseCreatedAt :: (Maybe UTCTime),
+  groupResponseModifiedBy :: (Maybe Int64),
+  groupResponseModifiedAt :: (Maybe UTCTime),
+  groupResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON GroupResponse where
   parseJSON (Object o) = do
@@ -87,6 +106,11 @@ instance Eq GroupResponse where
 instance Show GroupResponse where
     show rec = "groupResponseId: " <> show (groupResponseId rec) <> ", " <> "groupResponseUserId: " <> show (groupResponseUserId rec) <> ", " <> "groupResponseGlobalGroupId: " <> show (groupResponseGlobalGroupId rec) <> ", " <> "groupResponseOrganizationId: " <> show (groupResponseOrganizationId rec) <> ", " <> "groupResponseActive: " <> show (groupResponseActive rec) <> ", " <> "groupResponseGuard: " <> show (groupResponseGuard rec) <> ", " <> "groupResponseCreatedAt: " <> show (groupResponseCreatedAt rec) <> ", " <> "groupResponseModifiedBy: " <> show (groupResponseModifiedBy rec) <> ", " <> "groupResponseModifiedAt: " <> show (groupResponseModifiedAt rec) <> ", " <> "groupResponseActivityAt: " <> show (groupResponseActivityAt rec)
 
+newtype GroupResponses = GroupResponses {
+  groupResponses :: [GroupResponse]
+}
+
+
 instance FromJSON GroupResponses where
   parseJSON (Object o) = do
     groupResponses <- o .: ("group_responses" :: Text)
@@ -109,6 +133,11 @@ instance Eq GroupResponses where
 instance Show GroupResponses where
     show rec = "groupResponses: " <> show (groupResponses rec)
 
+newtype GroupStatResponse = GroupStatResponse {
+  groupStatResponseMembers :: Int64
+}
+
+
 instance FromJSON GroupStatResponse where
   parseJSON (Object o) = do
     groupStatResponseMembers <- o .: ("members" :: Text)
@@ -130,6 +159,11 @@ instance Eq GroupStatResponse where
 
 instance Show GroupStatResponse where
     show rec = "groupStatResponseMembers: " <> show (groupStatResponseMembers rec)
+
+newtype GroupStatResponses = GroupStatResponses {
+  groupStatResponses :: [GroupStatResponse]
+}
+
 
 instance FromJSON GroupStatResponses where
   parseJSON (Object o) = do

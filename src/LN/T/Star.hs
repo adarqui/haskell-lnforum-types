@@ -16,6 +16,12 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype StarRequest = StarRequest {
+  starRequestReason :: (Maybe Text),
+  starRequestGuard :: Int
+}
+
+
 instance FromJSON StarRequest where
   parseJSON (Object o) = do
     starRequestReason <- o .: ("reason" :: Text)
@@ -40,6 +46,19 @@ instance Eq StarRequest where
 
 instance Show StarRequest where
     show rec = "starRequestReason: " <> show (starRequestReason rec) <> ", " <> "starRequestGuard: " <> show (starRequestGuard rec)
+
+newtype StarResponse = StarResponse {
+  starResponseId :: Int64,
+  starResponseEnt :: Ent,
+  starResponseEntId :: Int64,
+  starResponseUserId :: Int64,
+  starResponseReason :: (Maybe Text),
+  starResponseActive :: Bool,
+  starResponseGuard :: Int,
+  starResponseCreatedAt :: (Maybe UTCTime),
+  starResponseModifiedAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON StarResponse where
   parseJSON (Object o) = do
@@ -87,6 +106,11 @@ instance Eq StarResponse where
 instance Show StarResponse where
     show rec = "starResponseId: " <> show (starResponseId rec) <> ", " <> "starResponseEnt: " <> show (starResponseEnt rec) <> ", " <> "starResponseEntId: " <> show (starResponseEntId rec) <> ", " <> "starResponseUserId: " <> show (starResponseUserId rec) <> ", " <> "starResponseReason: " <> show (starResponseReason rec) <> ", " <> "starResponseActive: " <> show (starResponseActive rec) <> ", " <> "starResponseGuard: " <> show (starResponseGuard rec) <> ", " <> "starResponseCreatedAt: " <> show (starResponseCreatedAt rec) <> ", " <> "starResponseModifiedAt: " <> show (starResponseModifiedAt rec)
 
+newtype StarResponses = StarResponses {
+  starResponses :: [StarResponse]
+}
+
+
 instance FromJSON StarResponses where
   parseJSON (Object o) = do
     starResponses <- o .: ("star_responses" :: Text)
@@ -108,6 +132,13 @@ instance Eq StarResponses where
 
 instance Show StarResponses where
     show rec = "starResponses: " <> show (starResponses rec)
+
+newtype StarStatResponse = StarStatResponse {
+  starStatResponseEnt :: Ent,
+  starStatResponseEntId :: Int64,
+  starStatResponseStars :: Int64
+}
+
 
 instance FromJSON StarStatResponse where
   parseJSON (Object o) = do
@@ -136,6 +167,11 @@ instance Eq StarStatResponse where
 
 instance Show StarStatResponse where
     show rec = "starStatResponseEnt: " <> show (starStatResponseEnt rec) <> ", " <> "starStatResponseEntId: " <> show (starStatResponseEntId rec) <> ", " <> "starStatResponseStars: " <> show (starStatResponseStars rec)
+
+newtype StarStatResponses = StarStatResponses {
+  starStatResponses :: [StarStatResponse]
+}
+
 
 instance FromJSON StarStatResponses where
   parseJSON (Object o) = do

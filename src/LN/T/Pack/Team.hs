@@ -16,6 +16,16 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype TeamPackResponse = TeamPackResponse {
+  teamPackResponseUser :: UserSanitizedResponse,
+  teamPackResponseUserId :: Int64,
+  teamPackResponseTeam :: TeamResponse,
+  teamPackResponseTeamId :: Int64,
+  teamPackResponseStat :: TeamStatResponse,
+  teamPackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON TeamPackResponse where
   parseJSON (Object o) = do
     teamPackResponseUser <- o .: ("user" :: Text)
@@ -52,6 +62,11 @@ instance Eq TeamPackResponse where
 
 instance Show TeamPackResponse where
     show rec = "teamPackResponseUser: " <> show (teamPackResponseUser rec) <> ", " <> "teamPackResponseUserId: " <> show (teamPackResponseUserId rec) <> ", " <> "teamPackResponseTeam: " <> show (teamPackResponseTeam rec) <> ", " <> "teamPackResponseTeamId: " <> show (teamPackResponseTeamId rec) <> ", " <> "teamPackResponseStat: " <> show (teamPackResponseStat rec) <> ", " <> "teamPackResponsePermissions: " <> show (teamPackResponsePermissions rec)
+
+newtype TeamPackResponses = TeamPackResponses {
+  teamPackResponses :: [TeamPackResponse]
+}
+
 
 instance FromJSON TeamPackResponses where
   parseJSON (Object o) = do

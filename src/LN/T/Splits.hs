@@ -16,6 +16,12 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data Splits
+  = SplitAt Char Text Text
+  | SplitNone 
+
+
+
 instance FromJSON Splits where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -53,6 +59,12 @@ instance Eq Splits where
 instance Show Splits where
   show (SplitAt x0 x1 x2) = "split_at: " <> show x0 <> " " <> show x1 <> " " <> show x2
   show SplitNone = "split_none"
+
+
+data TySplits
+  = TySplitA 
+  | TySplitNone 
+
 
 
 instance FromJSON TySplits where

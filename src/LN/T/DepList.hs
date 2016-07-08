@@ -16,5 +16,6 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+type DepList a = [[a]]
 
 -- footer

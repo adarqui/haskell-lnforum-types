@@ -16,6 +16,12 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype CountResponse = CountResponse {
+  countResponseId :: Int64,
+  countResponseN :: Int64
+}
+
+
 instance FromJSON CountResponse where
   parseJSON (Object o) = do
     countResponseId <- o .: ("id" :: Text)
@@ -40,6 +46,11 @@ instance Eq CountResponse where
 
 instance Show CountResponse where
     show rec = "countResponseId: " <> show (countResponseId rec) <> ", " <> "countResponseN: " <> show (countResponseN rec)
+
+newtype CountResponses = CountResponses {
+  countResponses :: [CountResponse]
+}
+
 
 instance FromJSON CountResponses where
   parseJSON (Object o) = do

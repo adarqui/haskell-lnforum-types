@@ -16,6 +16,17 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype GlobalGroupRequest = GlobalGroupRequest {
+  globalGroupRequestDisplayName :: Text,
+  globalGroupRequestDescription :: (Maybe Text),
+  globalGroupRequestMembership :: Membership,
+  globalGroupRequestIcon :: (Maybe Text),
+  globalGroupRequestTags :: [Text],
+  globalGroupRequestVisibility :: Visibility,
+  globalGroupRequestGuard :: Int
+}
+
+
 instance FromJSON GlobalGroupRequest where
   parseJSON (Object o) = do
     globalGroupRequestDisplayName <- o .: ("display_name" :: Text)
@@ -55,6 +66,25 @@ instance Eq GlobalGroupRequest where
 
 instance Show GlobalGroupRequest where
     show rec = "globalGroupRequestDisplayName: " <> show (globalGroupRequestDisplayName rec) <> ", " <> "globalGroupRequestDescription: " <> show (globalGroupRequestDescription rec) <> ", " <> "globalGroupRequestMembership: " <> show (globalGroupRequestMembership rec) <> ", " <> "globalGroupRequestIcon: " <> show (globalGroupRequestIcon rec) <> ", " <> "globalGroupRequestTags: " <> show (globalGroupRequestTags rec) <> ", " <> "globalGroupRequestVisibility: " <> show (globalGroupRequestVisibility rec) <> ", " <> "globalGroupRequestGuard: " <> show (globalGroupRequestGuard rec)
+
+newtype GlobalGroupResponse = GlobalGroupResponse {
+  globalGroupResponseId :: Int64,
+  globalGroupResponseUserId :: Int64,
+  globalGroupResponseName :: Text,
+  globalGroupResponseDisplayName :: Text,
+  globalGroupResponseDescription :: (Maybe Text),
+  globalGroupResponseMembership :: Membership,
+  globalGroupResponseIcon :: (Maybe Text),
+  globalGroupResponseTags :: [Text],
+  globalGroupResponseVisibility :: Visibility,
+  globalGroupResponseActive :: Bool,
+  globalGroupResponseGuard :: Int,
+  globalGroupResponseCreatedAt :: (Maybe UTCTime),
+  globalGroupResponseModifiedBy :: (Maybe Int64),
+  globalGroupResponseModifiedAt :: (Maybe UTCTime),
+  globalGroupResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON GlobalGroupResponse where
   parseJSON (Object o) = do
@@ -120,6 +150,11 @@ instance Eq GlobalGroupResponse where
 instance Show GlobalGroupResponse where
     show rec = "globalGroupResponseId: " <> show (globalGroupResponseId rec) <> ", " <> "globalGroupResponseUserId: " <> show (globalGroupResponseUserId rec) <> ", " <> "globalGroupResponseName: " <> show (globalGroupResponseName rec) <> ", " <> "globalGroupResponseDisplayName: " <> show (globalGroupResponseDisplayName rec) <> ", " <> "globalGroupResponseDescription: " <> show (globalGroupResponseDescription rec) <> ", " <> "globalGroupResponseMembership: " <> show (globalGroupResponseMembership rec) <> ", " <> "globalGroupResponseIcon: " <> show (globalGroupResponseIcon rec) <> ", " <> "globalGroupResponseTags: " <> show (globalGroupResponseTags rec) <> ", " <> "globalGroupResponseVisibility: " <> show (globalGroupResponseVisibility rec) <> ", " <> "globalGroupResponseActive: " <> show (globalGroupResponseActive rec) <> ", " <> "globalGroupResponseGuard: " <> show (globalGroupResponseGuard rec) <> ", " <> "globalGroupResponseCreatedAt: " <> show (globalGroupResponseCreatedAt rec) <> ", " <> "globalGroupResponseModifiedBy: " <> show (globalGroupResponseModifiedBy rec) <> ", " <> "globalGroupResponseModifiedAt: " <> show (globalGroupResponseModifiedAt rec) <> ", " <> "globalGroupResponseActivityAt: " <> show (globalGroupResponseActivityAt rec)
 
+newtype GlobalGroupResponses = GlobalGroupResponses {
+  globalGroupResponses :: [GlobalGroupResponse]
+}
+
+
 instance FromJSON GlobalGroupResponses where
   parseJSON (Object o) = do
     globalGroupResponses <- o .: ("global_group_responses" :: Text)
@@ -142,6 +177,11 @@ instance Eq GlobalGroupResponses where
 instance Show GlobalGroupResponses where
     show rec = "globalGroupResponses: " <> show (globalGroupResponses rec)
 
+newtype GlobalGroupStatResponse = GlobalGroupStatResponse {
+  globalGroupStatResponseGroups :: Int64
+}
+
+
 instance FromJSON GlobalGroupStatResponse where
   parseJSON (Object o) = do
     globalGroupStatResponseGroups <- o .: ("groups" :: Text)
@@ -163,6 +203,11 @@ instance Eq GlobalGroupStatResponse where
 
 instance Show GlobalGroupStatResponse where
     show rec = "globalGroupStatResponseGroups: " <> show (globalGroupStatResponseGroups rec)
+
+newtype GlobalGroupStatResponses = GlobalGroupStatResponses {
+  globalGroupStatResponses :: [GlobalGroupStatResponse]
+}
+
 
 instance FromJSON GlobalGroupStatResponses where
   parseJSON (Object o) = do

@@ -16,6 +16,15 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data ResourceType
+  = ISBN13 Text
+  | ISBN10 Text
+  | ISBN Text
+  | URL Text
+  | SourceNone 
+
+
+
 instance FromJSON ResourceType where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -91,6 +100,15 @@ instance Show ResourceType where
   show SourceNone = "source_none"
 
 
+data TyResourceType
+  = TyISBN13 
+  | TyISBN10 
+  | TyISBN 
+  | TyURL 
+  | TySourceNone 
+
+
+
 instance FromJSON TyResourceType where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -154,6 +172,23 @@ instance Show TyResourceType where
   show TySourceNone = "ty_source_none"
 
 
+newtype ResourceRequest = ResourceRequest {
+  resourceRequestDisplayName :: Text,
+  resourceRequestDescription :: Text,
+  resourceRequestSource :: ResourceType,
+  resourceRequestAuthor :: (Maybe [Text]),
+  resourceRequestPrerequisites :: (DepList Text),
+  resourceRequestCategories :: (DepList Text),
+  resourceRequestVisibility :: Visibility,
+  resourceRequestCounter :: Int,
+  resourceRequestVersion :: (Maybe Text),
+  resourceRequestUrls :: (Maybe [Text]),
+  resourceRequestIcon :: (Maybe Text),
+  resourceRequestTags :: [Text],
+  resourceRequestGuard :: Int
+}
+
+
 instance FromJSON ResourceRequest where
   parseJSON (Object o) = do
     resourceRequestDisplayName <- o .: ("display_name" :: Text)
@@ -211,6 +246,30 @@ instance Eq ResourceRequest where
 
 instance Show ResourceRequest where
     show rec = "resourceRequestDisplayName: " <> show (resourceRequestDisplayName rec) <> ", " <> "resourceRequestDescription: " <> show (resourceRequestDescription rec) <> ", " <> "resourceRequestSource: " <> show (resourceRequestSource rec) <> ", " <> "resourceRequestAuthor: " <> show (resourceRequestAuthor rec) <> ", " <> "resourceRequestPrerequisites: " <> show (resourceRequestPrerequisites rec) <> ", " <> "resourceRequestCategories: " <> show (resourceRequestCategories rec) <> ", " <> "resourceRequestVisibility: " <> show (resourceRequestVisibility rec) <> ", " <> "resourceRequestCounter: " <> show (resourceRequestCounter rec) <> ", " <> "resourceRequestVersion: " <> show (resourceRequestVersion rec) <> ", " <> "resourceRequestUrls: " <> show (resourceRequestUrls rec) <> ", " <> "resourceRequestIcon: " <> show (resourceRequestIcon rec) <> ", " <> "resourceRequestTags: " <> show (resourceRequestTags rec) <> ", " <> "resourceRequestGuard: " <> show (resourceRequestGuard rec)
+
+newtype ResourceResponse = ResourceResponse {
+  resourceResponseId :: Int64,
+  resourceResponseUserId :: Int64,
+  resourceResponseName :: Text,
+  resourceResponseDisplayName :: Text,
+  resourceResponseDescription :: Text,
+  resourceResponseSource :: ResourceType,
+  resourceResponseAuthor :: (Maybe [Text]),
+  resourceResponsePrerequisites :: (DepList Text),
+  resourceResponseCategories :: (DepList Text),
+  resourceResponseVisibility :: Visibility,
+  resourceResponseCounter :: Int,
+  resourceResponseVersion :: (Maybe Text),
+  resourceResponseUrls :: (Maybe [Text]),
+  resourceResponseIcon :: (Maybe Text),
+  resourceResponseTags :: [Text],
+  resourceResponseActive :: Bool,
+  resourceResponseGuard :: Int,
+  resourceResponseCreatedAt :: (Maybe UTCTime),
+  resourceResponseModifiedAt :: (Maybe UTCTime),
+  resourceResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON ResourceResponse where
   parseJSON (Object o) = do
@@ -291,6 +350,11 @@ instance Eq ResourceResponse where
 instance Show ResourceResponse where
     show rec = "resourceResponseId: " <> show (resourceResponseId rec) <> ", " <> "resourceResponseUserId: " <> show (resourceResponseUserId rec) <> ", " <> "resourceResponseName: " <> show (resourceResponseName rec) <> ", " <> "resourceResponseDisplayName: " <> show (resourceResponseDisplayName rec) <> ", " <> "resourceResponseDescription: " <> show (resourceResponseDescription rec) <> ", " <> "resourceResponseSource: " <> show (resourceResponseSource rec) <> ", " <> "resourceResponseAuthor: " <> show (resourceResponseAuthor rec) <> ", " <> "resourceResponsePrerequisites: " <> show (resourceResponsePrerequisites rec) <> ", " <> "resourceResponseCategories: " <> show (resourceResponseCategories rec) <> ", " <> "resourceResponseVisibility: " <> show (resourceResponseVisibility rec) <> ", " <> "resourceResponseCounter: " <> show (resourceResponseCounter rec) <> ", " <> "resourceResponseVersion: " <> show (resourceResponseVersion rec) <> ", " <> "resourceResponseUrls: " <> show (resourceResponseUrls rec) <> ", " <> "resourceResponseIcon: " <> show (resourceResponseIcon rec) <> ", " <> "resourceResponseTags: " <> show (resourceResponseTags rec) <> ", " <> "resourceResponseActive: " <> show (resourceResponseActive rec) <> ", " <> "resourceResponseGuard: " <> show (resourceResponseGuard rec) <> ", " <> "resourceResponseCreatedAt: " <> show (resourceResponseCreatedAt rec) <> ", " <> "resourceResponseModifiedAt: " <> show (resourceResponseModifiedAt rec) <> ", " <> "resourceResponseActivityAt: " <> show (resourceResponseActivityAt rec)
 
+newtype ResourceResponses = ResourceResponses {
+  resourceResponses :: [ResourceResponse]
+}
+
+
 instance FromJSON ResourceResponses where
   parseJSON (Object o) = do
     resourceResponses <- o .: ("resource_responses" :: Text)
@@ -312,6 +376,17 @@ instance Eq ResourceResponses where
 
 instance Show ResourceResponses where
     show rec = "resourceResponses: " <> show (resourceResponses rec)
+
+newtype ResourceStatResponse = ResourceStatResponse {
+  resourceStatResponseResourceId :: Int64,
+  resourceStatResponseLeurons :: Int64,
+  resourceStatResponseLikes :: Int64,
+  resourceStatResponseNeutral :: Int64,
+  resourceStatResponseDislikes :: Int64,
+  resourceStatResponseStars :: Int64,
+  resourceStatResponseViews :: Int64
+}
+
 
 instance FromJSON ResourceStatResponse where
   parseJSON (Object o) = do
@@ -352,6 +427,11 @@ instance Eq ResourceStatResponse where
 
 instance Show ResourceStatResponse where
     show rec = "resourceStatResponseResourceId: " <> show (resourceStatResponseResourceId rec) <> ", " <> "resourceStatResponseLeurons: " <> show (resourceStatResponseLeurons rec) <> ", " <> "resourceStatResponseLikes: " <> show (resourceStatResponseLikes rec) <> ", " <> "resourceStatResponseNeutral: " <> show (resourceStatResponseNeutral rec) <> ", " <> "resourceStatResponseDislikes: " <> show (resourceStatResponseDislikes rec) <> ", " <> "resourceStatResponseStars: " <> show (resourceStatResponseStars rec) <> ", " <> "resourceStatResponseViews: " <> show (resourceStatResponseViews rec)
+
+newtype ResourceStatResponses = ResourceStatResponses {
+  resourceStatResponses :: [ResourceStatResponse]
+}
+
 
 instance FromJSON ResourceStatResponses where
   parseJSON (Object o) = do

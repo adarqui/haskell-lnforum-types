@@ -16,6 +16,21 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype BoardPackResponse = BoardPackResponse {
+  boardPackResponseBoard :: BoardResponse,
+  boardPackResponseBoardId :: Int64,
+  boardPackResponseStat :: BoardStatResponse,
+  boardPackResponseLike :: (Maybe LikeResponse),
+  boardPackResponseStar :: (Maybe StarResponse),
+  boardPackResponseLatestThread :: (Maybe ThreadResponse),
+  boardPackResponseLatestThreadPost :: (Maybe ThreadPostResponse),
+  boardPackResponseLatestThreadPostUser :: (Maybe UserSanitizedResponse),
+  boardPackResponseWithOrganization :: (Maybe OrganizationResponse),
+  boardPackResponseWithForum :: (Maybe ForumResponse),
+  boardPackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON BoardPackResponse where
   parseJSON (Object o) = do
     boardPackResponseBoard <- o .: ("board" :: Text)
@@ -67,6 +82,11 @@ instance Eq BoardPackResponse where
 
 instance Show BoardPackResponse where
     show rec = "boardPackResponseBoard: " <> show (boardPackResponseBoard rec) <> ", " <> "boardPackResponseBoardId: " <> show (boardPackResponseBoardId rec) <> ", " <> "boardPackResponseStat: " <> show (boardPackResponseStat rec) <> ", " <> "boardPackResponseLike: " <> show (boardPackResponseLike rec) <> ", " <> "boardPackResponseStar: " <> show (boardPackResponseStar rec) <> ", " <> "boardPackResponseLatestThread: " <> show (boardPackResponseLatestThread rec) <> ", " <> "boardPackResponseLatestThreadPost: " <> show (boardPackResponseLatestThreadPost rec) <> ", " <> "boardPackResponseLatestThreadPostUser: " <> show (boardPackResponseLatestThreadPostUser rec) <> ", " <> "boardPackResponseWithOrganization: " <> show (boardPackResponseWithOrganization rec) <> ", " <> "boardPackResponseWithForum: " <> show (boardPackResponseWithForum rec) <> ", " <> "boardPackResponsePermissions: " <> show (boardPackResponsePermissions rec)
+
+newtype BoardPackResponses = BoardPackResponses {
+  boardPackResponses :: [BoardPackResponse]
+}
+
 
 instance FromJSON BoardPackResponses where
   parseJSON (Object o) = do

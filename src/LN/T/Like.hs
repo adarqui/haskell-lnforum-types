@@ -16,6 +16,13 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data LikeOpt
+  = Like 
+  | Neutral 
+  | Dislike 
+
+
+
 instance FromJSON LikeOpt where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -68,6 +75,13 @@ instance Read LikeOpt where
   readsPrec _ _ = []
 
 
+newtype LikeRequest = LikeRequest {
+  likeRequestOpt :: LikeOpt,
+  likeRequestReason :: (Maybe Text),
+  likeRequestGuard :: Int
+}
+
+
 instance FromJSON LikeRequest where
   parseJSON (Object o) = do
     likeRequestOpt <- o .: ("opt" :: Text)
@@ -95,6 +109,21 @@ instance Eq LikeRequest where
 
 instance Show LikeRequest where
     show rec = "likeRequestOpt: " <> show (likeRequestOpt rec) <> ", " <> "likeRequestReason: " <> show (likeRequestReason rec) <> ", " <> "likeRequestGuard: " <> show (likeRequestGuard rec)
+
+newtype LikeResponse = LikeResponse {
+  likeResponseId :: Int64,
+  likeResponseEnt :: Ent,
+  likeResponseEntId :: Int64,
+  likeResponseUserId :: Int64,
+  likeResponseOpt :: LikeOpt,
+  likeResponseScore :: Int,
+  likeResponseReason :: (Maybe Text),
+  likeResponseActive :: Bool,
+  likeResponseGuard :: Int,
+  likeResponseCreatedAt :: (Maybe UTCTime),
+  likeResponseModifiedAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON LikeResponse where
   parseJSON (Object o) = do
@@ -148,6 +177,11 @@ instance Eq LikeResponse where
 instance Show LikeResponse where
     show rec = "likeResponseId: " <> show (likeResponseId rec) <> ", " <> "likeResponseEnt: " <> show (likeResponseEnt rec) <> ", " <> "likeResponseEntId: " <> show (likeResponseEntId rec) <> ", " <> "likeResponseUserId: " <> show (likeResponseUserId rec) <> ", " <> "likeResponseOpt: " <> show (likeResponseOpt rec) <> ", " <> "likeResponseScore: " <> show (likeResponseScore rec) <> ", " <> "likeResponseReason: " <> show (likeResponseReason rec) <> ", " <> "likeResponseActive: " <> show (likeResponseActive rec) <> ", " <> "likeResponseGuard: " <> show (likeResponseGuard rec) <> ", " <> "likeResponseCreatedAt: " <> show (likeResponseCreatedAt rec) <> ", " <> "likeResponseModifiedAt: " <> show (likeResponseModifiedAt rec)
 
+newtype LikeResponses = LikeResponses {
+  likeResponses :: [LikeResponse]
+}
+
+
 instance FromJSON LikeResponses where
   parseJSON (Object o) = do
     likeResponses <- o .: ("like_responses" :: Text)
@@ -169,6 +203,16 @@ instance Eq LikeResponses where
 
 instance Show LikeResponses where
     show rec = "likeResponses: " <> show (likeResponses rec)
+
+newtype LikeStatResponse = LikeStatResponse {
+  likeStatResponseEnt :: Ent,
+  likeStatResponseEntId :: Int64,
+  likeStatResponseScore :: Int64,
+  likeStatResponseLike :: Int64,
+  likeStatResponseNeutral :: Int64,
+  likeStatResponseDislike :: Int64
+}
+
 
 instance FromJSON LikeStatResponse where
   parseJSON (Object o) = do
@@ -206,6 +250,11 @@ instance Eq LikeStatResponse where
 
 instance Show LikeStatResponse where
     show rec = "likeStatResponseEnt: " <> show (likeStatResponseEnt rec) <> ", " <> "likeStatResponseEntId: " <> show (likeStatResponseEntId rec) <> ", " <> "likeStatResponseScore: " <> show (likeStatResponseScore rec) <> ", " <> "likeStatResponseLike: " <> show (likeStatResponseLike rec) <> ", " <> "likeStatResponseNeutral: " <> show (likeStatResponseNeutral rec) <> ", " <> "likeStatResponseDislike: " <> show (likeStatResponseDislike rec)
+
+newtype LikeStatResponses = LikeStatResponses {
+  likeStatResponses :: [LikeStatResponse]
+}
+
 
 instance FromJSON LikeStatResponses where
   parseJSON (Object o) = do

@@ -16,6 +16,18 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype ResourcePackResponse = ResourcePackResponse {
+  resourcePackResponseResource :: ResourceResponse,
+  resourcePackResponseResourceId :: Int64,
+  resourcePackResponseUser :: UserSanitizedResponse,
+  resourcePackResponseUserId :: Int64,
+  resourcePackResponseStat :: ResourceStatResponse,
+  resourcePackResponseLike :: (Maybe LikeResponse),
+  resourcePackResponseStar :: (Maybe StarResponse),
+  resourcePackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON ResourcePackResponse where
   parseJSON (Object o) = do
     resourcePackResponseResource <- o .: ("resource" :: Text)
@@ -58,6 +70,11 @@ instance Eq ResourcePackResponse where
 
 instance Show ResourcePackResponse where
     show rec = "resourcePackResponseResource: " <> show (resourcePackResponseResource rec) <> ", " <> "resourcePackResponseResourceId: " <> show (resourcePackResponseResourceId rec) <> ", " <> "resourcePackResponseUser: " <> show (resourcePackResponseUser rec) <> ", " <> "resourcePackResponseUserId: " <> show (resourcePackResponseUserId rec) <> ", " <> "resourcePackResponseStat: " <> show (resourcePackResponseStat rec) <> ", " <> "resourcePackResponseLike: " <> show (resourcePackResponseLike rec) <> ", " <> "resourcePackResponseStar: " <> show (resourcePackResponseStar rec) <> ", " <> "resourcePackResponsePermissions: " <> show (resourcePackResponsePermissions rec)
+
+newtype ResourcePackResponses = ResourcePackResponses {
+  resourcePackResponses :: [ResourcePackResponse]
+}
+
 
 instance FromJSON ResourcePackResponses where
   parseJSON (Object o) = do

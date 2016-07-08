@@ -16,6 +16,15 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+data Permission
+  = Perm_Create 
+  | Perm_Read 
+  | Perm_Update 
+  | Perm_Delete 
+  | Perm_Execute 
+
+
+
 instance FromJSON Permission where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
@@ -77,5 +86,8 @@ instance Show Permission where
   show Perm_Update = "perm_update"
   show Perm_Delete = "perm_delete"
   show Perm_Execute = "perm_execute"
+
+
+type Permissions  = [Permission]
 
 -- footer

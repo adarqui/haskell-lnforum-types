@@ -16,6 +16,19 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype BucketRequest = BucketRequest {
+  bucketRequestDisplayName :: Text,
+  bucketRequestDescription :: (Maybe Text),
+  bucketRequestScoreLo :: Int,
+  bucketRequestScoreHi :: Int,
+  bucketRequestLeurons :: [Int64],
+  bucketRequestResources :: [Int64],
+  bucketRequestCategories :: [Text],
+  bucketRequestFilters :: [Int64],
+  bucketRequestGuard :: Int
+}
+
+
 instance FromJSON BucketRequest where
   parseJSON (Object o) = do
     bucketRequestDisplayName <- o .: ("display_name" :: Text)
@@ -61,6 +74,26 @@ instance Eq BucketRequest where
 
 instance Show BucketRequest where
     show rec = "bucketRequestDisplayName: " <> show (bucketRequestDisplayName rec) <> ", " <> "bucketRequestDescription: " <> show (bucketRequestDescription rec) <> ", " <> "bucketRequestScoreLo: " <> show (bucketRequestScoreLo rec) <> ", " <> "bucketRequestScoreHi: " <> show (bucketRequestScoreHi rec) <> ", " <> "bucketRequestLeurons: " <> show (bucketRequestLeurons rec) <> ", " <> "bucketRequestResources: " <> show (bucketRequestResources rec) <> ", " <> "bucketRequestCategories: " <> show (bucketRequestCategories rec) <> ", " <> "bucketRequestFilters: " <> show (bucketRequestFilters rec) <> ", " <> "bucketRequestGuard: " <> show (bucketRequestGuard rec)
+
+newtype BucketResponse = BucketResponse {
+  bucketResponseId :: Int64,
+  bucketResponseUserId :: Int64,
+  bucketResponseName :: Text,
+  bucketResponseDisplayName :: Text,
+  bucketResponseDescription :: (Maybe Text),
+  bucketResponseScoreLo :: Int,
+  bucketResponseScoreHi :: Int,
+  bucketResponseLeurons :: [Int64],
+  bucketResponseResources :: [Int64],
+  bucketResponseCategories :: [Text],
+  bucketResponseFilters :: [Int64],
+  bucketResponseActive :: Bool,
+  bucketResponseGuard :: Int,
+  bucketResponseCreatedAt :: (Maybe UTCTime),
+  bucketResponseModifiedAt :: (Maybe UTCTime),
+  bucketResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON BucketResponse where
   parseJSON (Object o) = do
@@ -128,6 +161,11 @@ instance Eq BucketResponse where
 
 instance Show BucketResponse where
     show rec = "bucketResponseId: " <> show (bucketResponseId rec) <> ", " <> "bucketResponseUserId: " <> show (bucketResponseUserId rec) <> ", " <> "bucketResponseName: " <> show (bucketResponseName rec) <> ", " <> "bucketResponseDisplayName: " <> show (bucketResponseDisplayName rec) <> ", " <> "bucketResponseDescription: " <> show (bucketResponseDescription rec) <> ", " <> "bucketResponseScoreLo: " <> show (bucketResponseScoreLo rec) <> ", " <> "bucketResponseScoreHi: " <> show (bucketResponseScoreHi rec) <> ", " <> "bucketResponseLeurons: " <> show (bucketResponseLeurons rec) <> ", " <> "bucketResponseResources: " <> show (bucketResponseResources rec) <> ", " <> "bucketResponseCategories: " <> show (bucketResponseCategories rec) <> ", " <> "bucketResponseFilters: " <> show (bucketResponseFilters rec) <> ", " <> "bucketResponseActive: " <> show (bucketResponseActive rec) <> ", " <> "bucketResponseGuard: " <> show (bucketResponseGuard rec) <> ", " <> "bucketResponseCreatedAt: " <> show (bucketResponseCreatedAt rec) <> ", " <> "bucketResponseModifiedAt: " <> show (bucketResponseModifiedAt rec) <> ", " <> "bucketResponseActivityAt: " <> show (bucketResponseActivityAt rec)
+
+newtype BucketResponses = BucketResponses {
+  bucketResponses :: [BucketResponse]
+}
+
 
 instance FromJSON BucketResponses where
   parseJSON (Object o) = do

@@ -16,6 +16,23 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype ThreadPackResponse = ThreadPackResponse {
+  threadPackResponseThread :: ThreadResponse,
+  threadPackResponseThreadId :: Int64,
+  threadPackResponseUser :: UserSanitizedResponse,
+  threadPackResponseUserId :: Int64,
+  threadPackResponseStat :: ThreadStatResponse,
+  threadPackResponseLike :: (Maybe LikeResponse),
+  threadPackResponseStar :: (Maybe StarResponse),
+  threadPackResponseLatestThreadPost :: (Maybe ThreadPostResponse),
+  threadPackResponseLatestThreadPostUser :: (Maybe UserSanitizedResponse),
+  threadPackResponseWithOrganization :: (Maybe OrganizationResponse),
+  threadPackResponseWithForum :: (Maybe ForumResponse),
+  threadPackResponseWithBoard :: (Maybe BoardResponse),
+  threadPackResponsePermissions :: Permissions
+}
+
+
 instance FromJSON ThreadPackResponse where
   parseJSON (Object o) = do
     threadPackResponseThread <- o .: ("thread" :: Text)
@@ -73,6 +90,11 @@ instance Eq ThreadPackResponse where
 
 instance Show ThreadPackResponse where
     show rec = "threadPackResponseThread: " <> show (threadPackResponseThread rec) <> ", " <> "threadPackResponseThreadId: " <> show (threadPackResponseThreadId rec) <> ", " <> "threadPackResponseUser: " <> show (threadPackResponseUser rec) <> ", " <> "threadPackResponseUserId: " <> show (threadPackResponseUserId rec) <> ", " <> "threadPackResponseStat: " <> show (threadPackResponseStat rec) <> ", " <> "threadPackResponseLike: " <> show (threadPackResponseLike rec) <> ", " <> "threadPackResponseStar: " <> show (threadPackResponseStar rec) <> ", " <> "threadPackResponseLatestThreadPost: " <> show (threadPackResponseLatestThreadPost rec) <> ", " <> "threadPackResponseLatestThreadPostUser: " <> show (threadPackResponseLatestThreadPostUser rec) <> ", " <> "threadPackResponseWithOrganization: " <> show (threadPackResponseWithOrganization rec) <> ", " <> "threadPackResponseWithForum: " <> show (threadPackResponseWithForum rec) <> ", " <> "threadPackResponseWithBoard: " <> show (threadPackResponseWithBoard rec) <> ", " <> "threadPackResponsePermissions: " <> show (threadPackResponsePermissions rec)
+
+newtype ThreadPackResponses = ThreadPackResponses {
+  threadPackResponses :: [ThreadPackResponse]
+}
+
 
 instance FromJSON ThreadPackResponses where
   parseJSON (Object o) = do

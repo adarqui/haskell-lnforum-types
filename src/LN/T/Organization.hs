@@ -16,6 +16,20 @@ import qualified Data.Text           as T
 import           Data.Monoid         ((<>))
 import           Haskell.Api.Helpers (QueryParam, qp)
 
+newtype OrganizationRequest = OrganizationRequest {
+  organizationRequestDisplayName :: Text,
+  organizationRequestDescription :: (Maybe Text),
+  organizationRequestCompany :: Text,
+  organizationRequestLocation :: Text,
+  organizationRequestEmail :: Text,
+  organizationRequestMembership :: Membership,
+  organizationRequestTags :: [Text],
+  organizationRequestIcon :: (Maybe Text),
+  organizationRequestVisibility :: Visibility,
+  organizationRequestGuard :: Int
+}
+
+
 instance FromJSON OrganizationRequest where
   parseJSON (Object o) = do
     organizationRequestDisplayName <- o .: ("display_name" :: Text)
@@ -64,6 +78,29 @@ instance Eq OrganizationRequest where
 
 instance Show OrganizationRequest where
     show rec = "organizationRequestDisplayName: " <> show (organizationRequestDisplayName rec) <> ", " <> "organizationRequestDescription: " <> show (organizationRequestDescription rec) <> ", " <> "organizationRequestCompany: " <> show (organizationRequestCompany rec) <> ", " <> "organizationRequestLocation: " <> show (organizationRequestLocation rec) <> ", " <> "organizationRequestEmail: " <> show (organizationRequestEmail rec) <> ", " <> "organizationRequestMembership: " <> show (organizationRequestMembership rec) <> ", " <> "organizationRequestTags: " <> show (organizationRequestTags rec) <> ", " <> "organizationRequestIcon: " <> show (organizationRequestIcon rec) <> ", " <> "organizationRequestVisibility: " <> show (organizationRequestVisibility rec) <> ", " <> "organizationRequestGuard: " <> show (organizationRequestGuard rec)
+
+newtype OrganizationResponse = OrganizationResponse {
+  organizationResponseId :: Int64,
+  organizationResponseUserId :: Int64,
+  organizationResponseName :: Text,
+  organizationResponseDisplayName :: Text,
+  organizationResponseDescription :: (Maybe Text),
+  organizationResponseCompany :: Text,
+  organizationResponseLocation :: Text,
+  organizationResponseEmail :: Text,
+  organizationResponseEmailMD5 :: Text,
+  organizationResponseMembership :: Membership,
+  organizationResponseIcon :: (Maybe Text),
+  organizationResponseTags :: [Text],
+  organizationResponseVisibility :: Visibility,
+  organizationResponseActive :: Bool,
+  organizationResponseGuard :: Int,
+  organizationResponseCreatedAt :: (Maybe UTCTime),
+  organizationResponseModifiedBy :: (Maybe Int64),
+  organizationResponseModifiedAt :: (Maybe UTCTime),
+  organizationResponseActivityAt :: (Maybe UTCTime)
+}
+
 
 instance FromJSON OrganizationResponse where
   parseJSON (Object o) = do
@@ -141,6 +178,11 @@ instance Eq OrganizationResponse where
 instance Show OrganizationResponse where
     show rec = "organizationResponseId: " <> show (organizationResponseId rec) <> ", " <> "organizationResponseUserId: " <> show (organizationResponseUserId rec) <> ", " <> "organizationResponseName: " <> show (organizationResponseName rec) <> ", " <> "organizationResponseDisplayName: " <> show (organizationResponseDisplayName rec) <> ", " <> "organizationResponseDescription: " <> show (organizationResponseDescription rec) <> ", " <> "organizationResponseCompany: " <> show (organizationResponseCompany rec) <> ", " <> "organizationResponseLocation: " <> show (organizationResponseLocation rec) <> ", " <> "organizationResponseEmail: " <> show (organizationResponseEmail rec) <> ", " <> "organizationResponseEmailMD5: " <> show (organizationResponseEmailMD5 rec) <> ", " <> "organizationResponseMembership: " <> show (organizationResponseMembership rec) <> ", " <> "organizationResponseIcon: " <> show (organizationResponseIcon rec) <> ", " <> "organizationResponseTags: " <> show (organizationResponseTags rec) <> ", " <> "organizationResponseVisibility: " <> show (organizationResponseVisibility rec) <> ", " <> "organizationResponseActive: " <> show (organizationResponseActive rec) <> ", " <> "organizationResponseGuard: " <> show (organizationResponseGuard rec) <> ", " <> "organizationResponseCreatedAt: " <> show (organizationResponseCreatedAt rec) <> ", " <> "organizationResponseModifiedBy: " <> show (organizationResponseModifiedBy rec) <> ", " <> "organizationResponseModifiedAt: " <> show (organizationResponseModifiedAt rec) <> ", " <> "organizationResponseActivityAt: " <> show (organizationResponseActivityAt rec)
 
+newtype OrganizationResponses = OrganizationResponses {
+  organizationResponses :: [OrganizationResponse]
+}
+
+
 instance FromJSON OrganizationResponses where
   parseJSON (Object o) = do
     organizationResponses <- o .: ("organization_responses" :: Text)
@@ -162,6 +204,18 @@ instance Eq OrganizationResponses where
 
 instance Show OrganizationResponses where
     show rec = "organizationResponses: " <> show (organizationResponses rec)
+
+newtype OrganizationStatResponse = OrganizationStatResponse {
+  organizationStatResponseOrganizationId :: Int64,
+  organizationStatResponseTeams :: Int64,
+  organizationStatResponseMembers :: Int64,
+  organizationStatResponseForums :: Int64,
+  organizationStatResponseBoards :: Int64,
+  organizationStatResponseThreads :: Int64,
+  organizationStatResponseThreadPosts :: Int64,
+  organizationStatResponseViews :: Int64
+}
+
 
 instance FromJSON OrganizationStatResponse where
   parseJSON (Object o) = do
@@ -205,6 +259,11 @@ instance Eq OrganizationStatResponse where
 
 instance Show OrganizationStatResponse where
     show rec = "organizationStatResponseOrganizationId: " <> show (organizationStatResponseOrganizationId rec) <> ", " <> "organizationStatResponseTeams: " <> show (organizationStatResponseTeams rec) <> ", " <> "organizationStatResponseMembers: " <> show (organizationStatResponseMembers rec) <> ", " <> "organizationStatResponseForums: " <> show (organizationStatResponseForums rec) <> ", " <> "organizationStatResponseBoards: " <> show (organizationStatResponseBoards rec) <> ", " <> "organizationStatResponseThreads: " <> show (organizationStatResponseThreads rec) <> ", " <> "organizationStatResponseThreadPosts: " <> show (organizationStatResponseThreadPosts rec) <> ", " <> "organizationStatResponseViews: " <> show (organizationStatResponseViews rec)
+
+newtype OrganizationStatResponses = OrganizationStatResponses {
+  organizationStatResponses :: [OrganizationStatResponse]
+}
+
 
 instance FromJSON OrganizationStatResponses where
   parseJSON (Object o) = do
