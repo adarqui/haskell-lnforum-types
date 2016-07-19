@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,28 +14,31 @@ module LN.T.Forum where
 import LN.T.Visibility
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ForumRequest = ForumRequest {
-  forumRequestDisplayName :: Text,
-  forumRequestDescription :: (Maybe Text),
-  forumRequestThreadsPerBoard :: Int,
-  forumRequestThreadPostsPerThread :: Int,
-  forumRequestRecentThreadsLimit :: Int,
-  forumRequestRecentPostsLimit :: Int,
-  forumRequestMotwLimit :: Int,
-  forumRequestIcon :: (Maybe Text),
-  forumRequestTags :: [Text],
-  forumRequestVisibility :: Visibility,
-  forumRequestGuard :: Int
-}
+  forumRequestDisplayName :: !(Text),
+  forumRequestDescription :: !((Maybe Text)),
+  forumRequestThreadsPerBoard :: !(Int),
+  forumRequestThreadPostsPerThread :: !(Int),
+  forumRequestRecentThreadsLimit :: !(Int),
+  forumRequestRecentPostsLimit :: !(Int),
+  forumRequestMotwLimit :: !(Int),
+  forumRequestIcon :: !((Maybe Text)),
+  forumRequestTags :: !([Text]),
+  forumRequestVisibility :: !(Visibility),
+  forumRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ForumRequest where
@@ -88,27 +94,27 @@ instance Show ForumRequest where
     show rec = "forumRequestDisplayName: " <> show (forumRequestDisplayName rec) <> ", " <> "forumRequestDescription: " <> show (forumRequestDescription rec) <> ", " <> "forumRequestThreadsPerBoard: " <> show (forumRequestThreadsPerBoard rec) <> ", " <> "forumRequestThreadPostsPerThread: " <> show (forumRequestThreadPostsPerThread rec) <> ", " <> "forumRequestRecentThreadsLimit: " <> show (forumRequestRecentThreadsLimit rec) <> ", " <> "forumRequestRecentPostsLimit: " <> show (forumRequestRecentPostsLimit rec) <> ", " <> "forumRequestMotwLimit: " <> show (forumRequestMotwLimit rec) <> ", " <> "forumRequestIcon: " <> show (forumRequestIcon rec) <> ", " <> "forumRequestTags: " <> show (forumRequestTags rec) <> ", " <> "forumRequestVisibility: " <> show (forumRequestVisibility rec) <> ", " <> "forumRequestGuard: " <> show (forumRequestGuard rec)
 
 data ForumResponse = ForumResponse {
-  forumResponseId :: Int64,
-  forumResponseUserId :: Int64,
-  forumResponseOrgId :: Int64,
-  forumResponseName :: Text,
-  forumResponseDisplayName :: Text,
-  forumResponseDescription :: (Maybe Text),
-  forumResponseThreadsPerBoard :: Int,
-  forumResponseThreadPostsPerThread :: Int,
-  forumResponseRecentThreadsLimit :: Int,
-  forumResponseRecentPostsLimit :: Int,
-  forumResponseMotwLimit :: Int,
-  forumResponseIcon :: (Maybe Text),
-  forumResponseTags :: [Text],
-  forumResponseVisibility :: Visibility,
-  forumResponseActive :: Bool,
-  forumResponseGuard :: Int,
-  forumResponseCreatedAt :: (Maybe UTCTime),
-  forumResponseModifiedBy :: (Maybe Int64),
-  forumResponseModifiedAt :: (Maybe UTCTime),
-  forumResponseActivityAt :: (Maybe UTCTime)
-}
+  forumResponseId :: !(Int64),
+  forumResponseUserId :: !(Int64),
+  forumResponseOrgId :: !(Int64),
+  forumResponseName :: !(Text),
+  forumResponseDisplayName :: !(Text),
+  forumResponseDescription :: !((Maybe Text)),
+  forumResponseThreadsPerBoard :: !(Int),
+  forumResponseThreadPostsPerThread :: !(Int),
+  forumResponseRecentThreadsLimit :: !(Int),
+  forumResponseRecentPostsLimit :: !(Int),
+  forumResponseMotwLimit :: !(Int),
+  forumResponseIcon :: !((Maybe Text)),
+  forumResponseTags :: !([Text]),
+  forumResponseVisibility :: !(Visibility),
+  forumResponseActive :: !(Bool),
+  forumResponseGuard :: !(Int),
+  forumResponseCreatedAt :: !((Maybe UTCTime)),
+  forumResponseModifiedBy :: !((Maybe Int64)),
+  forumResponseModifiedAt :: !((Maybe UTCTime)),
+  forumResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ForumResponse where
@@ -191,8 +197,8 @@ instance Show ForumResponse where
     show rec = "forumResponseId: " <> show (forumResponseId rec) <> ", " <> "forumResponseUserId: " <> show (forumResponseUserId rec) <> ", " <> "forumResponseOrgId: " <> show (forumResponseOrgId rec) <> ", " <> "forumResponseName: " <> show (forumResponseName rec) <> ", " <> "forumResponseDisplayName: " <> show (forumResponseDisplayName rec) <> ", " <> "forumResponseDescription: " <> show (forumResponseDescription rec) <> ", " <> "forumResponseThreadsPerBoard: " <> show (forumResponseThreadsPerBoard rec) <> ", " <> "forumResponseThreadPostsPerThread: " <> show (forumResponseThreadPostsPerThread rec) <> ", " <> "forumResponseRecentThreadsLimit: " <> show (forumResponseRecentThreadsLimit rec) <> ", " <> "forumResponseRecentPostsLimit: " <> show (forumResponseRecentPostsLimit rec) <> ", " <> "forumResponseMotwLimit: " <> show (forumResponseMotwLimit rec) <> ", " <> "forumResponseIcon: " <> show (forumResponseIcon rec) <> ", " <> "forumResponseTags: " <> show (forumResponseTags rec) <> ", " <> "forumResponseVisibility: " <> show (forumResponseVisibility rec) <> ", " <> "forumResponseActive: " <> show (forumResponseActive rec) <> ", " <> "forumResponseGuard: " <> show (forumResponseGuard rec) <> ", " <> "forumResponseCreatedAt: " <> show (forumResponseCreatedAt rec) <> ", " <> "forumResponseModifiedBy: " <> show (forumResponseModifiedBy rec) <> ", " <> "forumResponseModifiedAt: " <> show (forumResponseModifiedAt rec) <> ", " <> "forumResponseActivityAt: " <> show (forumResponseActivityAt rec)
 
 data ForumResponses = ForumResponses {
-  forumResponses :: [ForumResponse]
-}
+  forumResponses :: !([ForumResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ForumResponses where
@@ -218,12 +224,12 @@ instance Show ForumResponses where
     show rec = "forumResponses: " <> show (forumResponses rec)
 
 data ForumStatResponse = ForumStatResponse {
-  forumStatResponseForumId :: Int64,
-  forumStatResponseBoards :: Int64,
-  forumStatResponseThreads :: Int64,
-  forumStatResponseThreadPosts :: Int64,
-  forumStatResponseViews :: Int64
-}
+  forumStatResponseForumId :: !(Int64),
+  forumStatResponseBoards :: !(Int64),
+  forumStatResponseThreads :: !(Int64),
+  forumStatResponseThreadPosts :: !(Int64),
+  forumStatResponseViews :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ForumStatResponse where
@@ -261,8 +267,8 @@ instance Show ForumStatResponse where
     show rec = "forumStatResponseForumId: " <> show (forumStatResponseForumId rec) <> ", " <> "forumStatResponseBoards: " <> show (forumStatResponseBoards rec) <> ", " <> "forumStatResponseThreads: " <> show (forumStatResponseThreads rec) <> ", " <> "forumStatResponseThreadPosts: " <> show (forumStatResponseThreadPosts rec) <> ", " <> "forumStatResponseViews: " <> show (forumStatResponseViews rec)
 
 data ForumStatResponses = ForumStatResponses {
-  forumStatResponses :: [ForumStatResponse]
-}
+  forumStatResponses :: !([ForumStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ForumStatResponses where

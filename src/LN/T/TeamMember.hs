@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,18 +14,21 @@ module LN.T.TeamMember where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data TeamMemberRequest = TeamMemberRequest {
-  teamMemberRequestGuard :: Int
-}
+  teamMemberRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamMemberRequest where
@@ -48,21 +54,21 @@ instance Show TeamMemberRequest where
     show rec = "teamMemberRequestGuard: " <> show (teamMemberRequestGuard rec)
 
 data TeamMemberResponse = TeamMemberResponse {
-  teamMemberResponseId :: Int64,
-  teamMemberResponseUserId :: Int64,
-  teamMemberResponseOrgId :: Int64,
-  teamMemberResponseTeamId :: Int64,
-  teamMemberResponseIsAccepted :: Bool,
-  teamMemberResponseAcceptedAt :: (Maybe UTCTime),
-  teamMemberResponseIsBlocked :: Bool,
-  teamMemberResponseBlockedAt :: (Maybe UTCTime),
-  teamMemberResponseActive :: Bool,
-  teamMemberResponseGuard :: Int,
-  teamMemberResponseCreatedAt :: (Maybe UTCTime),
-  teamMemberResponseModifiedBy :: (Maybe Int64),
-  teamMemberResponseModifiedAt :: (Maybe UTCTime),
-  teamMemberResponseActivityAt :: (Maybe UTCTime)
-}
+  teamMemberResponseId :: !(Int64),
+  teamMemberResponseUserId :: !(Int64),
+  teamMemberResponseOrgId :: !(Int64),
+  teamMemberResponseTeamId :: !(Int64),
+  teamMemberResponseIsAccepted :: !(Bool),
+  teamMemberResponseAcceptedAt :: !((Maybe UTCTime)),
+  teamMemberResponseIsBlocked :: !(Bool),
+  teamMemberResponseBlockedAt :: !((Maybe UTCTime)),
+  teamMemberResponseActive :: !(Bool),
+  teamMemberResponseGuard :: !(Int),
+  teamMemberResponseCreatedAt :: !((Maybe UTCTime)),
+  teamMemberResponseModifiedBy :: !((Maybe Int64)),
+  teamMemberResponseModifiedAt :: !((Maybe UTCTime)),
+  teamMemberResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamMemberResponse where
@@ -127,8 +133,8 @@ instance Show TeamMemberResponse where
     show rec = "teamMemberResponseId: " <> show (teamMemberResponseId rec) <> ", " <> "teamMemberResponseUserId: " <> show (teamMemberResponseUserId rec) <> ", " <> "teamMemberResponseOrgId: " <> show (teamMemberResponseOrgId rec) <> ", " <> "teamMemberResponseTeamId: " <> show (teamMemberResponseTeamId rec) <> ", " <> "teamMemberResponseIsAccepted: " <> show (teamMemberResponseIsAccepted rec) <> ", " <> "teamMemberResponseAcceptedAt: " <> show (teamMemberResponseAcceptedAt rec) <> ", " <> "teamMemberResponseIsBlocked: " <> show (teamMemberResponseIsBlocked rec) <> ", " <> "teamMemberResponseBlockedAt: " <> show (teamMemberResponseBlockedAt rec) <> ", " <> "teamMemberResponseActive: " <> show (teamMemberResponseActive rec) <> ", " <> "teamMemberResponseGuard: " <> show (teamMemberResponseGuard rec) <> ", " <> "teamMemberResponseCreatedAt: " <> show (teamMemberResponseCreatedAt rec) <> ", " <> "teamMemberResponseModifiedBy: " <> show (teamMemberResponseModifiedBy rec) <> ", " <> "teamMemberResponseModifiedAt: " <> show (teamMemberResponseModifiedAt rec) <> ", " <> "teamMemberResponseActivityAt: " <> show (teamMemberResponseActivityAt rec)
 
 data TeamMemberResponses = TeamMemberResponses {
-  teamMemberResponses :: [TeamMemberResponse]
-}
+  teamMemberResponses :: !([TeamMemberResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamMemberResponses where
@@ -155,7 +161,7 @@ instance Show TeamMemberResponses where
 
 data TeamMemberStatResponse
   = TeamMemberStatResponse 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamMemberStatResponse where
@@ -186,8 +192,8 @@ instance Show TeamMemberStatResponse where
 
 
 data TeamMemberStatResponses = TeamMemberStatResponses {
-  teamMemberStatResponses :: [TeamMemberStatResponse]
-}
+  teamMemberStatResponses :: !([TeamMemberStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamMemberStatResponses where

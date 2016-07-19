@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,14 +14,17 @@ module LN.T.ThreadPost where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data PostData
   = PostDataRaw Text
@@ -27,7 +33,7 @@ data PostData
   | PostDataCode Text Text
   | PostDataOther Text Text
   | PostDataEmpty 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PostData where
@@ -118,12 +124,12 @@ instance Show PostData where
 
 
 data ThreadPostRequest = ThreadPostRequest {
-  threadPostRequestTitle :: (Maybe Text),
-  threadPostRequestBody :: PostData,
-  threadPostRequestTags :: [Text],
-  threadPostRequestPrivateTags :: [Text],
-  threadPostRequestGuard :: Int
-}
+  threadPostRequestTitle :: !((Maybe Text)),
+  threadPostRequestBody :: !(PostData),
+  threadPostRequestTags :: !([Text]),
+  threadPostRequestPrivateTags :: !([Text]),
+  threadPostRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ThreadPostRequest where
@@ -161,24 +167,24 @@ instance Show ThreadPostRequest where
     show rec = "threadPostRequestTitle: " <> show (threadPostRequestTitle rec) <> ", " <> "threadPostRequestBody: " <> show (threadPostRequestBody rec) <> ", " <> "threadPostRequestTags: " <> show (threadPostRequestTags rec) <> ", " <> "threadPostRequestPrivateTags: " <> show (threadPostRequestPrivateTags rec) <> ", " <> "threadPostRequestGuard: " <> show (threadPostRequestGuard rec)
 
 data ThreadPostResponse = ThreadPostResponse {
-  threadPostResponseId :: Int64,
-  threadPostResponseUserId :: Int64,
-  threadPostResponseOrgId :: Int64,
-  threadPostResponseForumId :: Int64,
-  threadPostResponseBoardId :: Int64,
-  threadPostResponseThreadId :: Int64,
-  threadPostResponseParentId :: (Maybe Int64),
-  threadPostResponseTitle :: (Maybe Text),
-  threadPostResponseBody :: PostData,
-  threadPostResponseTags :: [Text],
-  threadPostResponsePrivateTags :: [Text],
-  threadPostResponseActive :: Bool,
-  threadPostResponseGuard :: Int,
-  threadPostResponseCreatedAt :: (Maybe UTCTime),
-  threadPostResponseModifiedBy :: (Maybe Int64),
-  threadPostResponseModifiedAt :: (Maybe UTCTime),
-  threadPostResponseActivityAt :: (Maybe UTCTime)
-}
+  threadPostResponseId :: !(Int64),
+  threadPostResponseUserId :: !(Int64),
+  threadPostResponseOrgId :: !(Int64),
+  threadPostResponseForumId :: !(Int64),
+  threadPostResponseBoardId :: !(Int64),
+  threadPostResponseThreadId :: !(Int64),
+  threadPostResponseParentId :: !((Maybe Int64)),
+  threadPostResponseTitle :: !((Maybe Text)),
+  threadPostResponseBody :: !(PostData),
+  threadPostResponseTags :: !([Text]),
+  threadPostResponsePrivateTags :: !([Text]),
+  threadPostResponseActive :: !(Bool),
+  threadPostResponseGuard :: !(Int),
+  threadPostResponseCreatedAt :: !((Maybe UTCTime)),
+  threadPostResponseModifiedBy :: !((Maybe Int64)),
+  threadPostResponseModifiedAt :: !((Maybe UTCTime)),
+  threadPostResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ThreadPostResponse where
@@ -252,8 +258,8 @@ instance Show ThreadPostResponse where
     show rec = "threadPostResponseId: " <> show (threadPostResponseId rec) <> ", " <> "threadPostResponseUserId: " <> show (threadPostResponseUserId rec) <> ", " <> "threadPostResponseOrgId: " <> show (threadPostResponseOrgId rec) <> ", " <> "threadPostResponseForumId: " <> show (threadPostResponseForumId rec) <> ", " <> "threadPostResponseBoardId: " <> show (threadPostResponseBoardId rec) <> ", " <> "threadPostResponseThreadId: " <> show (threadPostResponseThreadId rec) <> ", " <> "threadPostResponseParentId: " <> show (threadPostResponseParentId rec) <> ", " <> "threadPostResponseTitle: " <> show (threadPostResponseTitle rec) <> ", " <> "threadPostResponseBody: " <> show (threadPostResponseBody rec) <> ", " <> "threadPostResponseTags: " <> show (threadPostResponseTags rec) <> ", " <> "threadPostResponsePrivateTags: " <> show (threadPostResponsePrivateTags rec) <> ", " <> "threadPostResponseActive: " <> show (threadPostResponseActive rec) <> ", " <> "threadPostResponseGuard: " <> show (threadPostResponseGuard rec) <> ", " <> "threadPostResponseCreatedAt: " <> show (threadPostResponseCreatedAt rec) <> ", " <> "threadPostResponseModifiedBy: " <> show (threadPostResponseModifiedBy rec) <> ", " <> "threadPostResponseModifiedAt: " <> show (threadPostResponseModifiedAt rec) <> ", " <> "threadPostResponseActivityAt: " <> show (threadPostResponseActivityAt rec)
 
 data ThreadPostResponses = ThreadPostResponses {
-  threadPostResponses :: [ThreadPostResponse]
-}
+  threadPostResponses :: !([ThreadPostResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ThreadPostResponses where
@@ -279,13 +285,13 @@ instance Show ThreadPostResponses where
     show rec = "threadPostResponses: " <> show (threadPostResponses rec)
 
 data ThreadPostStatResponse = ThreadPostStatResponse {
-  threadPostStatResponseThreadPostId :: Int64,
-  threadPostStatResponseLikes :: Int64,
-  threadPostStatResponseNeutral :: Int64,
-  threadPostStatResponseDislikes :: Int64,
-  threadPostStatResponseStars :: Int64,
-  threadPostStatResponseViews :: Int64
-}
+  threadPostStatResponseThreadPostId :: !(Int64),
+  threadPostStatResponseLikes :: !(Int64),
+  threadPostStatResponseNeutral :: !(Int64),
+  threadPostStatResponseDislikes :: !(Int64),
+  threadPostStatResponseStars :: !(Int64),
+  threadPostStatResponseViews :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ThreadPostStatResponse where
@@ -326,8 +332,8 @@ instance Show ThreadPostStatResponse where
     show rec = "threadPostStatResponseThreadPostId: " <> show (threadPostStatResponseThreadPostId rec) <> ", " <> "threadPostStatResponseLikes: " <> show (threadPostStatResponseLikes rec) <> ", " <> "threadPostStatResponseNeutral: " <> show (threadPostStatResponseNeutral rec) <> ", " <> "threadPostStatResponseDislikes: " <> show (threadPostStatResponseDislikes rec) <> ", " <> "threadPostStatResponseStars: " <> show (threadPostStatResponseStars rec) <> ", " <> "threadPostStatResponseViews: " <> show (threadPostStatResponseViews rec)
 
 data ThreadPostStatResponses = ThreadPostStatResponses {
-  threadPostStatResponses :: [ThreadPostStatResponse]
-}
+  threadPostStatResponses :: !([ThreadPostStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ThreadPostStatResponses where

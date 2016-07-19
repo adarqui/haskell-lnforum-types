@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,19 +14,22 @@ module LN.T.ACL where
 import LN.T.Permission
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ACL
   = ACL_Grant Permissions
   | ACL_Deny 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ACL where

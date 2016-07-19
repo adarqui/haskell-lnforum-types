@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,14 +14,17 @@ module LN.T.LeuronTraining where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data LeuronTrainingSummary
   = LTS_View 
@@ -28,7 +34,7 @@ data LeuronTrainingSummary
   | LTS_DontUnderstand 
   | LTS_DontCare 
   | LTS_Protest 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronTrainingSummary where
@@ -124,9 +130,9 @@ instance Read LeuronTrainingSummary where
 
 
 data LeuronTrainingRequest = LeuronTrainingRequest {
-  leuronTrainingRequestSummary :: LeuronTrainingSummary,
-  leuronTrainingRequestGuard :: Int
-}
+  leuronTrainingRequestSummary :: !(LeuronTrainingSummary),
+  leuronTrainingRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronTrainingRequest where
@@ -155,14 +161,14 @@ instance Show LeuronTrainingRequest where
     show rec = "leuronTrainingRequestSummary: " <> show (leuronTrainingRequestSummary rec) <> ", " <> "leuronTrainingRequestGuard: " <> show (leuronTrainingRequestGuard rec)
 
 data LeuronTrainingResponse = LeuronTrainingResponse {
-  leuronTrainingResponseId :: Int64,
-  leuronTrainingResponseUserId :: Int64,
-  leuronTrainingResponseLeuronId :: Int64,
-  leuronTrainingResponseSummary :: LeuronTrainingSummary,
-  leuronTrainingResponseGuard :: Int,
-  leuronTrainingResponseCreatedAt :: (Maybe UTCTime),
-  leuronTrainingResponseModifiedAt :: (Maybe UTCTime)
-}
+  leuronTrainingResponseId :: !(Int64),
+  leuronTrainingResponseUserId :: !(Int64),
+  leuronTrainingResponseLeuronId :: !(Int64),
+  leuronTrainingResponseSummary :: !(LeuronTrainingSummary),
+  leuronTrainingResponseGuard :: !(Int),
+  leuronTrainingResponseCreatedAt :: !((Maybe UTCTime)),
+  leuronTrainingResponseModifiedAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronTrainingResponse where
@@ -206,8 +212,8 @@ instance Show LeuronTrainingResponse where
     show rec = "leuronTrainingResponseId: " <> show (leuronTrainingResponseId rec) <> ", " <> "leuronTrainingResponseUserId: " <> show (leuronTrainingResponseUserId rec) <> ", " <> "leuronTrainingResponseLeuronId: " <> show (leuronTrainingResponseLeuronId rec) <> ", " <> "leuronTrainingResponseSummary: " <> show (leuronTrainingResponseSummary rec) <> ", " <> "leuronTrainingResponseGuard: " <> show (leuronTrainingResponseGuard rec) <> ", " <> "leuronTrainingResponseCreatedAt: " <> show (leuronTrainingResponseCreatedAt rec) <> ", " <> "leuronTrainingResponseModifiedAt: " <> show (leuronTrainingResponseModifiedAt rec)
 
 data LeuronTrainingResponses = LeuronTrainingResponses {
-  leuronTrainingResponses :: [LeuronTrainingResponse]
-}
+  leuronTrainingResponses :: !([LeuronTrainingResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronTrainingResponses where
@@ -233,8 +239,8 @@ instance Show LeuronTrainingResponses where
     show rec = "leuronTrainingResponses: " <> show (leuronTrainingResponses rec)
 
 data LeuronTrainingStatResponse = LeuronTrainingStatResponse {
-  leuronTrainingStatResponseLeuronTrainingId :: Int64
-}
+  leuronTrainingStatResponseLeuronTrainingId :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronTrainingStatResponse where
@@ -260,8 +266,8 @@ instance Show LeuronTrainingStatResponse where
     show rec = "leuronTrainingStatResponseLeuronTrainingId: " <> show (leuronTrainingStatResponseLeuronTrainingId rec)
 
 data LeuronTrainingStatResponses = LeuronTrainingStatResponses {
-  leuronTrainingStatResponses :: [LeuronTrainingStatResponse]
-}
+  leuronTrainingStatResponses :: !([LeuronTrainingStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronTrainingStatResponses where

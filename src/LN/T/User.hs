@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,23 +14,26 @@ module LN.T.User where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data UserRequest = UserRequest {
-  userRequestDisplayName :: Text,
-  userRequestFullName :: Text,
-  userRequestEmail :: Text,
-  userRequestPlugin :: Text,
-  userRequestIdent :: Text,
-  userRequestAcceptTOS :: (Maybe UTCTime)
-}
+  userRequestDisplayName :: !(Text),
+  userRequestFullName :: !(Text),
+  userRequestEmail :: !(Text),
+  userRequestPlugin :: !(Text),
+  userRequestIdent :: !(Text),
+  userRequestAcceptTOS :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserRequest where
@@ -68,22 +74,22 @@ instance Show UserRequest where
     show rec = "userRequestDisplayName: " <> show (userRequestDisplayName rec) <> ", " <> "userRequestFullName: " <> show (userRequestFullName rec) <> ", " <> "userRequestEmail: " <> show (userRequestEmail rec) <> ", " <> "userRequestPlugin: " <> show (userRequestPlugin rec) <> ", " <> "userRequestIdent: " <> show (userRequestIdent rec) <> ", " <> "userRequestAcceptTOS: " <> show (userRequestAcceptTOS rec)
 
 data UserResponse = UserResponse {
-  userResponseId :: Int64,
-  userResponseName :: Text,
-  userResponseDisplayName :: Text,
-  userResponseFullName :: Text,
-  userResponseEmail :: Text,
-  userResponseEmailMD5 :: Text,
-  userResponsePlugin :: Text,
-  userResponseIdent :: Text,
-  userResponseAcceptTOS :: (Maybe UTCTime),
-  userResponseActive :: Bool,
-  userResponseGuard :: Int,
-  userResponseCreatedAt :: (Maybe UTCTime),
-  userResponseModifiedAt :: (Maybe UTCTime),
-  userResponseDeactivatedAt :: (Maybe UTCTime),
-  userResponseActivityAt :: (Maybe UTCTime)
-}
+  userResponseId :: !(Int64),
+  userResponseName :: !(Text),
+  userResponseDisplayName :: !(Text),
+  userResponseFullName :: !(Text),
+  userResponseEmail :: !(Text),
+  userResponseEmailMD5 :: !(Text),
+  userResponsePlugin :: !(Text),
+  userResponseIdent :: !(Text),
+  userResponseAcceptTOS :: !((Maybe UTCTime)),
+  userResponseActive :: !(Bool),
+  userResponseGuard :: !(Int),
+  userResponseCreatedAt :: !((Maybe UTCTime)),
+  userResponseModifiedAt :: !((Maybe UTCTime)),
+  userResponseDeactivatedAt :: !((Maybe UTCTime)),
+  userResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserResponse where
@@ -151,8 +157,8 @@ instance Show UserResponse where
     show rec = "userResponseId: " <> show (userResponseId rec) <> ", " <> "userResponseName: " <> show (userResponseName rec) <> ", " <> "userResponseDisplayName: " <> show (userResponseDisplayName rec) <> ", " <> "userResponseFullName: " <> show (userResponseFullName rec) <> ", " <> "userResponseEmail: " <> show (userResponseEmail rec) <> ", " <> "userResponseEmailMD5: " <> show (userResponseEmailMD5 rec) <> ", " <> "userResponsePlugin: " <> show (userResponsePlugin rec) <> ", " <> "userResponseIdent: " <> show (userResponseIdent rec) <> ", " <> "userResponseAcceptTOS: " <> show (userResponseAcceptTOS rec) <> ", " <> "userResponseActive: " <> show (userResponseActive rec) <> ", " <> "userResponseGuard: " <> show (userResponseGuard rec) <> ", " <> "userResponseCreatedAt: " <> show (userResponseCreatedAt rec) <> ", " <> "userResponseModifiedAt: " <> show (userResponseModifiedAt rec) <> ", " <> "userResponseDeactivatedAt: " <> show (userResponseDeactivatedAt rec) <> ", " <> "userResponseActivityAt: " <> show (userResponseActivityAt rec)
 
 data UserResponses = UserResponses {
-  userResponses :: [UserResponse]
-}
+  userResponses :: !([UserResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserResponses where
@@ -178,15 +184,15 @@ instance Show UserResponses where
     show rec = "userResponses: " <> show (userResponses rec)
 
 data UserSanitizedResponse = UserSanitizedResponse {
-  userSanitizedResponseId :: Int64,
-  userSanitizedResponseName :: Text,
-  userSanitizedResponseDisplayName :: Text,
-  userSanitizedResponseEmailMD5 :: Text,
-  userSanitizedResponseActive :: Bool,
-  userSanitizedResponseGuard :: Int,
-  userSanitizedResponseCreatedAt :: (Maybe UTCTime),
-  userSanitizedResponseActivityAt :: (Maybe UTCTime)
-}
+  userSanitizedResponseId :: !(Int64),
+  userSanitizedResponseName :: !(Text),
+  userSanitizedResponseDisplayName :: !(Text),
+  userSanitizedResponseEmailMD5 :: !(Text),
+  userSanitizedResponseActive :: !(Bool),
+  userSanitizedResponseGuard :: !(Int),
+  userSanitizedResponseCreatedAt :: !((Maybe UTCTime)),
+  userSanitizedResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserSanitizedResponse where
@@ -233,8 +239,8 @@ instance Show UserSanitizedResponse where
     show rec = "userSanitizedResponseId: " <> show (userSanitizedResponseId rec) <> ", " <> "userSanitizedResponseName: " <> show (userSanitizedResponseName rec) <> ", " <> "userSanitizedResponseDisplayName: " <> show (userSanitizedResponseDisplayName rec) <> ", " <> "userSanitizedResponseEmailMD5: " <> show (userSanitizedResponseEmailMD5 rec) <> ", " <> "userSanitizedResponseActive: " <> show (userSanitizedResponseActive rec) <> ", " <> "userSanitizedResponseGuard: " <> show (userSanitizedResponseGuard rec) <> ", " <> "userSanitizedResponseCreatedAt: " <> show (userSanitizedResponseCreatedAt rec) <> ", " <> "userSanitizedResponseActivityAt: " <> show (userSanitizedResponseActivityAt rec)
 
 data UserSanitizedResponses = UserSanitizedResponses {
-  userSanitizedResponses :: [UserSanitizedResponse]
-}
+  userSanitizedResponses :: !([UserSanitizedResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserSanitizedResponses where
@@ -260,14 +266,14 @@ instance Show UserSanitizedResponses where
     show rec = "userSanitizedResponses: " <> show (userSanitizedResponses rec)
 
 data UserSanitizedStatResponse = UserSanitizedStatResponse {
-  userSanitizedStatResponseUserId :: Int64,
-  userSanitizedStatResponseThreads :: Int64,
-  userSanitizedStatResponseThreadPosts :: Int64,
-  userSanitizedStatResponseRespect :: Int64,
-  userSanitizedStatResponseResources :: Int64,
-  userSanitizedStatResponseLeurons :: Int64,
-  userSanitizedStatResponseWorkouts :: Int64
-}
+  userSanitizedStatResponseUserId :: !(Int64),
+  userSanitizedStatResponseThreads :: !(Int64),
+  userSanitizedStatResponseThreadPosts :: !(Int64),
+  userSanitizedStatResponseRespect :: !(Int64),
+  userSanitizedStatResponseResources :: !(Int64),
+  userSanitizedStatResponseLeurons :: !(Int64),
+  userSanitizedStatResponseWorkouts :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserSanitizedStatResponse where
@@ -311,8 +317,8 @@ instance Show UserSanitizedStatResponse where
     show rec = "userSanitizedStatResponseUserId: " <> show (userSanitizedStatResponseUserId rec) <> ", " <> "userSanitizedStatResponseThreads: " <> show (userSanitizedStatResponseThreads rec) <> ", " <> "userSanitizedStatResponseThreadPosts: " <> show (userSanitizedStatResponseThreadPosts rec) <> ", " <> "userSanitizedStatResponseRespect: " <> show (userSanitizedStatResponseRespect rec) <> ", " <> "userSanitizedStatResponseResources: " <> show (userSanitizedStatResponseResources rec) <> ", " <> "userSanitizedStatResponseLeurons: " <> show (userSanitizedStatResponseLeurons rec) <> ", " <> "userSanitizedStatResponseWorkouts: " <> show (userSanitizedStatResponseWorkouts rec)
 
 data UserSanitizedStatResponses = UserSanitizedStatResponses {
-  userSanitizedStatResponses :: [UserSanitizedStatResponse]
-}
+  userSanitizedStatResponses :: !([UserSanitizedStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserSanitizedStatResponses where

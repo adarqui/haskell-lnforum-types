@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,20 +14,23 @@ module LN.T.Job where
 import LN.T
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data Job
   = Job_Nop () ()
   | Job_Ping () UTCTime
   | Job_CreateUserProfile (((,) Int64) ProfileRequest) ProfileResponse
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Job where
@@ -86,7 +92,7 @@ data Queue
   | QPing 
   | QCreateUserProfile 
   | QCreateUserApi 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Queue where

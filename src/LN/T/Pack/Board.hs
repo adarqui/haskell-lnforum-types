@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -19,28 +22,31 @@ import LN.T.Like
 import LN.T.Star
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data BoardPackResponse = BoardPackResponse {
-  boardPackResponseBoard :: BoardResponse,
-  boardPackResponseBoardId :: Int64,
-  boardPackResponseStat :: BoardStatResponse,
-  boardPackResponseLike :: (Maybe LikeResponse),
-  boardPackResponseStar :: (Maybe StarResponse),
-  boardPackResponseLatestThread :: (Maybe ThreadResponse),
-  boardPackResponseLatestThreadPost :: (Maybe ThreadPostResponse),
-  boardPackResponseLatestThreadPostUser :: (Maybe UserSanitizedResponse),
-  boardPackResponseWithOrganization :: (Maybe OrganizationResponse),
-  boardPackResponseWithForum :: (Maybe ForumResponse),
-  boardPackResponsePermissions :: Permissions
-}
+  boardPackResponseBoard :: !(BoardResponse),
+  boardPackResponseBoardId :: !(Int64),
+  boardPackResponseStat :: !(BoardStatResponse),
+  boardPackResponseLike :: !((Maybe LikeResponse)),
+  boardPackResponseStar :: !((Maybe StarResponse)),
+  boardPackResponseLatestThread :: !((Maybe ThreadResponse)),
+  boardPackResponseLatestThreadPost :: !((Maybe ThreadPostResponse)),
+  boardPackResponseLatestThreadPostUser :: !((Maybe UserSanitizedResponse)),
+  boardPackResponseWithOrganization :: !((Maybe OrganizationResponse)),
+  boardPackResponseWithForum :: !((Maybe ForumResponse)),
+  boardPackResponsePermissions :: !(Permissions)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BoardPackResponse where
@@ -96,8 +102,8 @@ instance Show BoardPackResponse where
     show rec = "boardPackResponseBoard: " <> show (boardPackResponseBoard rec) <> ", " <> "boardPackResponseBoardId: " <> show (boardPackResponseBoardId rec) <> ", " <> "boardPackResponseStat: " <> show (boardPackResponseStat rec) <> ", " <> "boardPackResponseLike: " <> show (boardPackResponseLike rec) <> ", " <> "boardPackResponseStar: " <> show (boardPackResponseStar rec) <> ", " <> "boardPackResponseLatestThread: " <> show (boardPackResponseLatestThread rec) <> ", " <> "boardPackResponseLatestThreadPost: " <> show (boardPackResponseLatestThreadPost rec) <> ", " <> "boardPackResponseLatestThreadPostUser: " <> show (boardPackResponseLatestThreadPostUser rec) <> ", " <> "boardPackResponseWithOrganization: " <> show (boardPackResponseWithOrganization rec) <> ", " <> "boardPackResponseWithForum: " <> show (boardPackResponseWithForum rec) <> ", " <> "boardPackResponsePermissions: " <> show (boardPackResponsePermissions rec)
 
 data BoardPackResponses = BoardPackResponses {
-  boardPackResponses :: [BoardPackResponse]
-}
+  boardPackResponses :: !([BoardPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BoardPackResponses where

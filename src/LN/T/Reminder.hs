@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,19 +14,22 @@ module LN.T.Reminder where
 import LN.T.Visibility
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ReminderRequest = ReminderRequest {
-  reminderRequestData :: Text,
-  reminderRequestGuard :: Int
-}
+  reminderRequestData :: !(Text),
+  reminderRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ReminderRequest where
@@ -52,16 +58,16 @@ instance Show ReminderRequest where
     show rec = "reminderRequestData: " <> show (reminderRequestData rec) <> ", " <> "reminderRequestGuard: " <> show (reminderRequestGuard rec)
 
 data ReminderResponse = ReminderResponse {
-  reminderResponseId :: Int64,
-  reminderResponseUserId :: Int64,
-  reminderResponseParentFolderId :: Int64,
-  reminderResponseData :: Text,
-  reminderResponseActive :: Bool,
-  reminderResponseGuard :: Int,
-  reminderResponseCreatedAt :: (Maybe UTCTime),
-  reminderResponseModifiedAt :: (Maybe UTCTime),
-  reminderResponseActivityAt :: (Maybe UTCTime)
-}
+  reminderResponseId :: !(Int64),
+  reminderResponseUserId :: !(Int64),
+  reminderResponseParentFolderId :: !(Int64),
+  reminderResponseData :: !(Text),
+  reminderResponseActive :: !(Bool),
+  reminderResponseGuard :: !(Int),
+  reminderResponseCreatedAt :: !((Maybe UTCTime)),
+  reminderResponseModifiedAt :: !((Maybe UTCTime)),
+  reminderResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ReminderResponse where
@@ -111,8 +117,8 @@ instance Show ReminderResponse where
     show rec = "reminderResponseId: " <> show (reminderResponseId rec) <> ", " <> "reminderResponseUserId: " <> show (reminderResponseUserId rec) <> ", " <> "reminderResponseParentFolderId: " <> show (reminderResponseParentFolderId rec) <> ", " <> "reminderResponseData: " <> show (reminderResponseData rec) <> ", " <> "reminderResponseActive: " <> show (reminderResponseActive rec) <> ", " <> "reminderResponseGuard: " <> show (reminderResponseGuard rec) <> ", " <> "reminderResponseCreatedAt: " <> show (reminderResponseCreatedAt rec) <> ", " <> "reminderResponseModifiedAt: " <> show (reminderResponseModifiedAt rec) <> ", " <> "reminderResponseActivityAt: " <> show (reminderResponseActivityAt rec)
 
 data ReminderResponses = ReminderResponses {
-  reminderResponses :: [ReminderResponse]
-}
+  reminderResponses :: !([ReminderResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ReminderResponses where
@@ -138,11 +144,11 @@ instance Show ReminderResponses where
     show rec = "reminderResponses: " <> show (reminderResponses rec)
 
 data ReminderFolderRequest = ReminderFolderRequest {
-  reminderFolderRequestDisplayName :: Text,
-  reminderFolderRequestDescription :: (Maybe Text),
-  reminderFolderRequestVisibility :: Visibility,
-  reminderFolderRequestGuard :: Int
-}
+  reminderFolderRequestDisplayName :: !(Text),
+  reminderFolderRequestDescription :: !((Maybe Text)),
+  reminderFolderRequestVisibility :: !(Visibility),
+  reminderFolderRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ReminderFolderRequest where
@@ -177,19 +183,19 @@ instance Show ReminderFolderRequest where
     show rec = "reminderFolderRequestDisplayName: " <> show (reminderFolderRequestDisplayName rec) <> ", " <> "reminderFolderRequestDescription: " <> show (reminderFolderRequestDescription rec) <> ", " <> "reminderFolderRequestVisibility: " <> show (reminderFolderRequestVisibility rec) <> ", " <> "reminderFolderRequestGuard: " <> show (reminderFolderRequestGuard rec)
 
 data ReminderFolderResponse = ReminderFolderResponse {
-  reminderFolderResponseId :: Int64,
-  reminderFolderResponseUserId :: Int64,
-  reminderFolderResponseParentFolderId :: (Maybe Int64),
-  reminderFolderResponseName :: Text,
-  reminderFolderResponseDisplayName :: Text,
-  reminderFolderResponseVisibility :: Visibility,
-  reminderFolderResponseDescription :: (Maybe Text),
-  reminderFolderResponseActive :: Bool,
-  reminderFolderResponseGuard :: Int,
-  reminderFolderResponseCreatedAt :: (Maybe UTCTime),
-  reminderFolderResponseModifiedAt :: (Maybe UTCTime),
-  reminderFolderResponseActivityAt :: (Maybe UTCTime)
-}
+  reminderFolderResponseId :: !(Int64),
+  reminderFolderResponseUserId :: !(Int64),
+  reminderFolderResponseParentFolderId :: !((Maybe Int64)),
+  reminderFolderResponseName :: !(Text),
+  reminderFolderResponseDisplayName :: !(Text),
+  reminderFolderResponseVisibility :: !(Visibility),
+  reminderFolderResponseDescription :: !((Maybe Text)),
+  reminderFolderResponseActive :: !(Bool),
+  reminderFolderResponseGuard :: !(Int),
+  reminderFolderResponseCreatedAt :: !((Maybe UTCTime)),
+  reminderFolderResponseModifiedAt :: !((Maybe UTCTime)),
+  reminderFolderResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ReminderFolderResponse where
@@ -248,8 +254,8 @@ instance Show ReminderFolderResponse where
     show rec = "reminderFolderResponseId: " <> show (reminderFolderResponseId rec) <> ", " <> "reminderFolderResponseUserId: " <> show (reminderFolderResponseUserId rec) <> ", " <> "reminderFolderResponseParentFolderId: " <> show (reminderFolderResponseParentFolderId rec) <> ", " <> "reminderFolderResponseName: " <> show (reminderFolderResponseName rec) <> ", " <> "reminderFolderResponseDisplayName: " <> show (reminderFolderResponseDisplayName rec) <> ", " <> "reminderFolderResponseVisibility: " <> show (reminderFolderResponseVisibility rec) <> ", " <> "reminderFolderResponseDescription: " <> show (reminderFolderResponseDescription rec) <> ", " <> "reminderFolderResponseActive: " <> show (reminderFolderResponseActive rec) <> ", " <> "reminderFolderResponseGuard: " <> show (reminderFolderResponseGuard rec) <> ", " <> "reminderFolderResponseCreatedAt: " <> show (reminderFolderResponseCreatedAt rec) <> ", " <> "reminderFolderResponseModifiedAt: " <> show (reminderFolderResponseModifiedAt rec) <> ", " <> "reminderFolderResponseActivityAt: " <> show (reminderFolderResponseActivityAt rec)
 
 data ReminderFolderResponses = ReminderFolderResponses {
-  reminderFolderResponses :: [ReminderFolderResponse]
-}
+  reminderFolderResponses :: !([ReminderFolderResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ReminderFolderResponses where

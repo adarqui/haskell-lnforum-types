@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -12,22 +15,25 @@ import LN.T.GroupMember
 import LN.T.User
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data GroupMemberPackResponse = GroupMemberPackResponse {
-  groupMemberPackResponseUser :: UserSanitizedResponse,
-  groupMemberPackResponseUserId :: Int64,
-  groupMemberPackResponseGroupMember :: GroupMemberResponse,
-  groupMemberPackResponseGroupMemberId :: Int64,
-  groupMemberPackResponseIsOwner :: Bool
-}
+  groupMemberPackResponseUser :: !(UserSanitizedResponse),
+  groupMemberPackResponseUserId :: !(Int64),
+  groupMemberPackResponseGroupMember :: !(GroupMemberResponse),
+  groupMemberPackResponseGroupMemberId :: !(Int64),
+  groupMemberPackResponseIsOwner :: !(Bool)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupMemberPackResponse where
@@ -65,8 +71,8 @@ instance Show GroupMemberPackResponse where
     show rec = "groupMemberPackResponseUser: " <> show (groupMemberPackResponseUser rec) <> ", " <> "groupMemberPackResponseUserId: " <> show (groupMemberPackResponseUserId rec) <> ", " <> "groupMemberPackResponseGroupMember: " <> show (groupMemberPackResponseGroupMember rec) <> ", " <> "groupMemberPackResponseGroupMemberId: " <> show (groupMemberPackResponseGroupMemberId rec) <> ", " <> "groupMemberPackResponseIsOwner: " <> show (groupMemberPackResponseIsOwner rec)
 
 data GroupMemberPackResponses = GroupMemberPackResponses {
-  groupMemberPackResponses :: [GroupMemberPackResponse]
-}
+  groupMemberPackResponses :: !([GroupMemberPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupMemberPackResponses where

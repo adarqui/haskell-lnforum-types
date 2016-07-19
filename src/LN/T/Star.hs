@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,19 +14,22 @@ module LN.T.Star where
 import LN.T.Ent
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data StarRequest = StarRequest {
-  starRequestReason :: (Maybe Text),
-  starRequestGuard :: Int
-}
+  starRequestReason :: !((Maybe Text)),
+  starRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON StarRequest where
@@ -52,16 +58,16 @@ instance Show StarRequest where
     show rec = "starRequestReason: " <> show (starRequestReason rec) <> ", " <> "starRequestGuard: " <> show (starRequestGuard rec)
 
 data StarResponse = StarResponse {
-  starResponseId :: Int64,
-  starResponseEnt :: Ent,
-  starResponseEntId :: Int64,
-  starResponseUserId :: Int64,
-  starResponseReason :: (Maybe Text),
-  starResponseActive :: Bool,
-  starResponseGuard :: Int,
-  starResponseCreatedAt :: (Maybe UTCTime),
-  starResponseModifiedAt :: (Maybe UTCTime)
-}
+  starResponseId :: !(Int64),
+  starResponseEnt :: !(Ent),
+  starResponseEntId :: !(Int64),
+  starResponseUserId :: !(Int64),
+  starResponseReason :: !((Maybe Text)),
+  starResponseActive :: !(Bool),
+  starResponseGuard :: !(Int),
+  starResponseCreatedAt :: !((Maybe UTCTime)),
+  starResponseModifiedAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON StarResponse where
@@ -111,8 +117,8 @@ instance Show StarResponse where
     show rec = "starResponseId: " <> show (starResponseId rec) <> ", " <> "starResponseEnt: " <> show (starResponseEnt rec) <> ", " <> "starResponseEntId: " <> show (starResponseEntId rec) <> ", " <> "starResponseUserId: " <> show (starResponseUserId rec) <> ", " <> "starResponseReason: " <> show (starResponseReason rec) <> ", " <> "starResponseActive: " <> show (starResponseActive rec) <> ", " <> "starResponseGuard: " <> show (starResponseGuard rec) <> ", " <> "starResponseCreatedAt: " <> show (starResponseCreatedAt rec) <> ", " <> "starResponseModifiedAt: " <> show (starResponseModifiedAt rec)
 
 data StarResponses = StarResponses {
-  starResponses :: [StarResponse]
-}
+  starResponses :: !([StarResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON StarResponses where
@@ -138,10 +144,10 @@ instance Show StarResponses where
     show rec = "starResponses: " <> show (starResponses rec)
 
 data StarStatResponse = StarStatResponse {
-  starStatResponseEnt :: Ent,
-  starStatResponseEntId :: Int64,
-  starStatResponseStars :: Int64
-}
+  starStatResponseEnt :: !(Ent),
+  starStatResponseEntId :: !(Int64),
+  starStatResponseStars :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON StarStatResponse where
@@ -173,8 +179,8 @@ instance Show StarStatResponse where
     show rec = "starStatResponseEnt: " <> show (starStatResponseEnt rec) <> ", " <> "starStatResponseEntId: " <> show (starStatResponseEntId rec) <> ", " <> "starStatResponseStars: " <> show (starStatResponseStars rec)
 
 data StarStatResponses = StarStatResponses {
-  starStatResponses :: [StarStatResponse]
-}
+  starStatResponses :: !([StarStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON StarStatResponses where

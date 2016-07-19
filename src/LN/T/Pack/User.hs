@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -12,22 +15,25 @@ import LN.T.Profile
 import LN.T.User
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data UserPackResponse = UserPackResponse {
-  userPackResponseUser :: UserResponse,
-  userPackResponseUserId :: Int64,
-  userPackResponseStat :: UserSanitizedStatResponse,
-  userPackResponseProfile :: ProfileResponse,
-  userPackResponseProfileId :: Int64
-}
+  userPackResponseUser :: !(UserResponse),
+  userPackResponseUserId :: !(Int64),
+  userPackResponseStat :: !(UserSanitizedStatResponse),
+  userPackResponseProfile :: !(ProfileResponse),
+  userPackResponseProfileId :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserPackResponse where
@@ -65,8 +71,8 @@ instance Show UserPackResponse where
     show rec = "userPackResponseUser: " <> show (userPackResponseUser rec) <> ", " <> "userPackResponseUserId: " <> show (userPackResponseUserId rec) <> ", " <> "userPackResponseStat: " <> show (userPackResponseStat rec) <> ", " <> "userPackResponseProfile: " <> show (userPackResponseProfile rec) <> ", " <> "userPackResponseProfileId: " <> show (userPackResponseProfileId rec)
 
 data UserPackResponses = UserPackResponses {
-  userPackResponses :: [UserPackResponse]
-}
+  userPackResponses :: !([UserPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserPackResponses where

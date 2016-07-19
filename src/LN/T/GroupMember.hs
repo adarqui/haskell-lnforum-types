@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,18 +14,21 @@ module LN.T.GroupMember where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data GroupMemberRequest = GroupMemberRequest {
-  groupMemberRequestGuard :: Int
-}
+  groupMemberRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupMemberRequest where
@@ -48,14 +54,14 @@ instance Show GroupMemberRequest where
     show rec = "groupMemberRequestGuard: " <> show (groupMemberRequestGuard rec)
 
 data GroupMemberResponse = GroupMemberResponse {
-  groupMemberResponseId :: Int64,
-  groupMemberResponseUserId :: Int64,
-  groupMemberResponseGlobalGroupId :: Int64,
-  groupMemberResponseCreatedAt :: (Maybe UTCTime),
-  groupMemberResponseModifiedBy :: (Maybe Int64),
-  groupMemberResponseModifiedAt :: (Maybe UTCTime),
-  groupMemberResponseActivityAt :: (Maybe UTCTime)
-}
+  groupMemberResponseId :: !(Int64),
+  groupMemberResponseUserId :: !(Int64),
+  groupMemberResponseGlobalGroupId :: !(Int64),
+  groupMemberResponseCreatedAt :: !((Maybe UTCTime)),
+  groupMemberResponseModifiedBy :: !((Maybe Int64)),
+  groupMemberResponseModifiedAt :: !((Maybe UTCTime)),
+  groupMemberResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupMemberResponse where
@@ -99,8 +105,8 @@ instance Show GroupMemberResponse where
     show rec = "groupMemberResponseId: " <> show (groupMemberResponseId rec) <> ", " <> "groupMemberResponseUserId: " <> show (groupMemberResponseUserId rec) <> ", " <> "groupMemberResponseGlobalGroupId: " <> show (groupMemberResponseGlobalGroupId rec) <> ", " <> "groupMemberResponseCreatedAt: " <> show (groupMemberResponseCreatedAt rec) <> ", " <> "groupMemberResponseModifiedBy: " <> show (groupMemberResponseModifiedBy rec) <> ", " <> "groupMemberResponseModifiedAt: " <> show (groupMemberResponseModifiedAt rec) <> ", " <> "groupMemberResponseActivityAt: " <> show (groupMemberResponseActivityAt rec)
 
 data GroupMemberResponses = GroupMemberResponses {
-  groupMemberResponses :: [GroupMemberResponse]
-}
+  groupMemberResponses :: !([GroupMemberResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupMemberResponses where
@@ -127,7 +133,7 @@ instance Show GroupMemberResponses where
 
 data GroupMemberStatResponse
   = GroupMemberStatResponse 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupMemberStatResponse where
@@ -159,7 +165,7 @@ instance Show GroupMemberStatResponse where
 
 data GroupMemberStatResponses
   = GroupMemberStatResponses 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupMemberStatResponses where

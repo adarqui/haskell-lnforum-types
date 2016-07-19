@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -13,30 +16,33 @@ import LN.T.Splits
 import LN.T.Substitutions
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data LeuronRequest = LeuronRequest {
-  leuronRequestData :: LeuronData,
-  leuronRequestTitle :: (Maybe Text),
-  leuronRequestDescription :: (Maybe Text),
-  leuronRequestSection :: (Maybe Text),
-  leuronRequestPage :: (Maybe Text),
-  leuronRequestExamples :: (Maybe [Text]),
-  leuronRequestStrengths :: (Maybe [Text]),
-  leuronRequestCategories :: (DepList Text),
-  leuronRequestSplits :: (Maybe [Splits]),
-  leuronRequestSubstitutions :: (Maybe [Substitutions]),
-  leuronRequestTags :: [Text],
-  leuronRequestStyle :: (Maybe [Text]),
-  leuronRequestGuard :: Int
-}
+  leuronRequestData :: !(LeuronData),
+  leuronRequestTitle :: !((Maybe Text)),
+  leuronRequestDescription :: !((Maybe Text)),
+  leuronRequestSection :: !((Maybe Text)),
+  leuronRequestPage :: !((Maybe Text)),
+  leuronRequestExamples :: !((Maybe [Text])),
+  leuronRequestStrengths :: !((Maybe [Text])),
+  leuronRequestCategories :: !((DepList Text)),
+  leuronRequestSplits :: !((Maybe [Splits])),
+  leuronRequestSubstitutions :: !((Maybe [Substitutions])),
+  leuronRequestTags :: !([Text]),
+  leuronRequestStyle :: !((Maybe [Text])),
+  leuronRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronRequest where
@@ -98,27 +104,27 @@ instance Show LeuronRequest where
     show rec = "leuronRequestData: " <> show (leuronRequestData rec) <> ", " <> "leuronRequestTitle: " <> show (leuronRequestTitle rec) <> ", " <> "leuronRequestDescription: " <> show (leuronRequestDescription rec) <> ", " <> "leuronRequestSection: " <> show (leuronRequestSection rec) <> ", " <> "leuronRequestPage: " <> show (leuronRequestPage rec) <> ", " <> "leuronRequestExamples: " <> show (leuronRequestExamples rec) <> ", " <> "leuronRequestStrengths: " <> show (leuronRequestStrengths rec) <> ", " <> "leuronRequestCategories: " <> show (leuronRequestCategories rec) <> ", " <> "leuronRequestSplits: " <> show (leuronRequestSplits rec) <> ", " <> "leuronRequestSubstitutions: " <> show (leuronRequestSubstitutions rec) <> ", " <> "leuronRequestTags: " <> show (leuronRequestTags rec) <> ", " <> "leuronRequestStyle: " <> show (leuronRequestStyle rec) <> ", " <> "leuronRequestGuard: " <> show (leuronRequestGuard rec)
 
 data LeuronResponse = LeuronResponse {
-  leuronResponseId :: Int64,
-  leuronResponseUserId :: Int64,
-  leuronResponseResourceId :: Int64,
-  leuronResponseData :: LeuronData,
-  leuronResponseTitle :: (Maybe Text),
-  leuronResponseDescription :: (Maybe Text),
-  leuronResponseSection :: (Maybe Text),
-  leuronResponsePage :: (Maybe Text),
-  leuronResponseExamples :: (Maybe [Text]),
-  leuronResponseStrengths :: (Maybe [Text]),
-  leuronResponseCategories :: (DepList Text),
-  leuronResponseSplits :: (Maybe [Splits]),
-  leuronResponseSubstitutions :: (Maybe [Substitutions]),
-  leuronResponseTags :: [Text],
-  leuronResponseStyle :: (Maybe [Text]),
-  leuronResponseActive :: Bool,
-  leuronResponseGuard :: Int,
-  leuronResponseCreatedAt :: (Maybe UTCTime),
-  leuronResponseModifiedAt :: (Maybe UTCTime),
-  leuronResponseActivityAt :: (Maybe UTCTime)
-}
+  leuronResponseId :: !(Int64),
+  leuronResponseUserId :: !(Int64),
+  leuronResponseResourceId :: !(Int64),
+  leuronResponseData :: !(LeuronData),
+  leuronResponseTitle :: !((Maybe Text)),
+  leuronResponseDescription :: !((Maybe Text)),
+  leuronResponseSection :: !((Maybe Text)),
+  leuronResponsePage :: !((Maybe Text)),
+  leuronResponseExamples :: !((Maybe [Text])),
+  leuronResponseStrengths :: !((Maybe [Text])),
+  leuronResponseCategories :: !((DepList Text)),
+  leuronResponseSplits :: !((Maybe [Splits])),
+  leuronResponseSubstitutions :: !((Maybe [Substitutions])),
+  leuronResponseTags :: !([Text]),
+  leuronResponseStyle :: !((Maybe [Text])),
+  leuronResponseActive :: !(Bool),
+  leuronResponseGuard :: !(Int),
+  leuronResponseCreatedAt :: !((Maybe UTCTime)),
+  leuronResponseModifiedAt :: !((Maybe UTCTime)),
+  leuronResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronResponse where
@@ -201,8 +207,8 @@ instance Show LeuronResponse where
     show rec = "leuronResponseId: " <> show (leuronResponseId rec) <> ", " <> "leuronResponseUserId: " <> show (leuronResponseUserId rec) <> ", " <> "leuronResponseResourceId: " <> show (leuronResponseResourceId rec) <> ", " <> "leuronResponseData: " <> show (leuronResponseData rec) <> ", " <> "leuronResponseTitle: " <> show (leuronResponseTitle rec) <> ", " <> "leuronResponseDescription: " <> show (leuronResponseDescription rec) <> ", " <> "leuronResponseSection: " <> show (leuronResponseSection rec) <> ", " <> "leuronResponsePage: " <> show (leuronResponsePage rec) <> ", " <> "leuronResponseExamples: " <> show (leuronResponseExamples rec) <> ", " <> "leuronResponseStrengths: " <> show (leuronResponseStrengths rec) <> ", " <> "leuronResponseCategories: " <> show (leuronResponseCategories rec) <> ", " <> "leuronResponseSplits: " <> show (leuronResponseSplits rec) <> ", " <> "leuronResponseSubstitutions: " <> show (leuronResponseSubstitutions rec) <> ", " <> "leuronResponseTags: " <> show (leuronResponseTags rec) <> ", " <> "leuronResponseStyle: " <> show (leuronResponseStyle rec) <> ", " <> "leuronResponseActive: " <> show (leuronResponseActive rec) <> ", " <> "leuronResponseGuard: " <> show (leuronResponseGuard rec) <> ", " <> "leuronResponseCreatedAt: " <> show (leuronResponseCreatedAt rec) <> ", " <> "leuronResponseModifiedAt: " <> show (leuronResponseModifiedAt rec) <> ", " <> "leuronResponseActivityAt: " <> show (leuronResponseActivityAt rec)
 
 data LeuronResponses = LeuronResponses {
-  leuronResponses :: [LeuronResponse]
-}
+  leuronResponses :: !([LeuronResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronResponses where
@@ -228,13 +234,13 @@ instance Show LeuronResponses where
     show rec = "leuronResponses: " <> show (leuronResponses rec)
 
 data LeuronStatResponse = LeuronStatResponse {
-  leuronStatResponseLeuronId :: Int64,
-  leuronStatResponseLikes :: Int64,
-  leuronStatResponseNeutral :: Int64,
-  leuronStatResponseDislikes :: Int64,
-  leuronStatResponseStars :: Int64,
-  leuronStatResponseViews :: Int64
-}
+  leuronStatResponseLeuronId :: !(Int64),
+  leuronStatResponseLikes :: !(Int64),
+  leuronStatResponseNeutral :: !(Int64),
+  leuronStatResponseDislikes :: !(Int64),
+  leuronStatResponseStars :: !(Int64),
+  leuronStatResponseViews :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronStatResponse where
@@ -275,8 +281,8 @@ instance Show LeuronStatResponse where
     show rec = "leuronStatResponseLeuronId: " <> show (leuronStatResponseLeuronId rec) <> ", " <> "leuronStatResponseLikes: " <> show (leuronStatResponseLikes rec) <> ", " <> "leuronStatResponseNeutral: " <> show (leuronStatResponseNeutral rec) <> ", " <> "leuronStatResponseDislikes: " <> show (leuronStatResponseDislikes rec) <> ", " <> "leuronStatResponseStars: " <> show (leuronStatResponseStars rec) <> ", " <> "leuronStatResponseViews: " <> show (leuronStatResponseViews rec)
 
 data LeuronStatResponses = LeuronStatResponses {
-  leuronStatResponses :: [LeuronStatResponse]
-}
+  leuronStatResponses :: !([LeuronStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronStatResponses where
@@ -318,7 +324,7 @@ data LeuronData
   | LnQA QA
   | LnExamples 
   | LnEmpty 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronData where
@@ -542,7 +548,7 @@ data TyLeuron
   | TyLnQA 
   | TyLnExamples 
   | TyLnEmpty 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TyLeuron where
@@ -708,8 +714,8 @@ instance Show TyLeuron where
 
 
 data Fact = Fact {
-  factText :: Text
-}
+  factText :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Fact where
@@ -735,9 +741,9 @@ instance Show Fact where
     show rec = "factText: " <> show (factText rec)
 
 data FactList = FactList {
-  factListFact :: Text,
-  factListList :: [Text]
-}
+  factListFact :: !(Text),
+  factListList :: !([Text])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON FactList where
@@ -766,9 +772,9 @@ instance Show FactList where
     show rec = "factListFact: " <> show (factListFact rec) <> ", " <> "factListList: " <> show (factListList rec)
 
 data Card = Card {
-  cardFront :: Text,
-  cardBack :: Text
-}
+  cardFront :: !(Text),
+  cardBack :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Card where
@@ -797,9 +803,9 @@ instance Show Card where
     show rec = "cardFront: " <> show (cardFront rec) <> ", " <> "cardBack: " <> show (cardBack rec)
 
 data DCard = DCard {
-  dcardFront :: Text,
-  dcardBack :: Text
-}
+  dcardFront :: !(Text),
+  dcardBack :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON DCard where
@@ -828,9 +834,9 @@ instance Show DCard where
     show rec = "dcardFront: " <> show (dcardFront rec) <> ", " <> "dcardBack: " <> show (dcardBack rec)
 
 data DCardX = DCardX {
-  dcardxFront :: [Text],
-  dcardxBack :: [Text]
-}
+  dcardxFront :: !([Text]),
+  dcardxBack :: !([Text])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON DCardX where
@@ -859,9 +865,9 @@ instance Show DCardX where
     show rec = "dcardxFront: " <> show (dcardxFront rec) <> ", " <> "dcardxBack: " <> show (dcardxBack rec)
 
 data Acronym = Acronym {
-  acronymAbbreviation :: Text,
-  acronymMeaning :: Text
-}
+  acronymAbbreviation :: !(Text),
+  acronymMeaning :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Acronym where
@@ -890,9 +896,9 @@ instance Show Acronym where
     show rec = "acronymAbbreviation: " <> show (acronymAbbreviation rec) <> ", " <> "acronymMeaning: " <> show (acronymMeaning rec)
 
 data Synonym = Synonym {
-  synonymA :: Text,
-  synonymB :: Text
-}
+  synonymA :: !(Text),
+  synonymB :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Synonym where
@@ -921,9 +927,9 @@ instance Show Synonym where
     show rec = "synonymA: " <> show (synonymA rec) <> ", " <> "synonymB: " <> show (synonymB rec)
 
 data Antonym = Antonym {
-  antonymA :: Text,
-  antonymB :: Text
-}
+  antonymA :: !(Text),
+  antonymB :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Antonym where
@@ -952,9 +958,9 @@ instance Show Antonym where
     show rec = "antonymA: " <> show (antonymA rec) <> ", " <> "antonymB: " <> show (antonymB rec)
 
 data Template = Template {
-  template :: Text,
-  templateValues :: [TemplateValue]
-}
+  template :: !(Text),
+  templateValues :: !([TemplateValue])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Template where
@@ -986,10 +992,10 @@ type TemplateValue  = (((,) Text) [Text])
 
 
 data ImageAssociation = ImageAssociation {
-  imageUrl :: [Text],
-  assocBy :: [Text],
-  assocResult :: [Text]
-}
+  imageUrl :: !([Text]),
+  assocBy :: !([Text]),
+  assocResult :: !([Text])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ImageAssociation where
@@ -1021,10 +1027,10 @@ instance Show ImageAssociation where
     show rec = "imageUrl: " <> show (imageUrl rec) <> ", " <> "assocBy: " <> show (assocBy rec) <> ", " <> "assocResult: " <> show (assocResult rec)
 
 data Script = Script {
-  scriptTitle :: Text,
-  scriptDesc :: Text,
-  scriptUrl :: Text
-}
+  scriptTitle :: !(Text),
+  scriptDesc :: !(Text),
+  scriptUrl :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Script where
@@ -1065,9 +1071,9 @@ type LinearDemoNode  = (((,) LDContent) LDHint)
 
 
 data LinearDemo = LinearDemo {
-  linearDemoLabel :: Text,
-  linearDemoContent :: [LinearDemoNode]
-}
+  linearDemoLabel :: !(Text),
+  linearDemoContent :: !([LinearDemoNode])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LinearDemo where
@@ -1096,9 +1102,9 @@ instance Show LinearDemo where
     show rec = "linearDemoLabel: " <> show (linearDemoLabel rec) <> ", " <> "linearDemoContent: " <> show (linearDemoContent rec)
 
 data QA = QA {
-  qaQuestion :: Text,
-  qaAnswer :: Text
-}
+  qaQuestion :: !(Text),
+  qaAnswer :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON QA where
@@ -1127,10 +1133,10 @@ instance Show QA where
     show rec = "qaQuestion: " <> show (qaQuestion rec) <> ", " <> "qaAnswer: " <> show (qaAnswer rec)
 
 data Table = Table {
-  tableTitle :: Text,
-  tableColumns :: [Text],
-  tableRows :: [[(Maybe Text)]]
-}
+  tableTitle :: !(Text),
+  tableColumns :: !([Text]),
+  tableRows :: !([[(Maybe Text)]])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Table where

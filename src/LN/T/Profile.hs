@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,20 +14,23 @@ module LN.T.Profile where
 import LN.T.Ent
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ProfileX = ProfileX {
-  profileLogin :: Text,
-  profileName :: Text,
-  profileEmail :: Text
-}
+  profileLogin :: !(Text),
+  profileName :: !(Text),
+  profileEmail :: !(Text)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ProfileX where
@@ -59,7 +65,7 @@ data ProfileGender
   = GenderMale 
   | GenderFemale 
   | GenderUnknown 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ProfileGender where
@@ -115,14 +121,14 @@ instance Read ProfileGender where
 
 
 data ProfileRequest = ProfileRequest {
-  profileRequestGender :: ProfileGender,
-  profileRequestBirthdate :: UTCTime,
-  profileRequestWebsite :: (Maybe Text),
-  profileRequestLocation :: (Maybe Text),
-  profileRequestSignature :: (Maybe Text),
-  profileRequestDebug :: Bool,
-  profileRequestGuard :: Int
-}
+  profileRequestGender :: !(ProfileGender),
+  profileRequestBirthdate :: !(UTCTime),
+  profileRequestWebsite :: !((Maybe Text)),
+  profileRequestLocation :: !((Maybe Text)),
+  profileRequestSignature :: !((Maybe Text)),
+  profileRequestDebug :: !(Bool),
+  profileRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ProfileRequest where
@@ -166,21 +172,21 @@ instance Show ProfileRequest where
     show rec = "profileRequestGender: " <> show (profileRequestGender rec) <> ", " <> "profileRequestBirthdate: " <> show (profileRequestBirthdate rec) <> ", " <> "profileRequestWebsite: " <> show (profileRequestWebsite rec) <> ", " <> "profileRequestLocation: " <> show (profileRequestLocation rec) <> ", " <> "profileRequestSignature: " <> show (profileRequestSignature rec) <> ", " <> "profileRequestDebug: " <> show (profileRequestDebug rec) <> ", " <> "profileRequestGuard: " <> show (profileRequestGuard rec)
 
 data ProfileResponse = ProfileResponse {
-  profileResponseId :: Int64,
-  profileResponseEnt :: Ent,
-  profileResponseEntId :: Int64,
-  profileResponseGender :: ProfileGender,
-  profileResponseBirthdate :: UTCTime,
-  profileResponseWebsite :: (Maybe Text),
-  profileResponseLocation :: (Maybe Text),
-  profileResponseSignature :: (Maybe Text),
-  profileResponseDebug :: Bool,
-  profileResponseKarmaGood :: Int,
-  profileResponseKarmaBad :: Int,
-  profileResponseGuard :: Int,
-  profileResponseCreatedAt :: (Maybe UTCTime),
-  profileResponseModifiedAt :: (Maybe UTCTime)
-}
+  profileResponseId :: !(Int64),
+  profileResponseEnt :: !(Ent),
+  profileResponseEntId :: !(Int64),
+  profileResponseGender :: !(ProfileGender),
+  profileResponseBirthdate :: !(UTCTime),
+  profileResponseWebsite :: !((Maybe Text)),
+  profileResponseLocation :: !((Maybe Text)),
+  profileResponseSignature :: !((Maybe Text)),
+  profileResponseDebug :: !(Bool),
+  profileResponseKarmaGood :: !(Int),
+  profileResponseKarmaBad :: !(Int),
+  profileResponseGuard :: !(Int),
+  profileResponseCreatedAt :: !((Maybe UTCTime)),
+  profileResponseModifiedAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ProfileResponse where
@@ -245,8 +251,8 @@ instance Show ProfileResponse where
     show rec = "profileResponseId: " <> show (profileResponseId rec) <> ", " <> "profileResponseEnt: " <> show (profileResponseEnt rec) <> ", " <> "profileResponseEntId: " <> show (profileResponseEntId rec) <> ", " <> "profileResponseGender: " <> show (profileResponseGender rec) <> ", " <> "profileResponseBirthdate: " <> show (profileResponseBirthdate rec) <> ", " <> "profileResponseWebsite: " <> show (profileResponseWebsite rec) <> ", " <> "profileResponseLocation: " <> show (profileResponseLocation rec) <> ", " <> "profileResponseSignature: " <> show (profileResponseSignature rec) <> ", " <> "profileResponseDebug: " <> show (profileResponseDebug rec) <> ", " <> "profileResponseKarmaGood: " <> show (profileResponseKarmaGood rec) <> ", " <> "profileResponseKarmaBad: " <> show (profileResponseKarmaBad rec) <> ", " <> "profileResponseGuard: " <> show (profileResponseGuard rec) <> ", " <> "profileResponseCreatedAt: " <> show (profileResponseCreatedAt rec) <> ", " <> "profileResponseModifiedAt: " <> show (profileResponseModifiedAt rec)
 
 data ProfileResponses = ProfileResponses {
-  profileResponses :: [ProfileResponse]
-}
+  profileResponses :: !([ProfileResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ProfileResponses where

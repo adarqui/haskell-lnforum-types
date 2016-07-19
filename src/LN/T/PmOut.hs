@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,19 +14,22 @@ module LN.T.PmOut where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data PmOutRequest = PmOutRequest {
-  pmOutRequestLabel :: (Maybe Text),
-  pmOutRequestGuard :: Int
-}
+  pmOutRequestLabel :: !((Maybe Text)),
+  pmOutRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmOutRequest where
@@ -52,16 +58,16 @@ instance Show PmOutRequest where
     show rec = "pmOutRequestLabel: " <> show (pmOutRequestLabel rec) <> ", " <> "pmOutRequestGuard: " <> show (pmOutRequestGuard rec)
 
 data PmOutResponse = PmOutResponse {
-  pmOutResponseId :: Int64,
-  pmOutResponsePmId :: Int64,
-  pmOutResponseUserId :: Int64,
-  pmOutResponseLabel :: (Maybe Text),
-  pmOutResponseIsSaved :: Bool,
-  pmOutResponseActive :: Bool,
-  pmOutResponseGuard :: Int,
-  pmOutResponseCreatedAt :: (Maybe UTCTime),
-  pmOutResponseModifiedAt :: (Maybe UTCTime)
-}
+  pmOutResponseId :: !(Int64),
+  pmOutResponsePmId :: !(Int64),
+  pmOutResponseUserId :: !(Int64),
+  pmOutResponseLabel :: !((Maybe Text)),
+  pmOutResponseIsSaved :: !(Bool),
+  pmOutResponseActive :: !(Bool),
+  pmOutResponseGuard :: !(Int),
+  pmOutResponseCreatedAt :: !((Maybe UTCTime)),
+  pmOutResponseModifiedAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmOutResponse where
@@ -111,8 +117,8 @@ instance Show PmOutResponse where
     show rec = "pmOutResponseId: " <> show (pmOutResponseId rec) <> ", " <> "pmOutResponsePmId: " <> show (pmOutResponsePmId rec) <> ", " <> "pmOutResponseUserId: " <> show (pmOutResponseUserId rec) <> ", " <> "pmOutResponseLabel: " <> show (pmOutResponseLabel rec) <> ", " <> "pmOutResponseIsSaved: " <> show (pmOutResponseIsSaved rec) <> ", " <> "pmOutResponseActive: " <> show (pmOutResponseActive rec) <> ", " <> "pmOutResponseGuard: " <> show (pmOutResponseGuard rec) <> ", " <> "pmOutResponseCreatedAt: " <> show (pmOutResponseCreatedAt rec) <> ", " <> "pmOutResponseModifiedAt: " <> show (pmOutResponseModifiedAt rec)
 
 data PmOutResponses = PmOutResponses {
-  pmOutResponses :: [PmOutResponse]
-}
+  pmOutResponses :: !([PmOutResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmOutResponses where

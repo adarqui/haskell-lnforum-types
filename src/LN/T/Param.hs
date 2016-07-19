@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,14 +14,17 @@ module LN.T.Param where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data Param
   = Limit Int
@@ -84,7 +90,7 @@ data Param
   | WithBoard Bool
   | WithThread Bool
   | WithResource Bool
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON Param where
@@ -991,7 +997,7 @@ data ParamTag
   | ParamTag_WithBoard 
   | ParamTag_WithThread 
   | ParamTag_WithResource 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ParamTag where
@@ -1651,7 +1657,7 @@ data SortOrderBy
   | SortOrderBy_Dsc 
   | SortOrderBy_Rnd 
   | SortOrderBy_None 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON SortOrderBy where
@@ -1729,7 +1735,7 @@ data OrderBy
   | OrderBy_ThreadId 
   | OrderBy_Id 
   | OrderBy_None 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON OrderBy where

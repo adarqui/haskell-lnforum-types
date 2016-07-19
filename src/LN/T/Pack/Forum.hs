@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -16,24 +19,27 @@ import LN.T.Star
 import LN.T.Like
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ForumPackResponse = ForumPackResponse {
-  forumPackResponseForum :: ForumResponse,
-  forumPackResponseForumId :: Int64,
-  forumPackResponseStat :: ForumStatResponse,
-  forumPackResponseLike :: (Maybe LikeResponse),
-  forumPackResponseStar :: (Maybe StarResponse),
-  forumPackResponseWithOrganization :: (Maybe OrganizationResponse),
-  forumPackResponsePermissions :: Permissions
-}
+  forumPackResponseForum :: !(ForumResponse),
+  forumPackResponseForumId :: !(Int64),
+  forumPackResponseStat :: !(ForumStatResponse),
+  forumPackResponseLike :: !((Maybe LikeResponse)),
+  forumPackResponseStar :: !((Maybe StarResponse)),
+  forumPackResponseWithOrganization :: !((Maybe OrganizationResponse)),
+  forumPackResponsePermissions :: !(Permissions)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ForumPackResponse where
@@ -77,8 +83,8 @@ instance Show ForumPackResponse where
     show rec = "forumPackResponseForum: " <> show (forumPackResponseForum rec) <> ", " <> "forumPackResponseForumId: " <> show (forumPackResponseForumId rec) <> ", " <> "forumPackResponseStat: " <> show (forumPackResponseStat rec) <> ", " <> "forumPackResponseLike: " <> show (forumPackResponseLike rec) <> ", " <> "forumPackResponseStar: " <> show (forumPackResponseStar rec) <> ", " <> "forumPackResponseWithOrganization: " <> show (forumPackResponseWithOrganization rec) <> ", " <> "forumPackResponsePermissions: " <> show (forumPackResponsePermissions rec)
 
 data ForumPackResponses = ForumPackResponses {
-  forumPackResponses :: [ForumPackResponse]
-}
+  forumPackResponses :: !([ForumPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ForumPackResponses where

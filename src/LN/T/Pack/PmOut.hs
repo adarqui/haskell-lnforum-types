@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -12,21 +15,24 @@ import LN.T.PmOut
 import LN.T.User
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data PmOutPackResponse = PmOutPackResponse {
-  pmOutPackResponsePmOut :: PmOutResponse,
-  pmOutPackResponsePmOutId :: Int64,
-  pmOutPackResponseUser :: UserSanitizedResponse,
-  pmOutPackResponseUserId :: Int64
-}
+  pmOutPackResponsePmOut :: !(PmOutResponse),
+  pmOutPackResponsePmOutId :: !(Int64),
+  pmOutPackResponseUser :: !(UserSanitizedResponse),
+  pmOutPackResponseUserId :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmOutPackResponse where
@@ -61,8 +67,8 @@ instance Show PmOutPackResponse where
     show rec = "pmOutPackResponsePmOut: " <> show (pmOutPackResponsePmOut rec) <> ", " <> "pmOutPackResponsePmOutId: " <> show (pmOutPackResponsePmOutId rec) <> ", " <> "pmOutPackResponseUser: " <> show (pmOutPackResponseUser rec) <> ", " <> "pmOutPackResponseUserId: " <> show (pmOutPackResponseUserId rec)
 
 data PmOutPackResponses = PmOutPackResponses {
-  pmOutPackResponses :: [PmOutPackResponse]
-}
+  pmOutPackResponses :: !([PmOutPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmOutPackResponses where

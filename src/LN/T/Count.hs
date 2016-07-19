@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,19 +14,22 @@ module LN.T.Count where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data CountResponse = CountResponse {
-  countResponseId :: Int64,
-  countResponseN :: Int64
-}
+  countResponseId :: !(Int64),
+  countResponseN :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON CountResponse where
@@ -52,8 +58,8 @@ instance Show CountResponse where
     show rec = "countResponseId: " <> show (countResponseId rec) <> ", " <> "countResponseN: " <> show (countResponseN rec)
 
 data CountResponses = CountResponses {
-  countResponses :: [CountResponse]
-}
+  countResponses :: !([CountResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON CountResponses where

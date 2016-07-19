@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -19,29 +22,32 @@ import LN.T.Like
 import LN.T.Star
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ThreadPostPackResponse = ThreadPostPackResponse {
-  threadPostPackResponseThreadPost :: ThreadPostResponse,
-  threadPostPackResponseThreadPostId :: Int64,
-  threadPostPackResponseUser :: UserSanitizedResponse,
-  threadPostPackResponseUserId :: Int64,
-  threadPostPackResponseStat :: ThreadPostStatResponse,
-  threadPostPackResponseLike :: (Maybe LikeResponse),
-  threadPostPackResponseStar :: (Maybe StarResponse),
-  threadPostPackResponseWithOrganization :: (Maybe OrganizationResponse),
-  threadPostPackResponseWithForum :: (Maybe ForumResponse),
-  threadPostPackResponseWithBoard :: (Maybe BoardResponse),
-  threadPostPackResponseWithThread :: (Maybe ThreadResponse),
-  threadPostPackResponsePermissions :: Permissions
-}
+  threadPostPackResponseThreadPost :: !(ThreadPostResponse),
+  threadPostPackResponseThreadPostId :: !(Int64),
+  threadPostPackResponseUser :: !(UserSanitizedResponse),
+  threadPostPackResponseUserId :: !(Int64),
+  threadPostPackResponseStat :: !(ThreadPostStatResponse),
+  threadPostPackResponseLike :: !((Maybe LikeResponse)),
+  threadPostPackResponseStar :: !((Maybe StarResponse)),
+  threadPostPackResponseWithOrganization :: !((Maybe OrganizationResponse)),
+  threadPostPackResponseWithForum :: !((Maybe ForumResponse)),
+  threadPostPackResponseWithBoard :: !((Maybe BoardResponse)),
+  threadPostPackResponseWithThread :: !((Maybe ThreadResponse)),
+  threadPostPackResponsePermissions :: !(Permissions)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ThreadPostPackResponse where
@@ -100,8 +106,8 @@ instance Show ThreadPostPackResponse where
     show rec = "threadPostPackResponseThreadPost: " <> show (threadPostPackResponseThreadPost rec) <> ", " <> "threadPostPackResponseThreadPostId: " <> show (threadPostPackResponseThreadPostId rec) <> ", " <> "threadPostPackResponseUser: " <> show (threadPostPackResponseUser rec) <> ", " <> "threadPostPackResponseUserId: " <> show (threadPostPackResponseUserId rec) <> ", " <> "threadPostPackResponseStat: " <> show (threadPostPackResponseStat rec) <> ", " <> "threadPostPackResponseLike: " <> show (threadPostPackResponseLike rec) <> ", " <> "threadPostPackResponseStar: " <> show (threadPostPackResponseStar rec) <> ", " <> "threadPostPackResponseWithOrganization: " <> show (threadPostPackResponseWithOrganization rec) <> ", " <> "threadPostPackResponseWithForum: " <> show (threadPostPackResponseWithForum rec) <> ", " <> "threadPostPackResponseWithBoard: " <> show (threadPostPackResponseWithBoard rec) <> ", " <> "threadPostPackResponseWithThread: " <> show (threadPostPackResponseWithThread rec) <> ", " <> "threadPostPackResponsePermissions: " <> show (threadPostPackResponsePermissions rec)
 
 data ThreadPostPackResponses = ThreadPostPackResponses {
-  threadPostPackResponses :: [ThreadPostPackResponse]
-}
+  threadPostPackResponses :: !([ThreadPostPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ThreadPostPackResponses where

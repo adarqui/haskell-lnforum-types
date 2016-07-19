@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -15,25 +18,28 @@ import LN.T.Like
 import LN.T.Star
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ResourcePackResponse = ResourcePackResponse {
-  resourcePackResponseResource :: ResourceResponse,
-  resourcePackResponseResourceId :: Int64,
-  resourcePackResponseUser :: UserSanitizedResponse,
-  resourcePackResponseUserId :: Int64,
-  resourcePackResponseStat :: ResourceStatResponse,
-  resourcePackResponseLike :: (Maybe LikeResponse),
-  resourcePackResponseStar :: (Maybe StarResponse),
-  resourcePackResponsePermissions :: Permissions
-}
+  resourcePackResponseResource :: !(ResourceResponse),
+  resourcePackResponseResourceId :: !(Int64),
+  resourcePackResponseUser :: !(UserSanitizedResponse),
+  resourcePackResponseUserId :: !(Int64),
+  resourcePackResponseStat :: !(ResourceStatResponse),
+  resourcePackResponseLike :: !((Maybe LikeResponse)),
+  resourcePackResponseStar :: !((Maybe StarResponse)),
+  resourcePackResponsePermissions :: !(Permissions)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourcePackResponse where
@@ -80,8 +86,8 @@ instance Show ResourcePackResponse where
     show rec = "resourcePackResponseResource: " <> show (resourcePackResponseResource rec) <> ", " <> "resourcePackResponseResourceId: " <> show (resourcePackResponseResourceId rec) <> ", " <> "resourcePackResponseUser: " <> show (resourcePackResponseUser rec) <> ", " <> "resourcePackResponseUserId: " <> show (resourcePackResponseUserId rec) <> ", " <> "resourcePackResponseStat: " <> show (resourcePackResponseStat rec) <> ", " <> "resourcePackResponseLike: " <> show (resourcePackResponseLike rec) <> ", " <> "resourcePackResponseStar: " <> show (resourcePackResponseStar rec) <> ", " <> "resourcePackResponsePermissions: " <> show (resourcePackResponsePermissions rec)
 
 data ResourcePackResponses = ResourcePackResponses {
-  resourcePackResponses :: [ResourcePackResponse]
-}
+  resourcePackResponses :: !([ResourcePackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourcePackResponses where

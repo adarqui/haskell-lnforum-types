@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,14 +14,17 @@ module LN.T.Error where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ApplicationError
   = Error_Unknown 
@@ -31,7 +37,7 @@ data ApplicationError
   | Error_NotImplemented 
   | Error_InvalidArguments Text
   | Error_Unexpected 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ApplicationError where
@@ -153,7 +159,7 @@ instance Default ApplicationError where
 
 data ValidationError
   = Validate ValidationErrorCode (Maybe Text)
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ValidationError where
@@ -200,7 +206,7 @@ data ValidationErrorCode
   | Validate_GreaterThanMaximum 
   | Validate_SmallerThanMinimum 
   | Validate_Reason Text
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ValidationErrorCode where

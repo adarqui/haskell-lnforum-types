@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,26 +14,29 @@ module LN.T.Board where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data BoardRequest = BoardRequest {
-  boardRequestDisplayName :: Text,
-  boardRequestDescription :: (Maybe Text),
-  boardRequestIsAnonymous :: Bool,
-  boardRequestCanCreateSubBoards :: Bool,
-  boardRequestCanCreateThreads :: Bool,
-  boardRequestSuggestedTags :: [Text],
-  boardRequestIcon :: (Maybe Text),
-  boardRequestTags :: [Text],
-  boardRequestGuard :: Int
-}
+  boardRequestDisplayName :: !(Text),
+  boardRequestDescription :: !((Maybe Text)),
+  boardRequestIsAnonymous :: !(Bool),
+  boardRequestCanCreateSubBoards :: !(Bool),
+  boardRequestCanCreateThreads :: !(Bool),
+  boardRequestSuggestedTags :: !([Text]),
+  boardRequestIcon :: !((Maybe Text)),
+  boardRequestTags :: !([Text]),
+  boardRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BoardRequest where
@@ -80,27 +86,27 @@ instance Show BoardRequest where
     show rec = "boardRequestDisplayName: " <> show (boardRequestDisplayName rec) <> ", " <> "boardRequestDescription: " <> show (boardRequestDescription rec) <> ", " <> "boardRequestIsAnonymous: " <> show (boardRequestIsAnonymous rec) <> ", " <> "boardRequestCanCreateSubBoards: " <> show (boardRequestCanCreateSubBoards rec) <> ", " <> "boardRequestCanCreateThreads: " <> show (boardRequestCanCreateThreads rec) <> ", " <> "boardRequestSuggestedTags: " <> show (boardRequestSuggestedTags rec) <> ", " <> "boardRequestIcon: " <> show (boardRequestIcon rec) <> ", " <> "boardRequestTags: " <> show (boardRequestTags rec) <> ", " <> "boardRequestGuard: " <> show (boardRequestGuard rec)
 
 data BoardResponse = BoardResponse {
-  boardResponseId :: Int64,
-  boardResponseUserId :: Int64,
-  boardResponseOrgId :: Int64,
-  boardResponseForumId :: Int64,
-  boardResponseParentId :: (Maybe Int64),
-  boardResponseName :: Text,
-  boardResponseDisplayName :: Text,
-  boardResponseDescription :: (Maybe Text),
-  boardResponseIsAnonymous :: Bool,
-  boardResponseCanCreateSubBoards :: Bool,
-  boardResponseCanCreateThreads :: Bool,
-  boardResponseSuggestedTags :: [Text],
-  boardResponseIcon :: (Maybe Text),
-  boardResponseTags :: [Text],
-  boardResponseActive :: Bool,
-  boardResponseGuard :: Int,
-  boardResponseCreatedAt :: (Maybe UTCTime),
-  boardResponseModifiedBy :: (Maybe Int64),
-  boardResponseModifiedAt :: (Maybe UTCTime),
-  boardResponseActivityAt :: (Maybe UTCTime)
-}
+  boardResponseId :: !(Int64),
+  boardResponseUserId :: !(Int64),
+  boardResponseOrgId :: !(Int64),
+  boardResponseForumId :: !(Int64),
+  boardResponseParentId :: !((Maybe Int64)),
+  boardResponseName :: !(Text),
+  boardResponseDisplayName :: !(Text),
+  boardResponseDescription :: !((Maybe Text)),
+  boardResponseIsAnonymous :: !(Bool),
+  boardResponseCanCreateSubBoards :: !(Bool),
+  boardResponseCanCreateThreads :: !(Bool),
+  boardResponseSuggestedTags :: !([Text]),
+  boardResponseIcon :: !((Maybe Text)),
+  boardResponseTags :: !([Text]),
+  boardResponseActive :: !(Bool),
+  boardResponseGuard :: !(Int),
+  boardResponseCreatedAt :: !((Maybe UTCTime)),
+  boardResponseModifiedBy :: !((Maybe Int64)),
+  boardResponseModifiedAt :: !((Maybe UTCTime)),
+  boardResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BoardResponse where
@@ -183,8 +189,8 @@ instance Show BoardResponse where
     show rec = "boardResponseId: " <> show (boardResponseId rec) <> ", " <> "boardResponseUserId: " <> show (boardResponseUserId rec) <> ", " <> "boardResponseOrgId: " <> show (boardResponseOrgId rec) <> ", " <> "boardResponseForumId: " <> show (boardResponseForumId rec) <> ", " <> "boardResponseParentId: " <> show (boardResponseParentId rec) <> ", " <> "boardResponseName: " <> show (boardResponseName rec) <> ", " <> "boardResponseDisplayName: " <> show (boardResponseDisplayName rec) <> ", " <> "boardResponseDescription: " <> show (boardResponseDescription rec) <> ", " <> "boardResponseIsAnonymous: " <> show (boardResponseIsAnonymous rec) <> ", " <> "boardResponseCanCreateSubBoards: " <> show (boardResponseCanCreateSubBoards rec) <> ", " <> "boardResponseCanCreateThreads: " <> show (boardResponseCanCreateThreads rec) <> ", " <> "boardResponseSuggestedTags: " <> show (boardResponseSuggestedTags rec) <> ", " <> "boardResponseIcon: " <> show (boardResponseIcon rec) <> ", " <> "boardResponseTags: " <> show (boardResponseTags rec) <> ", " <> "boardResponseActive: " <> show (boardResponseActive rec) <> ", " <> "boardResponseGuard: " <> show (boardResponseGuard rec) <> ", " <> "boardResponseCreatedAt: " <> show (boardResponseCreatedAt rec) <> ", " <> "boardResponseModifiedBy: " <> show (boardResponseModifiedBy rec) <> ", " <> "boardResponseModifiedAt: " <> show (boardResponseModifiedAt rec) <> ", " <> "boardResponseActivityAt: " <> show (boardResponseActivityAt rec)
 
 data BoardResponses = BoardResponses {
-  boardResponses :: [BoardResponse]
-}
+  boardResponses :: !([BoardResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BoardResponses where
@@ -210,11 +216,11 @@ instance Show BoardResponses where
     show rec = "boardResponses: " <> show (boardResponses rec)
 
 data BoardStatResponse = BoardStatResponse {
-  boardStatResponseBoardId :: Int64,
-  boardStatResponseThreads :: Int64,
-  boardStatResponseThreadPosts :: Int64,
-  boardStatResponseViews :: Int64
-}
+  boardStatResponseBoardId :: !(Int64),
+  boardStatResponseThreads :: !(Int64),
+  boardStatResponseThreadPosts :: !(Int64),
+  boardStatResponseViews :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BoardStatResponse where
@@ -249,8 +255,8 @@ instance Show BoardStatResponse where
     show rec = "boardStatResponseBoardId: " <> show (boardStatResponseBoardId rec) <> ", " <> "boardStatResponseThreads: " <> show (boardStatResponseThreads rec) <> ", " <> "boardStatResponseThreadPosts: " <> show (boardStatResponseThreadPosts rec) <> ", " <> "boardStatResponseViews: " <> show (boardStatResponseViews rec)
 
 data BoardStatResponses = BoardStatResponses {
-  boardStatResponses :: [BoardStatResponse]
-}
+  boardStatResponses :: !([BoardStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BoardStatResponses where

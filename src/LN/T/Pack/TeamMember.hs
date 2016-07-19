@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -13,22 +16,25 @@ import LN.T.User
 import LN.T.Permission
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data TeamMemberPackResponse = TeamMemberPackResponse {
-  teamMemberPackResponseUser :: UserSanitizedResponse,
-  teamMemberPackResponseUserId :: Int64,
-  teamMemberPackResponseTeamMember :: TeamMemberResponse,
-  teamMemberPackResponseTeamMemberId :: Int64,
-  teamMemberPackResponsePermissions :: Permissions
-}
+  teamMemberPackResponseUser :: !(UserSanitizedResponse),
+  teamMemberPackResponseUserId :: !(Int64),
+  teamMemberPackResponseTeamMember :: !(TeamMemberResponse),
+  teamMemberPackResponseTeamMemberId :: !(Int64),
+  teamMemberPackResponsePermissions :: !(Permissions)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamMemberPackResponse where
@@ -66,8 +72,8 @@ instance Show TeamMemberPackResponse where
     show rec = "teamMemberPackResponseUser: " <> show (teamMemberPackResponseUser rec) <> ", " <> "teamMemberPackResponseUserId: " <> show (teamMemberPackResponseUserId rec) <> ", " <> "teamMemberPackResponseTeamMember: " <> show (teamMemberPackResponseTeamMember rec) <> ", " <> "teamMemberPackResponseTeamMemberId: " <> show (teamMemberPackResponseTeamMemberId rec) <> ", " <> "teamMemberPackResponsePermissions: " <> show (teamMemberPackResponsePermissions rec)
 
 data TeamMemberPackResponses = TeamMemberPackResponses {
-  teamMemberPackResponses :: [TeamMemberPackResponse]
-}
+  teamMemberPackResponses :: !([TeamMemberPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamMemberPackResponses where

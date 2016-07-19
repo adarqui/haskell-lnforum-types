@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -16,26 +19,29 @@ import LN.T.Star
 import LN.T.Like
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data LeuronPackResponse = LeuronPackResponse {
-  leuronPackResponseLeuron :: LeuronResponse,
-  leuronPackResponseLeuronId :: Int64,
-  leuronPackResponseUser :: UserSanitizedResponse,
-  leuronPackResponseUserId :: Int64,
-  leuronPackResponseTraining :: LeuronTrainingResponse,
-  leuronPackResponseStat :: LeuronStatResponse,
-  leuronPackResponseLike :: (Maybe LikeResponse),
-  leuronPackResponseStar :: (Maybe StarResponse),
-  leuronPackResponsePermissions :: Permissions
-}
+  leuronPackResponseLeuron :: !(LeuronResponse),
+  leuronPackResponseLeuronId :: !(Int64),
+  leuronPackResponseUser :: !(UserSanitizedResponse),
+  leuronPackResponseUserId :: !(Int64),
+  leuronPackResponseTraining :: !(LeuronTrainingResponse),
+  leuronPackResponseStat :: !(LeuronStatResponse),
+  leuronPackResponseLike :: !((Maybe LikeResponse)),
+  leuronPackResponseStar :: !((Maybe StarResponse)),
+  leuronPackResponsePermissions :: !(Permissions)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronPackResponse where
@@ -85,8 +91,8 @@ instance Show LeuronPackResponse where
     show rec = "leuronPackResponseLeuron: " <> show (leuronPackResponseLeuron rec) <> ", " <> "leuronPackResponseLeuronId: " <> show (leuronPackResponseLeuronId rec) <> ", " <> "leuronPackResponseUser: " <> show (leuronPackResponseUser rec) <> ", " <> "leuronPackResponseUserId: " <> show (leuronPackResponseUserId rec) <> ", " <> "leuronPackResponseTraining: " <> show (leuronPackResponseTraining rec) <> ", " <> "leuronPackResponseStat: " <> show (leuronPackResponseStat rec) <> ", " <> "leuronPackResponseLike: " <> show (leuronPackResponseLike rec) <> ", " <> "leuronPackResponseStar: " <> show (leuronPackResponseStar rec) <> ", " <> "leuronPackResponsePermissions: " <> show (leuronPackResponsePermissions rec)
 
 data LeuronPackResponses = LeuronPackResponses {
-  leuronPackResponses :: [LeuronPackResponse]
-}
+  leuronPackResponses :: !([LeuronPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LeuronPackResponses where

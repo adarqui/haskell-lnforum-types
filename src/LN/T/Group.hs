@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,18 +14,21 @@ module LN.T.Group where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data GroupRequest = GroupRequest {
-  groupRequestGuard :: Int
-}
+  groupRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupRequest where
@@ -48,17 +54,17 @@ instance Show GroupRequest where
     show rec = "groupRequestGuard: " <> show (groupRequestGuard rec)
 
 data GroupResponse = GroupResponse {
-  groupResponseId :: Int64,
-  groupResponseUserId :: Int64,
-  groupResponseGlobalGroupId :: Int64,
-  groupResponseOrganizationId :: Int64,
-  groupResponseActive :: Bool,
-  groupResponseGuard :: Int,
-  groupResponseCreatedAt :: (Maybe UTCTime),
-  groupResponseModifiedBy :: (Maybe Int64),
-  groupResponseModifiedAt :: (Maybe UTCTime),
-  groupResponseActivityAt :: (Maybe UTCTime)
-}
+  groupResponseId :: !(Int64),
+  groupResponseUserId :: !(Int64),
+  groupResponseGlobalGroupId :: !(Int64),
+  groupResponseOrganizationId :: !(Int64),
+  groupResponseActive :: !(Bool),
+  groupResponseGuard :: !(Int),
+  groupResponseCreatedAt :: !((Maybe UTCTime)),
+  groupResponseModifiedBy :: !((Maybe Int64)),
+  groupResponseModifiedAt :: !((Maybe UTCTime)),
+  groupResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupResponse where
@@ -111,8 +117,8 @@ instance Show GroupResponse where
     show rec = "groupResponseId: " <> show (groupResponseId rec) <> ", " <> "groupResponseUserId: " <> show (groupResponseUserId rec) <> ", " <> "groupResponseGlobalGroupId: " <> show (groupResponseGlobalGroupId rec) <> ", " <> "groupResponseOrganizationId: " <> show (groupResponseOrganizationId rec) <> ", " <> "groupResponseActive: " <> show (groupResponseActive rec) <> ", " <> "groupResponseGuard: " <> show (groupResponseGuard rec) <> ", " <> "groupResponseCreatedAt: " <> show (groupResponseCreatedAt rec) <> ", " <> "groupResponseModifiedBy: " <> show (groupResponseModifiedBy rec) <> ", " <> "groupResponseModifiedAt: " <> show (groupResponseModifiedAt rec) <> ", " <> "groupResponseActivityAt: " <> show (groupResponseActivityAt rec)
 
 data GroupResponses = GroupResponses {
-  groupResponses :: [GroupResponse]
-}
+  groupResponses :: !([GroupResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupResponses where
@@ -138,8 +144,8 @@ instance Show GroupResponses where
     show rec = "groupResponses: " <> show (groupResponses rec)
 
 data GroupStatResponse = GroupStatResponse {
-  groupStatResponseMembers :: Int64
-}
+  groupStatResponseMembers :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupStatResponse where
@@ -165,8 +171,8 @@ instance Show GroupStatResponse where
     show rec = "groupStatResponseMembers: " <> show (groupStatResponseMembers rec)
 
 data GroupStatResponses = GroupStatResponses {
-  groupStatResponses :: [GroupStatResponse]
-}
+  groupStatResponses :: !([GroupStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupStatResponses where

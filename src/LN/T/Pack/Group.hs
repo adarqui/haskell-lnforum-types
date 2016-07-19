@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -14,25 +17,28 @@ import LN.T.Permission
 import LN.T.Organization
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data GroupPackResponse = GroupPackResponse {
-  groupPackResponseUser :: UserSanitizedResponse,
-  groupPackResponseUserId :: Int64,
-  groupPackResponseGroup :: GroupResponse,
-  groupPackResponseGroupId :: Int64,
-  groupPackResponseOrganization :: OrganizationResponse,
-  groupPackResponseOrganizationId :: Int64,
-  groupPackResponseStat :: GroupStatResponse,
-  groupPackResponsePermissions :: Permissions
-}
+  groupPackResponseUser :: !(UserSanitizedResponse),
+  groupPackResponseUserId :: !(Int64),
+  groupPackResponseGroup :: !(GroupResponse),
+  groupPackResponseGroupId :: !(Int64),
+  groupPackResponseOrganization :: !(OrganizationResponse),
+  groupPackResponseOrganizationId :: !(Int64),
+  groupPackResponseStat :: !(GroupStatResponse),
+  groupPackResponsePermissions :: !(Permissions)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupPackResponse where
@@ -79,8 +85,8 @@ instance Show GroupPackResponse where
     show rec = "groupPackResponseUser: " <> show (groupPackResponseUser rec) <> ", " <> "groupPackResponseUserId: " <> show (groupPackResponseUserId rec) <> ", " <> "groupPackResponseGroup: " <> show (groupPackResponseGroup rec) <> ", " <> "groupPackResponseGroupId: " <> show (groupPackResponseGroupId rec) <> ", " <> "groupPackResponseOrganization: " <> show (groupPackResponseOrganization rec) <> ", " <> "groupPackResponseOrganizationId: " <> show (groupPackResponseOrganizationId rec) <> ", " <> "groupPackResponseStat: " <> show (groupPackResponseStat rec) <> ", " <> "groupPackResponsePermissions: " <> show (groupPackResponsePermissions rec)
 
 data GroupPackResponses = GroupPackResponses {
-  groupPackResponses :: [GroupPackResponse]
-}
+  groupPackResponses :: !([GroupPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GroupPackResponses where

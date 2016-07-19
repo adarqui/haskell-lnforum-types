@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,21 +14,24 @@ module LN.T.PmIn where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data PmInRequest = PmInRequest {
-  pmInRequestLabel :: (Maybe Text),
-  pmInRequestIsRead :: Bool,
-  pmInRequestIsStarred :: Bool,
-  pmInRequestGuard :: Int
-}
+  pmInRequestLabel :: !((Maybe Text)),
+  pmInRequestIsRead :: !(Bool),
+  pmInRequestIsStarred :: !(Bool),
+  pmInRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmInRequest where
@@ -60,19 +66,19 @@ instance Show PmInRequest where
     show rec = "pmInRequestLabel: " <> show (pmInRequestLabel rec) <> ", " <> "pmInRequestIsRead: " <> show (pmInRequestIsRead rec) <> ", " <> "pmInRequestIsStarred: " <> show (pmInRequestIsStarred rec) <> ", " <> "pmInRequestGuard: " <> show (pmInRequestGuard rec)
 
 data PmInResponse = PmInResponse {
-  pmInResponseId :: Int64,
-  pmInResponsePmId :: Int64,
-  pmInResponseUserId :: Int64,
-  pmInResponseLabel :: (Maybe Text),
-  pmInResponseIsRead :: Bool,
-  pmInResponseIsStarred :: Bool,
-  pmInResponseIsNew :: Bool,
-  pmInResponseIsSaved :: Bool,
-  pmInResponseActive :: Bool,
-  pmInResponseGuard :: Int,
-  pmInResponseCreatedAt :: (Maybe UTCTime),
-  pmInResponseModifiedAt :: (Maybe UTCTime)
-}
+  pmInResponseId :: !(Int64),
+  pmInResponsePmId :: !(Int64),
+  pmInResponseUserId :: !(Int64),
+  pmInResponseLabel :: !((Maybe Text)),
+  pmInResponseIsRead :: !(Bool),
+  pmInResponseIsStarred :: !(Bool),
+  pmInResponseIsNew :: !(Bool),
+  pmInResponseIsSaved :: !(Bool),
+  pmInResponseActive :: !(Bool),
+  pmInResponseGuard :: !(Int),
+  pmInResponseCreatedAt :: !((Maybe UTCTime)),
+  pmInResponseModifiedAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmInResponse where
@@ -131,8 +137,8 @@ instance Show PmInResponse where
     show rec = "pmInResponseId: " <> show (pmInResponseId rec) <> ", " <> "pmInResponsePmId: " <> show (pmInResponsePmId rec) <> ", " <> "pmInResponseUserId: " <> show (pmInResponseUserId rec) <> ", " <> "pmInResponseLabel: " <> show (pmInResponseLabel rec) <> ", " <> "pmInResponseIsRead: " <> show (pmInResponseIsRead rec) <> ", " <> "pmInResponseIsStarred: " <> show (pmInResponseIsStarred rec) <> ", " <> "pmInResponseIsNew: " <> show (pmInResponseIsNew rec) <> ", " <> "pmInResponseIsSaved: " <> show (pmInResponseIsSaved rec) <> ", " <> "pmInResponseActive: " <> show (pmInResponseActive rec) <> ", " <> "pmInResponseGuard: " <> show (pmInResponseGuard rec) <> ", " <> "pmInResponseCreatedAt: " <> show (pmInResponseCreatedAt rec) <> ", " <> "pmInResponseModifiedAt: " <> show (pmInResponseModifiedAt rec)
 
 data PmInResponses = PmInResponses {
-  pmInResponses :: [PmInResponse]
-}
+  pmInResponses :: !([PmInResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmInResponses where

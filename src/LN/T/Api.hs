@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,19 +14,22 @@ module LN.T.Api where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ApiRequest = ApiRequest {
-  apiRequestComment :: (Maybe Text),
-  apiRequestGuard :: Int
-}
+  apiRequestComment :: !((Maybe Text)),
+  apiRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ApiRequest where
@@ -52,14 +58,14 @@ instance Show ApiRequest where
     show rec = "apiRequestComment: " <> show (apiRequestComment rec) <> ", " <> "apiRequestGuard: " <> show (apiRequestGuard rec)
 
 data ApiResponse = ApiResponse {
-  apiResponseId :: Int64,
-  apiResponseUserId :: Int64,
-  apiResponseKey :: Text,
-  apiResponseComment :: (Maybe Text),
-  apiResponseGuard :: Int,
-  apiResponseCreatedAt :: (Maybe UTCTime),
-  apiResponseModifiedAt :: (Maybe UTCTime)
-}
+  apiResponseId :: !(Int64),
+  apiResponseUserId :: !(Int64),
+  apiResponseKey :: !(Text),
+  apiResponseComment :: !((Maybe Text)),
+  apiResponseGuard :: !(Int),
+  apiResponseCreatedAt :: !((Maybe UTCTime)),
+  apiResponseModifiedAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ApiResponse where
@@ -103,8 +109,8 @@ instance Show ApiResponse where
     show rec = "apiResponseId: " <> show (apiResponseId rec) <> ", " <> "apiResponseUserId: " <> show (apiResponseUserId rec) <> ", " <> "apiResponseKey: " <> show (apiResponseKey rec) <> ", " <> "apiResponseComment: " <> show (apiResponseComment rec) <> ", " <> "apiResponseGuard: " <> show (apiResponseGuard rec) <> ", " <> "apiResponseCreatedAt: " <> show (apiResponseCreatedAt rec) <> ", " <> "apiResponseModifiedAt: " <> show (apiResponseModifiedAt rec)
 
 data ApiResponses = ApiResponses {
-  apiResponses :: [ApiResponse]
-}
+  apiResponses :: !([ApiResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ApiResponses where

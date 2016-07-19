@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,20 +14,23 @@ module LN.T.Like where
 import LN.T.Ent
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data LikeOpt
   = Like 
   | Neutral 
   | Dislike 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LikeOpt where
@@ -80,10 +86,10 @@ instance Read LikeOpt where
 
 
 data LikeRequest = LikeRequest {
-  likeRequestOpt :: LikeOpt,
-  likeRequestReason :: (Maybe Text),
-  likeRequestGuard :: Int
-}
+  likeRequestOpt :: !(LikeOpt),
+  likeRequestReason :: !((Maybe Text)),
+  likeRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LikeRequest where
@@ -115,18 +121,18 @@ instance Show LikeRequest where
     show rec = "likeRequestOpt: " <> show (likeRequestOpt rec) <> ", " <> "likeRequestReason: " <> show (likeRequestReason rec) <> ", " <> "likeRequestGuard: " <> show (likeRequestGuard rec)
 
 data LikeResponse = LikeResponse {
-  likeResponseId :: Int64,
-  likeResponseEnt :: Ent,
-  likeResponseEntId :: Int64,
-  likeResponseUserId :: Int64,
-  likeResponseOpt :: LikeOpt,
-  likeResponseScore :: Int,
-  likeResponseReason :: (Maybe Text),
-  likeResponseActive :: Bool,
-  likeResponseGuard :: Int,
-  likeResponseCreatedAt :: (Maybe UTCTime),
-  likeResponseModifiedAt :: (Maybe UTCTime)
-}
+  likeResponseId :: !(Int64),
+  likeResponseEnt :: !(Ent),
+  likeResponseEntId :: !(Int64),
+  likeResponseUserId :: !(Int64),
+  likeResponseOpt :: !(LikeOpt),
+  likeResponseScore :: !(Int),
+  likeResponseReason :: !((Maybe Text)),
+  likeResponseActive :: !(Bool),
+  likeResponseGuard :: !(Int),
+  likeResponseCreatedAt :: !((Maybe UTCTime)),
+  likeResponseModifiedAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LikeResponse where
@@ -182,8 +188,8 @@ instance Show LikeResponse where
     show rec = "likeResponseId: " <> show (likeResponseId rec) <> ", " <> "likeResponseEnt: " <> show (likeResponseEnt rec) <> ", " <> "likeResponseEntId: " <> show (likeResponseEntId rec) <> ", " <> "likeResponseUserId: " <> show (likeResponseUserId rec) <> ", " <> "likeResponseOpt: " <> show (likeResponseOpt rec) <> ", " <> "likeResponseScore: " <> show (likeResponseScore rec) <> ", " <> "likeResponseReason: " <> show (likeResponseReason rec) <> ", " <> "likeResponseActive: " <> show (likeResponseActive rec) <> ", " <> "likeResponseGuard: " <> show (likeResponseGuard rec) <> ", " <> "likeResponseCreatedAt: " <> show (likeResponseCreatedAt rec) <> ", " <> "likeResponseModifiedAt: " <> show (likeResponseModifiedAt rec)
 
 data LikeResponses = LikeResponses {
-  likeResponses :: [LikeResponse]
-}
+  likeResponses :: !([LikeResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LikeResponses where
@@ -209,13 +215,13 @@ instance Show LikeResponses where
     show rec = "likeResponses: " <> show (likeResponses rec)
 
 data LikeStatResponse = LikeStatResponse {
-  likeStatResponseEnt :: Ent,
-  likeStatResponseEntId :: Int64,
-  likeStatResponseScore :: Int64,
-  likeStatResponseLike :: Int64,
-  likeStatResponseNeutral :: Int64,
-  likeStatResponseDislike :: Int64
-}
+  likeStatResponseEnt :: !(Ent),
+  likeStatResponseEntId :: !(Int64),
+  likeStatResponseScore :: !(Int64),
+  likeStatResponseLike :: !(Int64),
+  likeStatResponseNeutral :: !(Int64),
+  likeStatResponseDislike :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LikeStatResponse where
@@ -256,8 +262,8 @@ instance Show LikeStatResponse where
     show rec = "likeStatResponseEnt: " <> show (likeStatResponseEnt rec) <> ", " <> "likeStatResponseEntId: " <> show (likeStatResponseEntId rec) <> ", " <> "likeStatResponseScore: " <> show (likeStatResponseScore rec) <> ", " <> "likeStatResponseLike: " <> show (likeStatResponseLike rec) <> ", " <> "likeStatResponseNeutral: " <> show (likeStatResponseNeutral rec) <> ", " <> "likeStatResponseDislike: " <> show (likeStatResponseDislike rec)
 
 data LikeStatResponses = LikeStatResponses {
-  likeStatResponses :: [LikeStatResponse]
-}
+  likeStatResponses :: !([LikeStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON LikeStatResponses where

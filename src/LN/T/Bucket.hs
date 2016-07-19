@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,26 +14,29 @@ module LN.T.Bucket where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data BucketRequest = BucketRequest {
-  bucketRequestDisplayName :: Text,
-  bucketRequestDescription :: (Maybe Text),
-  bucketRequestScoreLo :: Int,
-  bucketRequestScoreHi :: Int,
-  bucketRequestLeurons :: [Int64],
-  bucketRequestResources :: [Int64],
-  bucketRequestCategories :: [Text],
-  bucketRequestFilters :: [Int64],
-  bucketRequestGuard :: Int
-}
+  bucketRequestDisplayName :: !(Text),
+  bucketRequestDescription :: !((Maybe Text)),
+  bucketRequestScoreLo :: !(Int),
+  bucketRequestScoreHi :: !(Int),
+  bucketRequestLeurons :: !([Int64]),
+  bucketRequestResources :: !([Int64]),
+  bucketRequestCategories :: !([Text]),
+  bucketRequestFilters :: !([Int64]),
+  bucketRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BucketRequest where
@@ -80,23 +86,23 @@ instance Show BucketRequest where
     show rec = "bucketRequestDisplayName: " <> show (bucketRequestDisplayName rec) <> ", " <> "bucketRequestDescription: " <> show (bucketRequestDescription rec) <> ", " <> "bucketRequestScoreLo: " <> show (bucketRequestScoreLo rec) <> ", " <> "bucketRequestScoreHi: " <> show (bucketRequestScoreHi rec) <> ", " <> "bucketRequestLeurons: " <> show (bucketRequestLeurons rec) <> ", " <> "bucketRequestResources: " <> show (bucketRequestResources rec) <> ", " <> "bucketRequestCategories: " <> show (bucketRequestCategories rec) <> ", " <> "bucketRequestFilters: " <> show (bucketRequestFilters rec) <> ", " <> "bucketRequestGuard: " <> show (bucketRequestGuard rec)
 
 data BucketResponse = BucketResponse {
-  bucketResponseId :: Int64,
-  bucketResponseUserId :: Int64,
-  bucketResponseName :: Text,
-  bucketResponseDisplayName :: Text,
-  bucketResponseDescription :: (Maybe Text),
-  bucketResponseScoreLo :: Int,
-  bucketResponseScoreHi :: Int,
-  bucketResponseLeurons :: [Int64],
-  bucketResponseResources :: [Int64],
-  bucketResponseCategories :: [Text],
-  bucketResponseFilters :: [Int64],
-  bucketResponseActive :: Bool,
-  bucketResponseGuard :: Int,
-  bucketResponseCreatedAt :: (Maybe UTCTime),
-  bucketResponseModifiedAt :: (Maybe UTCTime),
-  bucketResponseActivityAt :: (Maybe UTCTime)
-}
+  bucketResponseId :: !(Int64),
+  bucketResponseUserId :: !(Int64),
+  bucketResponseName :: !(Text),
+  bucketResponseDisplayName :: !(Text),
+  bucketResponseDescription :: !((Maybe Text)),
+  bucketResponseScoreLo :: !(Int),
+  bucketResponseScoreHi :: !(Int),
+  bucketResponseLeurons :: !([Int64]),
+  bucketResponseResources :: !([Int64]),
+  bucketResponseCategories :: !([Text]),
+  bucketResponseFilters :: !([Int64]),
+  bucketResponseActive :: !(Bool),
+  bucketResponseGuard :: !(Int),
+  bucketResponseCreatedAt :: !((Maybe UTCTime)),
+  bucketResponseModifiedAt :: !((Maybe UTCTime)),
+  bucketResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BucketResponse where
@@ -167,8 +173,8 @@ instance Show BucketResponse where
     show rec = "bucketResponseId: " <> show (bucketResponseId rec) <> ", " <> "bucketResponseUserId: " <> show (bucketResponseUserId rec) <> ", " <> "bucketResponseName: " <> show (bucketResponseName rec) <> ", " <> "bucketResponseDisplayName: " <> show (bucketResponseDisplayName rec) <> ", " <> "bucketResponseDescription: " <> show (bucketResponseDescription rec) <> ", " <> "bucketResponseScoreLo: " <> show (bucketResponseScoreLo rec) <> ", " <> "bucketResponseScoreHi: " <> show (bucketResponseScoreHi rec) <> ", " <> "bucketResponseLeurons: " <> show (bucketResponseLeurons rec) <> ", " <> "bucketResponseResources: " <> show (bucketResponseResources rec) <> ", " <> "bucketResponseCategories: " <> show (bucketResponseCategories rec) <> ", " <> "bucketResponseFilters: " <> show (bucketResponseFilters rec) <> ", " <> "bucketResponseActive: " <> show (bucketResponseActive rec) <> ", " <> "bucketResponseGuard: " <> show (bucketResponseGuard rec) <> ", " <> "bucketResponseCreatedAt: " <> show (bucketResponseCreatedAt rec) <> ", " <> "bucketResponseModifiedAt: " <> show (bucketResponseModifiedAt rec) <> ", " <> "bucketResponseActivityAt: " <> show (bucketResponseActivityAt rec)
 
 data BucketResponses = BucketResponses {
-  bucketResponses :: [BucketResponse]
-}
+  bucketResponses :: !([BucketResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BucketResponses where

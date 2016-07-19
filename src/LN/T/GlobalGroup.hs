@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -12,24 +15,27 @@ import LN.T.Membership
 import LN.T.Visibility
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data GlobalGroupRequest = GlobalGroupRequest {
-  globalGroupRequestDisplayName :: Text,
-  globalGroupRequestDescription :: (Maybe Text),
-  globalGroupRequestMembership :: Membership,
-  globalGroupRequestIcon :: (Maybe Text),
-  globalGroupRequestTags :: [Text],
-  globalGroupRequestVisibility :: Visibility,
-  globalGroupRequestGuard :: Int
-}
+  globalGroupRequestDisplayName :: !(Text),
+  globalGroupRequestDescription :: !((Maybe Text)),
+  globalGroupRequestMembership :: !(Membership),
+  globalGroupRequestIcon :: !((Maybe Text)),
+  globalGroupRequestTags :: !([Text]),
+  globalGroupRequestVisibility :: !(Visibility),
+  globalGroupRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GlobalGroupRequest where
@@ -73,22 +79,22 @@ instance Show GlobalGroupRequest where
     show rec = "globalGroupRequestDisplayName: " <> show (globalGroupRequestDisplayName rec) <> ", " <> "globalGroupRequestDescription: " <> show (globalGroupRequestDescription rec) <> ", " <> "globalGroupRequestMembership: " <> show (globalGroupRequestMembership rec) <> ", " <> "globalGroupRequestIcon: " <> show (globalGroupRequestIcon rec) <> ", " <> "globalGroupRequestTags: " <> show (globalGroupRequestTags rec) <> ", " <> "globalGroupRequestVisibility: " <> show (globalGroupRequestVisibility rec) <> ", " <> "globalGroupRequestGuard: " <> show (globalGroupRequestGuard rec)
 
 data GlobalGroupResponse = GlobalGroupResponse {
-  globalGroupResponseId :: Int64,
-  globalGroupResponseUserId :: Int64,
-  globalGroupResponseName :: Text,
-  globalGroupResponseDisplayName :: Text,
-  globalGroupResponseDescription :: (Maybe Text),
-  globalGroupResponseMembership :: Membership,
-  globalGroupResponseIcon :: (Maybe Text),
-  globalGroupResponseTags :: [Text],
-  globalGroupResponseVisibility :: Visibility,
-  globalGroupResponseActive :: Bool,
-  globalGroupResponseGuard :: Int,
-  globalGroupResponseCreatedAt :: (Maybe UTCTime),
-  globalGroupResponseModifiedBy :: (Maybe Int64),
-  globalGroupResponseModifiedAt :: (Maybe UTCTime),
-  globalGroupResponseActivityAt :: (Maybe UTCTime)
-}
+  globalGroupResponseId :: !(Int64),
+  globalGroupResponseUserId :: !(Int64),
+  globalGroupResponseName :: !(Text),
+  globalGroupResponseDisplayName :: !(Text),
+  globalGroupResponseDescription :: !((Maybe Text)),
+  globalGroupResponseMembership :: !(Membership),
+  globalGroupResponseIcon :: !((Maybe Text)),
+  globalGroupResponseTags :: !([Text]),
+  globalGroupResponseVisibility :: !(Visibility),
+  globalGroupResponseActive :: !(Bool),
+  globalGroupResponseGuard :: !(Int),
+  globalGroupResponseCreatedAt :: !((Maybe UTCTime)),
+  globalGroupResponseModifiedBy :: !((Maybe Int64)),
+  globalGroupResponseModifiedAt :: !((Maybe UTCTime)),
+  globalGroupResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GlobalGroupResponse where
@@ -156,8 +162,8 @@ instance Show GlobalGroupResponse where
     show rec = "globalGroupResponseId: " <> show (globalGroupResponseId rec) <> ", " <> "globalGroupResponseUserId: " <> show (globalGroupResponseUserId rec) <> ", " <> "globalGroupResponseName: " <> show (globalGroupResponseName rec) <> ", " <> "globalGroupResponseDisplayName: " <> show (globalGroupResponseDisplayName rec) <> ", " <> "globalGroupResponseDescription: " <> show (globalGroupResponseDescription rec) <> ", " <> "globalGroupResponseMembership: " <> show (globalGroupResponseMembership rec) <> ", " <> "globalGroupResponseIcon: " <> show (globalGroupResponseIcon rec) <> ", " <> "globalGroupResponseTags: " <> show (globalGroupResponseTags rec) <> ", " <> "globalGroupResponseVisibility: " <> show (globalGroupResponseVisibility rec) <> ", " <> "globalGroupResponseActive: " <> show (globalGroupResponseActive rec) <> ", " <> "globalGroupResponseGuard: " <> show (globalGroupResponseGuard rec) <> ", " <> "globalGroupResponseCreatedAt: " <> show (globalGroupResponseCreatedAt rec) <> ", " <> "globalGroupResponseModifiedBy: " <> show (globalGroupResponseModifiedBy rec) <> ", " <> "globalGroupResponseModifiedAt: " <> show (globalGroupResponseModifiedAt rec) <> ", " <> "globalGroupResponseActivityAt: " <> show (globalGroupResponseActivityAt rec)
 
 data GlobalGroupResponses = GlobalGroupResponses {
-  globalGroupResponses :: [GlobalGroupResponse]
-}
+  globalGroupResponses :: !([GlobalGroupResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GlobalGroupResponses where
@@ -183,8 +189,8 @@ instance Show GlobalGroupResponses where
     show rec = "globalGroupResponses: " <> show (globalGroupResponses rec)
 
 data GlobalGroupStatResponse = GlobalGroupStatResponse {
-  globalGroupStatResponseGroups :: Int64
-}
+  globalGroupStatResponseGroups :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GlobalGroupStatResponse where
@@ -210,8 +216,8 @@ instance Show GlobalGroupStatResponse where
     show rec = "globalGroupStatResponseGroups: " <> show (globalGroupStatResponseGroups rec)
 
 data GlobalGroupStatResponses = GlobalGroupStatResponses {
-  globalGroupStatResponses :: [GlobalGroupStatResponse]
-}
+  globalGroupStatResponses :: !([GlobalGroupStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON GlobalGroupStatResponses where

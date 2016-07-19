@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -11,20 +14,23 @@ module LN.T.Pm where
 
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data PmRequest = PmRequest {
-  pmRequestSubject :: Text,
-  pmRequestBody :: Text,
-  pmRequestGuard :: Int
-}
+  pmRequestSubject :: !(Text),
+  pmRequestBody :: !(Text),
+  pmRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmRequest where
@@ -56,17 +62,17 @@ instance Show PmRequest where
     show rec = "pmRequestSubject: " <> show (pmRequestSubject rec) <> ", " <> "pmRequestBody: " <> show (pmRequestBody rec) <> ", " <> "pmRequestGuard: " <> show (pmRequestGuard rec)
 
 data PmResponse = PmResponse {
-  pmResponseId :: Int64,
-  pmResponseUserId :: Int64,
-  pmResponseToUserId :: Int64,
-  pmResponseSubject :: Text,
-  pmResponseBody :: Text,
-  pmResponseActive :: Bool,
-  pmResponseGuard :: Int,
-  pmResponseCreatedAt :: (Maybe UTCTime),
-  pmResponseModifiedAt :: (Maybe UTCTime),
-  pmResponseActivityAt :: (Maybe UTCTime)
-}
+  pmResponseId :: !(Int64),
+  pmResponseUserId :: !(Int64),
+  pmResponseToUserId :: !(Int64),
+  pmResponseSubject :: !(Text),
+  pmResponseBody :: !(Text),
+  pmResponseActive :: !(Bool),
+  pmResponseGuard :: !(Int),
+  pmResponseCreatedAt :: !((Maybe UTCTime)),
+  pmResponseModifiedAt :: !((Maybe UTCTime)),
+  pmResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmResponse where
@@ -119,8 +125,8 @@ instance Show PmResponse where
     show rec = "pmResponseId: " <> show (pmResponseId rec) <> ", " <> "pmResponseUserId: " <> show (pmResponseUserId rec) <> ", " <> "pmResponseToUserId: " <> show (pmResponseToUserId rec) <> ", " <> "pmResponseSubject: " <> show (pmResponseSubject rec) <> ", " <> "pmResponseBody: " <> show (pmResponseBody rec) <> ", " <> "pmResponseActive: " <> show (pmResponseActive rec) <> ", " <> "pmResponseGuard: " <> show (pmResponseGuard rec) <> ", " <> "pmResponseCreatedAt: " <> show (pmResponseCreatedAt rec) <> ", " <> "pmResponseModifiedAt: " <> show (pmResponseModifiedAt rec) <> ", " <> "pmResponseActivityAt: " <> show (pmResponseActivityAt rec)
 
 data PmResponses = PmResponses {
-  pmResponses :: [PmResponse]
-}
+  pmResponses :: !([PmResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON PmResponses where

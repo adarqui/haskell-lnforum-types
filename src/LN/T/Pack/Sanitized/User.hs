@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -14,24 +17,27 @@ import LN.T.Star
 import LN.T.Profile
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data UserSanitizedPackResponse = UserSanitizedPackResponse {
-  userSanitizedPackResponseUser :: UserSanitizedResponse,
-  userSanitizedPackResponseUserId :: Int64,
-  userSanitizedPackResponseProfile :: ProfileResponse,
-  userSanitizedPackResponseProfileId :: Int64,
-  userSanitizedPackResponseStat :: UserSanitizedStatResponse,
-  userSanitizedPackResponseLike :: (Maybe LikeResponse),
-  userSanitizedPackResponseStar :: (Maybe StarResponse)
-}
+  userSanitizedPackResponseUser :: !(UserSanitizedResponse),
+  userSanitizedPackResponseUserId :: !(Int64),
+  userSanitizedPackResponseProfile :: !(ProfileResponse),
+  userSanitizedPackResponseProfileId :: !(Int64),
+  userSanitizedPackResponseStat :: !(UserSanitizedStatResponse),
+  userSanitizedPackResponseLike :: !((Maybe LikeResponse)),
+  userSanitizedPackResponseStar :: !((Maybe StarResponse))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserSanitizedPackResponse where
@@ -75,8 +81,8 @@ instance Show UserSanitizedPackResponse where
     show rec = "userSanitizedPackResponseUser: " <> show (userSanitizedPackResponseUser rec) <> ", " <> "userSanitizedPackResponseUserId: " <> show (userSanitizedPackResponseUserId rec) <> ", " <> "userSanitizedPackResponseProfile: " <> show (userSanitizedPackResponseProfile rec) <> ", " <> "userSanitizedPackResponseProfileId: " <> show (userSanitizedPackResponseProfileId rec) <> ", " <> "userSanitizedPackResponseStat: " <> show (userSanitizedPackResponseStat rec) <> ", " <> "userSanitizedPackResponseLike: " <> show (userSanitizedPackResponseLike rec) <> ", " <> "userSanitizedPackResponseStar: " <> show (userSanitizedPackResponseStar rec)
 
 data UserSanitizedPackResponses = UserSanitizedPackResponses {
-  userSanitizedPackResponses :: [UserSanitizedPackResponse]
-}
+  userSanitizedPackResponses :: !([UserSanitizedPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON UserSanitizedPackResponses where

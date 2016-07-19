@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -16,26 +19,29 @@ import LN.T.Star
 import LN.T.Permission
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data OrganizationPackResponse = OrganizationPackResponse {
-  organizationPackResponseUser :: UserSanitizedResponse,
-  organizationPackResponseUserId :: Int64,
-  organizationPackResponseOrganization :: OrganizationResponse,
-  organizationPackResponseOrganizationId :: Int64,
-  organizationPackResponseStat :: OrganizationStatResponse,
-  organizationPackResponseLike :: (Maybe LikeResponse),
-  organizationPackResponseStar :: (Maybe StarResponse),
-  organizationPackResponsePermissions :: Permissions,
-  organizationPackResponseTeams :: [SystemTeam]
-}
+  organizationPackResponseUser :: !(UserSanitizedResponse),
+  organizationPackResponseUserId :: !(Int64),
+  organizationPackResponseOrganization :: !(OrganizationResponse),
+  organizationPackResponseOrganizationId :: !(Int64),
+  organizationPackResponseStat :: !(OrganizationStatResponse),
+  organizationPackResponseLike :: !((Maybe LikeResponse)),
+  organizationPackResponseStar :: !((Maybe StarResponse)),
+  organizationPackResponsePermissions :: !(Permissions),
+  organizationPackResponseTeams :: !([SystemTeam])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON OrganizationPackResponse where
@@ -85,8 +91,8 @@ instance Show OrganizationPackResponse where
     show rec = "organizationPackResponseUser: " <> show (organizationPackResponseUser rec) <> ", " <> "organizationPackResponseUserId: " <> show (organizationPackResponseUserId rec) <> ", " <> "organizationPackResponseOrganization: " <> show (organizationPackResponseOrganization rec) <> ", " <> "organizationPackResponseOrganizationId: " <> show (organizationPackResponseOrganizationId rec) <> ", " <> "organizationPackResponseStat: " <> show (organizationPackResponseStat rec) <> ", " <> "organizationPackResponseLike: " <> show (organizationPackResponseLike rec) <> ", " <> "organizationPackResponseStar: " <> show (organizationPackResponseStar rec) <> ", " <> "organizationPackResponsePermissions: " <> show (organizationPackResponsePermissions rec) <> ", " <> "organizationPackResponseTeams: " <> show (organizationPackResponseTeams rec)
 
 data OrganizationPackResponses = OrganizationPackResponses {
-  organizationPackResponses :: [OrganizationPackResponse]
-}
+  organizationPackResponses :: !([OrganizationPackResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON OrganizationPackResponses where

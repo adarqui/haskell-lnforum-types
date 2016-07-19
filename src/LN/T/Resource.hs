@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -12,14 +15,17 @@ import LN.T.DepList
 import LN.T.Visibility
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data ResourceType
   = ISBN13 Text
@@ -27,7 +33,7 @@ data ResourceType
   | ISBN Text
   | URL Text
   | SourceNone 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourceType where
@@ -111,7 +117,7 @@ data TyResourceType
   | TyISBN 
   | TyURL 
   | TySourceNone 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TyResourceType where
@@ -178,20 +184,20 @@ instance Show TyResourceType where
 
 
 data ResourceRequest = ResourceRequest {
-  resourceRequestDisplayName :: Text,
-  resourceRequestDescription :: Text,
-  resourceRequestSource :: ResourceType,
-  resourceRequestAuthor :: (Maybe [Text]),
-  resourceRequestPrerequisites :: (DepList Text),
-  resourceRequestCategories :: (DepList Text),
-  resourceRequestVisibility :: Visibility,
-  resourceRequestCounter :: Int,
-  resourceRequestVersion :: (Maybe Text),
-  resourceRequestUrls :: (Maybe [Text]),
-  resourceRequestIcon :: (Maybe Text),
-  resourceRequestTags :: [Text],
-  resourceRequestGuard :: Int
-}
+  resourceRequestDisplayName :: !(Text),
+  resourceRequestDescription :: !(Text),
+  resourceRequestSource :: !(ResourceType),
+  resourceRequestAuthor :: !((Maybe [Text])),
+  resourceRequestPrerequisites :: !((DepList Text)),
+  resourceRequestCategories :: !((DepList Text)),
+  resourceRequestVisibility :: !(Visibility),
+  resourceRequestCounter :: !(Int),
+  resourceRequestVersion :: !((Maybe Text)),
+  resourceRequestUrls :: !((Maybe [Text])),
+  resourceRequestIcon :: !((Maybe Text)),
+  resourceRequestTags :: !([Text]),
+  resourceRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourceRequest where
@@ -253,27 +259,27 @@ instance Show ResourceRequest where
     show rec = "resourceRequestDisplayName: " <> show (resourceRequestDisplayName rec) <> ", " <> "resourceRequestDescription: " <> show (resourceRequestDescription rec) <> ", " <> "resourceRequestSource: " <> show (resourceRequestSource rec) <> ", " <> "resourceRequestAuthor: " <> show (resourceRequestAuthor rec) <> ", " <> "resourceRequestPrerequisites: " <> show (resourceRequestPrerequisites rec) <> ", " <> "resourceRequestCategories: " <> show (resourceRequestCategories rec) <> ", " <> "resourceRequestVisibility: " <> show (resourceRequestVisibility rec) <> ", " <> "resourceRequestCounter: " <> show (resourceRequestCounter rec) <> ", " <> "resourceRequestVersion: " <> show (resourceRequestVersion rec) <> ", " <> "resourceRequestUrls: " <> show (resourceRequestUrls rec) <> ", " <> "resourceRequestIcon: " <> show (resourceRequestIcon rec) <> ", " <> "resourceRequestTags: " <> show (resourceRequestTags rec) <> ", " <> "resourceRequestGuard: " <> show (resourceRequestGuard rec)
 
 data ResourceResponse = ResourceResponse {
-  resourceResponseId :: Int64,
-  resourceResponseUserId :: Int64,
-  resourceResponseName :: Text,
-  resourceResponseDisplayName :: Text,
-  resourceResponseDescription :: Text,
-  resourceResponseSource :: ResourceType,
-  resourceResponseAuthor :: (Maybe [Text]),
-  resourceResponsePrerequisites :: (DepList Text),
-  resourceResponseCategories :: (DepList Text),
-  resourceResponseVisibility :: Visibility,
-  resourceResponseCounter :: Int,
-  resourceResponseVersion :: (Maybe Text),
-  resourceResponseUrls :: (Maybe [Text]),
-  resourceResponseIcon :: (Maybe Text),
-  resourceResponseTags :: [Text],
-  resourceResponseActive :: Bool,
-  resourceResponseGuard :: Int,
-  resourceResponseCreatedAt :: (Maybe UTCTime),
-  resourceResponseModifiedAt :: (Maybe UTCTime),
-  resourceResponseActivityAt :: (Maybe UTCTime)
-}
+  resourceResponseId :: !(Int64),
+  resourceResponseUserId :: !(Int64),
+  resourceResponseName :: !(Text),
+  resourceResponseDisplayName :: !(Text),
+  resourceResponseDescription :: !(Text),
+  resourceResponseSource :: !(ResourceType),
+  resourceResponseAuthor :: !((Maybe [Text])),
+  resourceResponsePrerequisites :: !((DepList Text)),
+  resourceResponseCategories :: !((DepList Text)),
+  resourceResponseVisibility :: !(Visibility),
+  resourceResponseCounter :: !(Int),
+  resourceResponseVersion :: !((Maybe Text)),
+  resourceResponseUrls :: !((Maybe [Text])),
+  resourceResponseIcon :: !((Maybe Text)),
+  resourceResponseTags :: !([Text]),
+  resourceResponseActive :: !(Bool),
+  resourceResponseGuard :: !(Int),
+  resourceResponseCreatedAt :: !((Maybe UTCTime)),
+  resourceResponseModifiedAt :: !((Maybe UTCTime)),
+  resourceResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourceResponse where
@@ -356,8 +362,8 @@ instance Show ResourceResponse where
     show rec = "resourceResponseId: " <> show (resourceResponseId rec) <> ", " <> "resourceResponseUserId: " <> show (resourceResponseUserId rec) <> ", " <> "resourceResponseName: " <> show (resourceResponseName rec) <> ", " <> "resourceResponseDisplayName: " <> show (resourceResponseDisplayName rec) <> ", " <> "resourceResponseDescription: " <> show (resourceResponseDescription rec) <> ", " <> "resourceResponseSource: " <> show (resourceResponseSource rec) <> ", " <> "resourceResponseAuthor: " <> show (resourceResponseAuthor rec) <> ", " <> "resourceResponsePrerequisites: " <> show (resourceResponsePrerequisites rec) <> ", " <> "resourceResponseCategories: " <> show (resourceResponseCategories rec) <> ", " <> "resourceResponseVisibility: " <> show (resourceResponseVisibility rec) <> ", " <> "resourceResponseCounter: " <> show (resourceResponseCounter rec) <> ", " <> "resourceResponseVersion: " <> show (resourceResponseVersion rec) <> ", " <> "resourceResponseUrls: " <> show (resourceResponseUrls rec) <> ", " <> "resourceResponseIcon: " <> show (resourceResponseIcon rec) <> ", " <> "resourceResponseTags: " <> show (resourceResponseTags rec) <> ", " <> "resourceResponseActive: " <> show (resourceResponseActive rec) <> ", " <> "resourceResponseGuard: " <> show (resourceResponseGuard rec) <> ", " <> "resourceResponseCreatedAt: " <> show (resourceResponseCreatedAt rec) <> ", " <> "resourceResponseModifiedAt: " <> show (resourceResponseModifiedAt rec) <> ", " <> "resourceResponseActivityAt: " <> show (resourceResponseActivityAt rec)
 
 data ResourceResponses = ResourceResponses {
-  resourceResponses :: [ResourceResponse]
-}
+  resourceResponses :: !([ResourceResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourceResponses where
@@ -383,14 +389,14 @@ instance Show ResourceResponses where
     show rec = "resourceResponses: " <> show (resourceResponses rec)
 
 data ResourceStatResponse = ResourceStatResponse {
-  resourceStatResponseResourceId :: Int64,
-  resourceStatResponseLeurons :: Int64,
-  resourceStatResponseLikes :: Int64,
-  resourceStatResponseNeutral :: Int64,
-  resourceStatResponseDislikes :: Int64,
-  resourceStatResponseStars :: Int64,
-  resourceStatResponseViews :: Int64
-}
+  resourceStatResponseResourceId :: !(Int64),
+  resourceStatResponseLeurons :: !(Int64),
+  resourceStatResponseLikes :: !(Int64),
+  resourceStatResponseNeutral :: !(Int64),
+  resourceStatResponseDislikes :: !(Int64),
+  resourceStatResponseStars :: !(Int64),
+  resourceStatResponseViews :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourceStatResponse where
@@ -434,8 +440,8 @@ instance Show ResourceStatResponse where
     show rec = "resourceStatResponseResourceId: " <> show (resourceStatResponseResourceId rec) <> ", " <> "resourceStatResponseLeurons: " <> show (resourceStatResponseLeurons rec) <> ", " <> "resourceStatResponseLikes: " <> show (resourceStatResponseLikes rec) <> ", " <> "resourceStatResponseNeutral: " <> show (resourceStatResponseNeutral rec) <> ", " <> "resourceStatResponseDislikes: " <> show (resourceStatResponseDislikes rec) <> ", " <> "resourceStatResponseStars: " <> show (resourceStatResponseStars rec) <> ", " <> "resourceStatResponseViews: " <> show (resourceStatResponseViews rec)
 
 data ResourceStatResponses = ResourceStatResponses {
-  resourceStatResponses :: [ResourceStatResponse]
-}
+  resourceStatResponses :: !([ResourceStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON ResourceStatResponses where

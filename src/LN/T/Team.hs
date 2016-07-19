@@ -1,3 +1,6 @@
+{-# LANGUAGE BangPatterns         #-}
+{-# LANGUAGE DeriveGeneric        #-}
+{-# LANGUAGE DeriveAnyClass       #-}
 {-# LANGUAGE ExtendedDefaultRules #-}
 {-# LANGUAGE OverloadedStrings    #-}
 {-# LANGUAGE RecordWildCards      #-}
@@ -12,19 +15,22 @@ import LN.T.Visibility
 import LN.T.Membership
 
 
+import           Control.DeepSeq     (NFData)
 import           Data.Aeson          (FromJSON, ToJSON (), Value (..), parseJSON, toJSON, object, (.=), (.:))
+import           Data.Default
 import           Data.Int            (Int64)
 import           Data.Text           (Text)
 import qualified Data.Text           as T
 import           Data.Time           (UTCTime)
+import           Data.Typeable       (Typeable)
 import           Data.Monoid         ((<>))
+import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
-import           Data.Default
 
 data SystemTeam
   = Team_Owners 
   | Team_Members 
-
+  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON SystemTeam where
@@ -70,12 +76,12 @@ instance Read SystemTeam where
 
 
 data TeamRequest = TeamRequest {
-  teamRequestMembership :: Membership,
-  teamRequestIcon :: (Maybe Text),
-  teamRequestTags :: [Text],
-  teamRequestVisibility :: Visibility,
-  teamRequestGuard :: Int
-}
+  teamRequestMembership :: !(Membership),
+  teamRequestIcon :: !((Maybe Text)),
+  teamRequestTags :: !([Text]),
+  teamRequestVisibility :: !(Visibility),
+  teamRequestGuard :: !(Int)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamRequest where
@@ -113,21 +119,21 @@ instance Show TeamRequest where
     show rec = "teamRequestMembership: " <> show (teamRequestMembership rec) <> ", " <> "teamRequestIcon: " <> show (teamRequestIcon rec) <> ", " <> "teamRequestTags: " <> show (teamRequestTags rec) <> ", " <> "teamRequestVisibility: " <> show (teamRequestVisibility rec) <> ", " <> "teamRequestGuard: " <> show (teamRequestGuard rec)
 
 data TeamResponse = TeamResponse {
-  teamResponseId :: Int64,
-  teamResponseUserId :: Int64,
-  teamResponseOrgId :: Int64,
-  teamResponseSystem :: SystemTeam,
-  teamResponseMembership :: Membership,
-  teamResponseIcon :: (Maybe Text),
-  teamResponseTags :: [Text],
-  teamResponseVisibility :: Visibility,
-  teamResponseActive :: Bool,
-  teamResponseGuard :: Int,
-  teamResponseCreatedAt :: (Maybe UTCTime),
-  teamResponseModifiedBy :: (Maybe Int64),
-  teamResponseModifiedAt :: (Maybe UTCTime),
-  teamResponseActivityAt :: (Maybe UTCTime)
-}
+  teamResponseId :: !(Int64),
+  teamResponseUserId :: !(Int64),
+  teamResponseOrgId :: !(Int64),
+  teamResponseSystem :: !(SystemTeam),
+  teamResponseMembership :: !(Membership),
+  teamResponseIcon :: !((Maybe Text)),
+  teamResponseTags :: !([Text]),
+  teamResponseVisibility :: !(Visibility),
+  teamResponseActive :: !(Bool),
+  teamResponseGuard :: !(Int),
+  teamResponseCreatedAt :: !((Maybe UTCTime)),
+  teamResponseModifiedBy :: !((Maybe Int64)),
+  teamResponseModifiedAt :: !((Maybe UTCTime)),
+  teamResponseActivityAt :: !((Maybe UTCTime))
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamResponse where
@@ -192,8 +198,8 @@ instance Show TeamResponse where
     show rec = "teamResponseId: " <> show (teamResponseId rec) <> ", " <> "teamResponseUserId: " <> show (teamResponseUserId rec) <> ", " <> "teamResponseOrgId: " <> show (teamResponseOrgId rec) <> ", " <> "teamResponseSystem: " <> show (teamResponseSystem rec) <> ", " <> "teamResponseMembership: " <> show (teamResponseMembership rec) <> ", " <> "teamResponseIcon: " <> show (teamResponseIcon rec) <> ", " <> "teamResponseTags: " <> show (teamResponseTags rec) <> ", " <> "teamResponseVisibility: " <> show (teamResponseVisibility rec) <> ", " <> "teamResponseActive: " <> show (teamResponseActive rec) <> ", " <> "teamResponseGuard: " <> show (teamResponseGuard rec) <> ", " <> "teamResponseCreatedAt: " <> show (teamResponseCreatedAt rec) <> ", " <> "teamResponseModifiedBy: " <> show (teamResponseModifiedBy rec) <> ", " <> "teamResponseModifiedAt: " <> show (teamResponseModifiedAt rec) <> ", " <> "teamResponseActivityAt: " <> show (teamResponseActivityAt rec)
 
 data TeamResponses = TeamResponses {
-  teamResponses :: [TeamResponse]
-}
+  teamResponses :: !([TeamResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamResponses where
@@ -219,8 +225,8 @@ instance Show TeamResponses where
     show rec = "teamResponses: " <> show (teamResponses rec)
 
 data TeamStatResponse = TeamStatResponse {
-  teamStatResponseMembers :: Int64
-}
+  teamStatResponseMembers :: !(Int64)
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamStatResponse where
@@ -246,8 +252,8 @@ instance Show TeamStatResponse where
     show rec = "teamStatResponseMembers: " <> show (teamStatResponseMembers rec)
 
 data TeamStatResponses = TeamStatResponses {
-  teamStatResponses :: [TeamStatResponse]
-}
+  teamStatResponses :: !([TeamStatResponse])
+}  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON TeamStatResponses where
