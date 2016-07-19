@@ -27,11 +27,11 @@ import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
 
 data PostData
-  = PostDataRaw Text
-  | PostDataMarkdown Text
-  | PostDataBBCode Text
-  | PostDataCode Text Text
-  | PostDataOther Text Text
+  = PostDataRaw !(Text)
+  | PostDataMarkdown !(Text)
+  | PostDataBBCode !(Text)
+  | PostDataCode !(Text) !(Text)
+  | PostDataOther !(Text) !(Text)
   | PostDataEmpty 
   deriving (Generic,Typeable,NFData)
 

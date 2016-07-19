@@ -28,10 +28,10 @@ import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
 
 data ResourceType
-  = ISBN13 Text
-  | ISBN10 Text
-  | ISBN Text
-  | URL Text
+  = ISBN13 !(Text)
+  | ISBN10 !(Text)
+  | ISBN !(Text)
+  | URL !(Text)
   | SourceNone 
   deriving (Generic,Typeable,NFData)
 

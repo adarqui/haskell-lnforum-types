@@ -33,9 +33,9 @@ data ApplicationError
   | Error_AlreadyExists 
   | Error_Visibility 
   | Error_Membership 
-  | Error_Validation ValidationError
+  | Error_Validation !(ValidationError)
   | Error_NotImplemented 
-  | Error_InvalidArguments Text
+  | Error_InvalidArguments !(Text)
   | Error_Unexpected 
   deriving (Generic,Typeable,NFData)
 
@@ -158,7 +158,7 @@ instance Default ApplicationError where
   def = Error_Unknown
 
 data ValidationError
-  = Validate ValidationErrorCode (Maybe Text)
+  = Validate !(ValidationErrorCode) !((Maybe Text))
   deriving (Generic,Typeable,NFData)
 
 
@@ -205,7 +205,7 @@ data ValidationErrorCode
   | Validate_TooShort 
   | Validate_GreaterThanMaximum 
   | Validate_SmallerThanMinimum 
-  | Validate_Reason Text
+  | Validate_Reason !(Text)
   deriving (Generic,Typeable,NFData)
 
 

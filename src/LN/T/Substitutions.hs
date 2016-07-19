@@ -27,10 +27,10 @@ import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
 
 data Substitutions
-  = SubsExpr Substitutions Substitutions
-  | SubsOneOf [Text]
-  | SubsAllOf [Text]
-  | SubsBoth Substitutions Substitutions
+  = SubsExpr !(Substitutions) !(Substitutions)
+  | SubsOneOf !([Text])
+  | SubsAllOf !([Text])
+  | SubsBoth !(Substitutions) !(Substitutions)
   deriving (Generic,Typeable,NFData)
 
 

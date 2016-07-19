@@ -27,9 +27,9 @@ import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
 
 data Job
-  = Job_Nop () ()
-  | Job_Ping () UTCTime
-  | Job_CreateUserProfile (((,) Int64) ProfileRequest) ProfileResponse
+  = Job_Nop !(()) !(())
+  | Job_Ping !(()) !(UTCTime)
+  | Job_CreateUserProfile !((((,) Int64) ProfileRequest)) !(ProfileResponse)
   deriving (Generic,Typeable,NFData)
 
 

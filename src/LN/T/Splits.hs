@@ -27,7 +27,7 @@ import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
 
 data Splits
-  = SplitAt Char Text Text
+  = SplitAt !(Char) !(Text) !(Text)
   | SplitNone 
   deriving (Generic,Typeable,NFData)
 

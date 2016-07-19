@@ -308,20 +308,20 @@ instance Show LeuronStatResponses where
     show rec = "leuronStatResponses: " <> show (leuronStatResponses rec)
 
 data LeuronData
-  = LnFact Fact
-  | LnFactList FactList
-  | LnCard Card
-  | LnDCard DCard
-  | LnDCardX DCardX
-  | LnAcronym Acronym
-  | LnSynonym Synonym
-  | LnAntonym Antonym
-  | LnTemplate Template
-  | LnImageAssociation ImageAssociation
-  | LnLinearDemo LinearDemo
-  | LnTable Table
-  | LnScript Script
-  | LnQA QA
+  = LnFact !(Fact)
+  | LnFactList !(FactList)
+  | LnCard !(Card)
+  | LnDCard !(DCard)
+  | LnDCardX !(DCardX)
+  | LnAcronym !(Acronym)
+  | LnSynonym !(Synonym)
+  | LnAntonym !(Antonym)
+  | LnTemplate !(Template)
+  | LnImageAssociation !(ImageAssociation)
+  | LnLinearDemo !(LinearDemo)
+  | LnTable !(Table)
+  | LnScript !(Script)
+  | LnQA !(QA)
   | LnExamples 
   | LnEmpty 
   deriving (Generic,Typeable,NFData)

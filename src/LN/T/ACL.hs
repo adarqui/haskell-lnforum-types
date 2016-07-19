@@ -27,7 +27,7 @@ import           GHC.Generics        (Generic)
 import           Haskell.Api.Helpers (QueryParam, qp)
 
 data ACL
-  = ACL_Grant Permissions
+  = ACL_Grant !(Permissions)
   | ACL_Deny 
   deriving (Generic,Typeable,NFData)
 
