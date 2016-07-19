@@ -997,7 +997,7 @@ data ParamTag
   | ParamTag_WithBoard 
   | ParamTag_WithThread 
   | ParamTag_WithResource 
-  deriving (Generic,Typeable,NFData)
+  deriving (Generic,Typeable,NFData,Ord)
 
 
 instance FromJSON ParamTag where
