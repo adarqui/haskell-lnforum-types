@@ -78,7 +78,7 @@ library
                      , deepseq
                      , text
                      , time
-                     , haskell-api-helpers
+                     , haskell-api-helpers-shared
   ghc-options:         -Wall
   default-language:    Haskell2010
 
