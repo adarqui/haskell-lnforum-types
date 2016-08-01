@@ -74,9 +74,11 @@ boardRequestToBoardResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 _11 BoardRequest{..} 
   }
 
 
-boardResponseToBoardRequest :: BoardResponse -> BoardRequest
-boardResponseToBoardRequest  BoardResponse{..} =
+boardResponseToBoardRequest :: (Maybe Text) -> (Maybe Text) -> BoardResponse -> BoardRequest
+boardResponseToBoardRequest _1 _2 BoardResponse{..} =
   BoardRequest {
+    boardRequestStateSuggestedTag = _1,
+    boardRequestStateTag = _2,
     boardRequestDisplayName = boardResponseDisplayName,
     boardRequestDescription = boardResponseDescription,
     boardRequestIsAnonymous = boardResponseIsAnonymous,
@@ -152,9 +154,10 @@ forumRequestToForumResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 ForumRequest{..} =
   }
 
 
-forumResponseToForumRequest :: ForumResponse -> ForumRequest
-forumResponseToForumRequest  ForumResponse{..} =
+forumResponseToForumRequest :: (Maybe Text) -> ForumResponse -> ForumRequest
+forumResponseToForumRequest _1 ForumResponse{..} =
   ForumRequest {
+    forumRequestStateTag = _1,
     forumRequestDisplayName = forumResponseDisplayName,
     forumRequestDescription = forumResponseDescription,
     forumRequestThreadsPerBoard = forumResponseThreadsPerBoard,
@@ -286,9 +289,10 @@ organizationRequestToOrganizationResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 Organizatio
   }
 
 
-organizationResponseToOrganizationRequest :: OrganizationResponse -> OrganizationRequest
-organizationResponseToOrganizationRequest  OrganizationResponse{..} =
+organizationResponseToOrganizationRequest :: (Maybe Text) -> OrganizationResponse -> OrganizationRequest
+organizationResponseToOrganizationRequest _1 OrganizationResponse{..} =
   OrganizationRequest {
+    organizationRequestStateTag = _1,
     organizationRequestDisplayName = organizationResponseDisplayName,
     organizationRequestDescription = organizationResponseDescription,
     organizationRequestCompany = organizationResponseCompany,
@@ -398,9 +402,11 @@ profileRequestToProfileResponse _1 _2 _3 _4 _5 _6 _7 ProfileRequest{..} =
   }
 
 
-profileResponseToProfileRequest :: ProfileResponse -> ProfileRequest
-profileResponseToProfileRequest  ProfileResponse{..} =
+profileResponseToProfileRequest :: [Text] -> (Maybe Text) -> ProfileResponse -> ProfileRequest
+profileResponseToProfileRequest _1 _2 ProfileResponse{..} =
   ProfileRequest {
+    profileRequestWebsites = _1,
+    profileRequestStateWebsites = _2,
     profileRequestGender = profileResponseGender,
     profileRequestBirthdate = profileResponseBirthdate,
     profileRequestWebsite = profileResponseWebsite,
@@ -544,7 +550,6 @@ teamRequestToTeamResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 TeamRequest{..} =
     teamResponseActivityAt = _9,
     teamResponseMembership = teamRequestMembership,
     teamResponseIcon = teamRequestIcon,
-    teamResponseTags = teamRequestTags,
     teamResponseVisibility = teamRequestVisibility,
     teamResponseGuard = teamRequestGuard
   }
@@ -555,7 +560,6 @@ teamResponseToTeamRequest  TeamResponse{..} =
   TeamRequest {
     teamRequestMembership = teamResponseMembership,
     teamRequestIcon = teamResponseIcon,
-    teamRequestTags = teamResponseTags,
     teamRequestVisibility = teamResponseVisibility,
     teamRequestGuard = teamResponseGuard
   }
@@ -586,9 +590,10 @@ threadRequestToThreadResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 _11 ThreadRequest{.
   }
 
 
-threadResponseToThreadRequest :: ThreadResponse -> ThreadRequest
-threadResponseToThreadRequest  ThreadResponse{..} =
+threadResponseToThreadRequest :: (Maybe Text) -> ThreadResponse -> ThreadRequest
+threadResponseToThreadRequest _1 ThreadResponse{..} =
   ThreadRequest {
+    threadRequestStateTag = _1,
     threadRequestDisplayName = threadResponseDisplayName,
     threadRequestDescription = threadResponseDescription,
     threadRequestSticky = threadResponseSticky,
@@ -623,9 +628,11 @@ threadPostRequestToThreadPostResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 _11 _12 Thr
   }
 
 
-threadPostResponseToThreadPostRequest :: ThreadPostResponse -> ThreadPostRequest
-threadPostResponseToThreadPostRequest  ThreadPostResponse{..} =
+threadPostResponseToThreadPostRequest :: (Maybe Text) -> (Maybe Text) -> ThreadPostResponse -> ThreadPostRequest
+threadPostResponseToThreadPostRequest _1 _2 ThreadPostResponse{..} =
   ThreadPostRequest {
+    threadPostRequestStateTag = _1,
+    threadPostRequestStatePrivateTag = _2,
     threadPostRequestTitle = threadPostResponseTitle,
     threadPostRequestBody = threadPostResponseBody,
     threadPostRequestTags = threadPostResponseTags,

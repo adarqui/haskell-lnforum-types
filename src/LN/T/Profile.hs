@@ -124,10 +124,12 @@ data ProfileRequest = ProfileRequest {
   profileRequestGender :: !(ProfileGender),
   profileRequestBirthdate :: !(UTCTime),
   profileRequestWebsite :: !((Maybe Text)),
+  profileRequestWebsites :: !([Text]),
   profileRequestLocation :: !((Maybe Text)),
   profileRequestSignature :: !((Maybe Text)),
   profileRequestDebug :: !(Bool),
-  profileRequestGuard :: !(Int)
+  profileRequestGuard :: !(Int),
+  profileRequestStateWebsites :: !((Maybe Text))
 }  deriving (Generic,Typeable,NFData)
 
 
@@ -136,18 +138,22 @@ instance FromJSON ProfileRequest where
     profileRequestGender <- o .: ("gender" :: Text)
     profileRequestBirthdate <- o .: ("birthdate" :: Text)
     profileRequestWebsite <- o .: ("website" :: Text)
+    profileRequestWebsites <- o .: ("websites" :: Text)
     profileRequestLocation <- o .: ("location" :: Text)
     profileRequestSignature <- o .: ("signature" :: Text)
     profileRequestDebug <- o .: ("debug" :: Text)
     profileRequestGuard <- o .: ("guard" :: Text)
+    profileRequestStateWebsites <- o .: ("state_websites" :: Text)
     pure $ ProfileRequest {
       profileRequestGender = profileRequestGender,
       profileRequestBirthdate = profileRequestBirthdate,
       profileRequestWebsite = profileRequestWebsite,
+      profileRequestWebsites = profileRequestWebsites,
       profileRequestLocation = profileRequestLocation,
       profileRequestSignature = profileRequestSignature,
       profileRequestDebug = profileRequestDebug,
-      profileRequestGuard = profileRequestGuard
+      profileRequestGuard = profileRequestGuard,
+      profileRequestStateWebsites = profileRequestStateWebsites
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -158,18 +164,20 @@ instance ToJSON ProfileRequest where
     , "gender" .= profileRequestGender
     , "birthdate" .= profileRequestBirthdate
     , "website" .= profileRequestWebsite
+    , "websites" .= profileRequestWebsites
     , "location" .= profileRequestLocation
     , "signature" .= profileRequestSignature
     , "debug" .= profileRequestDebug
     , "guard" .= profileRequestGuard
+    , "state_websites" .= profileRequestStateWebsites
     ]
 
 
 instance Eq ProfileRequest where
-  (==) a b = profileRequestGender a == profileRequestGender b && profileRequestBirthdate a == profileRequestBirthdate b && profileRequestWebsite a == profileRequestWebsite b && profileRequestLocation a == profileRequestLocation b && profileRequestSignature a == profileRequestSignature b && profileRequestDebug a == profileRequestDebug b && profileRequestGuard a == profileRequestGuard b
+  (==) a b = profileRequestGender a == profileRequestGender b && profileRequestBirthdate a == profileRequestBirthdate b && profileRequestWebsite a == profileRequestWebsite b && profileRequestWebsites a == profileRequestWebsites b && profileRequestLocation a == profileRequestLocation b && profileRequestSignature a == profileRequestSignature b && profileRequestDebug a == profileRequestDebug b && profileRequestGuard a == profileRequestGuard b && profileRequestStateWebsites a == profileRequestStateWebsites b
 
 instance Show ProfileRequest where
-    show rec = "profileRequestGender: " <> show (profileRequestGender rec) <> ", " <> "profileRequestBirthdate: " <> show (profileRequestBirthdate rec) <> ", " <> "profileRequestWebsite: " <> show (profileRequestWebsite rec) <> ", " <> "profileRequestLocation: " <> show (profileRequestLocation rec) <> ", " <> "profileRequestSignature: " <> show (profileRequestSignature rec) <> ", " <> "profileRequestDebug: " <> show (profileRequestDebug rec) <> ", " <> "profileRequestGuard: " <> show (profileRequestGuard rec)
+    show rec = "profileRequestGender: " <> show (profileRequestGender rec) <> ", " <> "profileRequestBirthdate: " <> show (profileRequestBirthdate rec) <> ", " <> "profileRequestWebsite: " <> show (profileRequestWebsite rec) <> ", " <> "profileRequestWebsites: " <> show (profileRequestWebsites rec) <> ", " <> "profileRequestLocation: " <> show (profileRequestLocation rec) <> ", " <> "profileRequestSignature: " <> show (profileRequestSignature rec) <> ", " <> "profileRequestDebug: " <> show (profileRequestDebug rec) <> ", " <> "profileRequestGuard: " <> show (profileRequestGuard rec) <> ", " <> "profileRequestStateWebsites: " <> show (profileRequestStateWebsites rec)
 
 data ProfileResponse = ProfileResponse {
   profileResponseId :: !(Int64),

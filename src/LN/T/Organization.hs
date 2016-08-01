@@ -37,7 +37,8 @@ data OrganizationRequest = OrganizationRequest {
   organizationRequestTags :: !([Text]),
   organizationRequestIcon :: !((Maybe Text)),
   organizationRequestVisibility :: !(Visibility),
-  organizationRequestGuard :: !(Int)
+  organizationRequestGuard :: !(Int),
+  organizationRequestStateTag :: !((Maybe Text))
 }  deriving (Generic,Typeable,NFData)
 
 
@@ -53,6 +54,7 @@ instance FromJSON OrganizationRequest where
     organizationRequestIcon <- o .: ("icon" :: Text)
     organizationRequestVisibility <- o .: ("visibility" :: Text)
     organizationRequestGuard <- o .: ("guard" :: Text)
+    organizationRequestStateTag <- o .: ("state_tag" :: Text)
     pure $ OrganizationRequest {
       organizationRequestDisplayName = organizationRequestDisplayName,
       organizationRequestDescription = organizationRequestDescription,
@@ -63,7 +65,8 @@ instance FromJSON OrganizationRequest where
       organizationRequestTags = organizationRequestTags,
       organizationRequestIcon = organizationRequestIcon,
       organizationRequestVisibility = organizationRequestVisibility,
-      organizationRequestGuard = organizationRequestGuard
+      organizationRequestGuard = organizationRequestGuard,
+      organizationRequestStateTag = organizationRequestStateTag
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -81,14 +84,15 @@ instance ToJSON OrganizationRequest where
     , "icon" .= organizationRequestIcon
     , "visibility" .= organizationRequestVisibility
     , "guard" .= organizationRequestGuard
+    , "state_tag" .= organizationRequestStateTag
     ]
 
 
 instance Eq OrganizationRequest where
-  (==) a b = organizationRequestDisplayName a == organizationRequestDisplayName b && organizationRequestDescription a == organizationRequestDescription b && organizationRequestCompany a == organizationRequestCompany b && organizationRequestLocation a == organizationRequestLocation b && organizationRequestEmail a == organizationRequestEmail b && organizationRequestMembership a == organizationRequestMembership b && organizationRequestTags a == organizationRequestTags b && organizationRequestIcon a == organizationRequestIcon b && organizationRequestVisibility a == organizationRequestVisibility b && organizationRequestGuard a == organizationRequestGuard b
+  (==) a b = organizationRequestDisplayName a == organizationRequestDisplayName b && organizationRequestDescription a == organizationRequestDescription b && organizationRequestCompany a == organizationRequestCompany b && organizationRequestLocation a == organizationRequestLocation b && organizationRequestEmail a == organizationRequestEmail b && organizationRequestMembership a == organizationRequestMembership b && organizationRequestTags a == organizationRequestTags b && organizationRequestIcon a == organizationRequestIcon b && organizationRequestVisibility a == organizationRequestVisibility b && organizationRequestGuard a == organizationRequestGuard b && organizationRequestStateTag a == organizationRequestStateTag b
 
 instance Show OrganizationRequest where
-    show rec = "organizationRequestDisplayName: " <> show (organizationRequestDisplayName rec) <> ", " <> "organizationRequestDescription: " <> show (organizationRequestDescription rec) <> ", " <> "organizationRequestCompany: " <> show (organizationRequestCompany rec) <> ", " <> "organizationRequestLocation: " <> show (organizationRequestLocation rec) <> ", " <> "organizationRequestEmail: " <> show (organizationRequestEmail rec) <> ", " <> "organizationRequestMembership: " <> show (organizationRequestMembership rec) <> ", " <> "organizationRequestTags: " <> show (organizationRequestTags rec) <> ", " <> "organizationRequestIcon: " <> show (organizationRequestIcon rec) <> ", " <> "organizationRequestVisibility: " <> show (organizationRequestVisibility rec) <> ", " <> "organizationRequestGuard: " <> show (organizationRequestGuard rec)
+    show rec = "organizationRequestDisplayName: " <> show (organizationRequestDisplayName rec) <> ", " <> "organizationRequestDescription: " <> show (organizationRequestDescription rec) <> ", " <> "organizationRequestCompany: " <> show (organizationRequestCompany rec) <> ", " <> "organizationRequestLocation: " <> show (organizationRequestLocation rec) <> ", " <> "organizationRequestEmail: " <> show (organizationRequestEmail rec) <> ", " <> "organizationRequestMembership: " <> show (organizationRequestMembership rec) <> ", " <> "organizationRequestTags: " <> show (organizationRequestTags rec) <> ", " <> "organizationRequestIcon: " <> show (organizationRequestIcon rec) <> ", " <> "organizationRequestVisibility: " <> show (organizationRequestVisibility rec) <> ", " <> "organizationRequestGuard: " <> show (organizationRequestGuard rec) <> ", " <> "organizationRequestStateTag: " <> show (organizationRequestStateTag rec)
 
 data OrganizationResponse = OrganizationResponse {
   organizationResponseId :: !(Int64),

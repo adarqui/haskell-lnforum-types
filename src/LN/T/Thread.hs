@@ -34,7 +34,8 @@ data ThreadRequest = ThreadRequest {
   threadRequestPoll :: !((Maybe Text)),
   threadRequestIcon :: !((Maybe Text)),
   threadRequestTags :: !([Text]),
-  threadRequestGuard :: !(Int)
+  threadRequestGuard :: !(Int),
+  threadRequestStateTag :: !((Maybe Text))
 }  deriving (Generic,Typeable,NFData)
 
 
@@ -48,6 +49,7 @@ instance FromJSON ThreadRequest where
     threadRequestIcon <- o .: ("icon" :: Text)
     threadRequestTags <- o .: ("tags" :: Text)
     threadRequestGuard <- o .: ("guard" :: Text)
+    threadRequestStateTag <- o .: ("state_tag" :: Text)
     pure $ ThreadRequest {
       threadRequestDisplayName = threadRequestDisplayName,
       threadRequestDescription = threadRequestDescription,
@@ -56,7 +58,8 @@ instance FromJSON ThreadRequest where
       threadRequestPoll = threadRequestPoll,
       threadRequestIcon = threadRequestIcon,
       threadRequestTags = threadRequestTags,
-      threadRequestGuard = threadRequestGuard
+      threadRequestGuard = threadRequestGuard,
+      threadRequestStateTag = threadRequestStateTag
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -72,14 +75,15 @@ instance ToJSON ThreadRequest where
     , "icon" .= threadRequestIcon
     , "tags" .= threadRequestTags
     , "guard" .= threadRequestGuard
+    , "state_tag" .= threadRequestStateTag
     ]
 
 
 instance Eq ThreadRequest where
-  (==) a b = threadRequestDisplayName a == threadRequestDisplayName b && threadRequestDescription a == threadRequestDescription b && threadRequestSticky a == threadRequestSticky b && threadRequestLocked a == threadRequestLocked b && threadRequestPoll a == threadRequestPoll b && threadRequestIcon a == threadRequestIcon b && threadRequestTags a == threadRequestTags b && threadRequestGuard a == threadRequestGuard b
+  (==) a b = threadRequestDisplayName a == threadRequestDisplayName b && threadRequestDescription a == threadRequestDescription b && threadRequestSticky a == threadRequestSticky b && threadRequestLocked a == threadRequestLocked b && threadRequestPoll a == threadRequestPoll b && threadRequestIcon a == threadRequestIcon b && threadRequestTags a == threadRequestTags b && threadRequestGuard a == threadRequestGuard b && threadRequestStateTag a == threadRequestStateTag b
 
 instance Show ThreadRequest where
-    show rec = "threadRequestDisplayName: " <> show (threadRequestDisplayName rec) <> ", " <> "threadRequestDescription: " <> show (threadRequestDescription rec) <> ", " <> "threadRequestSticky: " <> show (threadRequestSticky rec) <> ", " <> "threadRequestLocked: " <> show (threadRequestLocked rec) <> ", " <> "threadRequestPoll: " <> show (threadRequestPoll rec) <> ", " <> "threadRequestIcon: " <> show (threadRequestIcon rec) <> ", " <> "threadRequestTags: " <> show (threadRequestTags rec) <> ", " <> "threadRequestGuard: " <> show (threadRequestGuard rec)
+    show rec = "threadRequestDisplayName: " <> show (threadRequestDisplayName rec) <> ", " <> "threadRequestDescription: " <> show (threadRequestDescription rec) <> ", " <> "threadRequestSticky: " <> show (threadRequestSticky rec) <> ", " <> "threadRequestLocked: " <> show (threadRequestLocked rec) <> ", " <> "threadRequestPoll: " <> show (threadRequestPoll rec) <> ", " <> "threadRequestIcon: " <> show (threadRequestIcon rec) <> ", " <> "threadRequestTags: " <> show (threadRequestTags rec) <> ", " <> "threadRequestGuard: " <> show (threadRequestGuard rec) <> ", " <> "threadRequestStateTag: " <> show (threadRequestStateTag rec)
 
 data ThreadResponse = ThreadResponse {
   threadResponseId :: !(Int64),

@@ -128,7 +128,9 @@ data ThreadPostRequest = ThreadPostRequest {
   threadPostRequestBody :: !(PostData),
   threadPostRequestTags :: !([Text]),
   threadPostRequestPrivateTags :: !([Text]),
-  threadPostRequestGuard :: !(Int)
+  threadPostRequestGuard :: !(Int),
+  threadPostRequestStateTag :: !((Maybe Text)),
+  threadPostRequestStatePrivateTag :: !((Maybe Text))
 }  deriving (Generic,Typeable,NFData)
 
 
@@ -139,12 +141,16 @@ instance FromJSON ThreadPostRequest where
     threadPostRequestTags <- o .: ("tags" :: Text)
     threadPostRequestPrivateTags <- o .: ("private_tags" :: Text)
     threadPostRequestGuard <- o .: ("guard" :: Text)
+    threadPostRequestStateTag <- o .: ("state_tag" :: Text)
+    threadPostRequestStatePrivateTag <- o .: ("state_private_tag" :: Text)
     pure $ ThreadPostRequest {
       threadPostRequestTitle = threadPostRequestTitle,
       threadPostRequestBody = threadPostRequestBody,
       threadPostRequestTags = threadPostRequestTags,
       threadPostRequestPrivateTags = threadPostRequestPrivateTags,
-      threadPostRequestGuard = threadPostRequestGuard
+      threadPostRequestGuard = threadPostRequestGuard,
+      threadPostRequestStateTag = threadPostRequestStateTag,
+      threadPostRequestStatePrivateTag = threadPostRequestStatePrivateTag
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -157,14 +163,16 @@ instance ToJSON ThreadPostRequest where
     , "tags" .= threadPostRequestTags
     , "private_tags" .= threadPostRequestPrivateTags
     , "guard" .= threadPostRequestGuard
+    , "state_tag" .= threadPostRequestStateTag
+    , "state_private_tag" .= threadPostRequestStatePrivateTag
     ]
 
 
 instance Eq ThreadPostRequest where
-  (==) a b = threadPostRequestTitle a == threadPostRequestTitle b && threadPostRequestBody a == threadPostRequestBody b && threadPostRequestTags a == threadPostRequestTags b && threadPostRequestPrivateTags a == threadPostRequestPrivateTags b && threadPostRequestGuard a == threadPostRequestGuard b
+  (==) a b = threadPostRequestTitle a == threadPostRequestTitle b && threadPostRequestBody a == threadPostRequestBody b && threadPostRequestTags a == threadPostRequestTags b && threadPostRequestPrivateTags a == threadPostRequestPrivateTags b && threadPostRequestGuard a == threadPostRequestGuard b && threadPostRequestStateTag a == threadPostRequestStateTag b && threadPostRequestStatePrivateTag a == threadPostRequestStatePrivateTag b
 
 instance Show ThreadPostRequest where
-    show rec = "threadPostRequestTitle: " <> show (threadPostRequestTitle rec) <> ", " <> "threadPostRequestBody: " <> show (threadPostRequestBody rec) <> ", " <> "threadPostRequestTags: " <> show (threadPostRequestTags rec) <> ", " <> "threadPostRequestPrivateTags: " <> show (threadPostRequestPrivateTags rec) <> ", " <> "threadPostRequestGuard: " <> show (threadPostRequestGuard rec)
+    show rec = "threadPostRequestTitle: " <> show (threadPostRequestTitle rec) <> ", " <> "threadPostRequestBody: " <> show (threadPostRequestBody rec) <> ", " <> "threadPostRequestTags: " <> show (threadPostRequestTags rec) <> ", " <> "threadPostRequestPrivateTags: " <> show (threadPostRequestPrivateTags rec) <> ", " <> "threadPostRequestGuard: " <> show (threadPostRequestGuard rec) <> ", " <> "threadPostRequestStateTag: " <> show (threadPostRequestStateTag rec) <> ", " <> "threadPostRequestStatePrivateTag: " <> show (threadPostRequestStatePrivateTag rec)
 
 data ThreadPostResponse = ThreadPostResponse {
   threadPostResponseId :: !(Int64),

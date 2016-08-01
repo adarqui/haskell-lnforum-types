@@ -37,7 +37,8 @@ data ForumRequest = ForumRequest {
   forumRequestIcon :: !((Maybe Text)),
   forumRequestTags :: !([Text]),
   forumRequestVisibility :: !(Visibility),
-  forumRequestGuard :: !(Int)
+  forumRequestGuard :: !(Int),
+  forumRequestStateTag :: !((Maybe Text))
 }  deriving (Generic,Typeable,NFData)
 
 
@@ -54,6 +55,7 @@ instance FromJSON ForumRequest where
     forumRequestTags <- o .: ("tags" :: Text)
     forumRequestVisibility <- o .: ("visibility" :: Text)
     forumRequestGuard <- o .: ("guard" :: Text)
+    forumRequestStateTag <- o .: ("state_tag" :: Text)
     pure $ ForumRequest {
       forumRequestDisplayName = forumRequestDisplayName,
       forumRequestDescription = forumRequestDescription,
@@ -65,7 +67,8 @@ instance FromJSON ForumRequest where
       forumRequestIcon = forumRequestIcon,
       forumRequestTags = forumRequestTags,
       forumRequestVisibility = forumRequestVisibility,
-      forumRequestGuard = forumRequestGuard
+      forumRequestGuard = forumRequestGuard,
+      forumRequestStateTag = forumRequestStateTag
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -84,14 +87,15 @@ instance ToJSON ForumRequest where
     , "tags" .= forumRequestTags
     , "visibility" .= forumRequestVisibility
     , "guard" .= forumRequestGuard
+    , "state_tag" .= forumRequestStateTag
     ]
 
 
 instance Eq ForumRequest where
-  (==) a b = forumRequestDisplayName a == forumRequestDisplayName b && forumRequestDescription a == forumRequestDescription b && forumRequestThreadsPerBoard a == forumRequestThreadsPerBoard b && forumRequestThreadPostsPerThread a == forumRequestThreadPostsPerThread b && forumRequestRecentThreadsLimit a == forumRequestRecentThreadsLimit b && forumRequestRecentPostsLimit a == forumRequestRecentPostsLimit b && forumRequestMotwLimit a == forumRequestMotwLimit b && forumRequestIcon a == forumRequestIcon b && forumRequestTags a == forumRequestTags b && forumRequestVisibility a == forumRequestVisibility b && forumRequestGuard a == forumRequestGuard b
+  (==) a b = forumRequestDisplayName a == forumRequestDisplayName b && forumRequestDescription a == forumRequestDescription b && forumRequestThreadsPerBoard a == forumRequestThreadsPerBoard b && forumRequestThreadPostsPerThread a == forumRequestThreadPostsPerThread b && forumRequestRecentThreadsLimit a == forumRequestRecentThreadsLimit b && forumRequestRecentPostsLimit a == forumRequestRecentPostsLimit b && forumRequestMotwLimit a == forumRequestMotwLimit b && forumRequestIcon a == forumRequestIcon b && forumRequestTags a == forumRequestTags b && forumRequestVisibility a == forumRequestVisibility b && forumRequestGuard a == forumRequestGuard b && forumRequestStateTag a == forumRequestStateTag b
 
 instance Show ForumRequest where
-    show rec = "forumRequestDisplayName: " <> show (forumRequestDisplayName rec) <> ", " <> "forumRequestDescription: " <> show (forumRequestDescription rec) <> ", " <> "forumRequestThreadsPerBoard: " <> show (forumRequestThreadsPerBoard rec) <> ", " <> "forumRequestThreadPostsPerThread: " <> show (forumRequestThreadPostsPerThread rec) <> ", " <> "forumRequestRecentThreadsLimit: " <> show (forumRequestRecentThreadsLimit rec) <> ", " <> "forumRequestRecentPostsLimit: " <> show (forumRequestRecentPostsLimit rec) <> ", " <> "forumRequestMotwLimit: " <> show (forumRequestMotwLimit rec) <> ", " <> "forumRequestIcon: " <> show (forumRequestIcon rec) <> ", " <> "forumRequestTags: " <> show (forumRequestTags rec) <> ", " <> "forumRequestVisibility: " <> show (forumRequestVisibility rec) <> ", " <> "forumRequestGuard: " <> show (forumRequestGuard rec)
+    show rec = "forumRequestDisplayName: " <> show (forumRequestDisplayName rec) <> ", " <> "forumRequestDescription: " <> show (forumRequestDescription rec) <> ", " <> "forumRequestThreadsPerBoard: " <> show (forumRequestThreadsPerBoard rec) <> ", " <> "forumRequestThreadPostsPerThread: " <> show (forumRequestThreadPostsPerThread rec) <> ", " <> "forumRequestRecentThreadsLimit: " <> show (forumRequestRecentThreadsLimit rec) <> ", " <> "forumRequestRecentPostsLimit: " <> show (forumRequestRecentPostsLimit rec) <> ", " <> "forumRequestMotwLimit: " <> show (forumRequestMotwLimit rec) <> ", " <> "forumRequestIcon: " <> show (forumRequestIcon rec) <> ", " <> "forumRequestTags: " <> show (forumRequestTags rec) <> ", " <> "forumRequestVisibility: " <> show (forumRequestVisibility rec) <> ", " <> "forumRequestGuard: " <> show (forumRequestGuard rec) <> ", " <> "forumRequestStateTag: " <> show (forumRequestStateTag rec)
 
 data ForumResponse = ForumResponse {
   forumResponseId :: !(Int64),

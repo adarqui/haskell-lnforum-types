@@ -35,7 +35,9 @@ data BoardRequest = BoardRequest {
   boardRequestSuggestedTags :: !([Text]),
   boardRequestIcon :: !((Maybe Text)),
   boardRequestTags :: !([Text]),
-  boardRequestGuard :: !(Int)
+  boardRequestGuard :: !(Int),
+  boardRequestStateSuggestedTag :: !((Maybe Text)),
+  boardRequestStateTag :: !((Maybe Text))
 }  deriving (Generic,Typeable,NFData)
 
 
@@ -50,6 +52,8 @@ instance FromJSON BoardRequest where
     boardRequestIcon <- o .: ("icon" :: Text)
     boardRequestTags <- o .: ("tags" :: Text)
     boardRequestGuard <- o .: ("guard" :: Text)
+    boardRequestStateSuggestedTag <- o .: ("state_suggested_tag" :: Text)
+    boardRequestStateTag <- o .: ("state_tag" :: Text)
     pure $ BoardRequest {
       boardRequestDisplayName = boardRequestDisplayName,
       boardRequestDescription = boardRequestDescription,
@@ -59,7 +63,9 @@ instance FromJSON BoardRequest where
       boardRequestSuggestedTags = boardRequestSuggestedTags,
       boardRequestIcon = boardRequestIcon,
       boardRequestTags = boardRequestTags,
-      boardRequestGuard = boardRequestGuard
+      boardRequestGuard = boardRequestGuard,
+      boardRequestStateSuggestedTag = boardRequestStateSuggestedTag,
+      boardRequestStateTag = boardRequestStateTag
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -76,14 +82,16 @@ instance ToJSON BoardRequest where
     , "icon" .= boardRequestIcon
     , "tags" .= boardRequestTags
     , "guard" .= boardRequestGuard
+    , "state_suggested_tag" .= boardRequestStateSuggestedTag
+    , "state_tag" .= boardRequestStateTag
     ]
 
 
 instance Eq BoardRequest where
-  (==) a b = boardRequestDisplayName a == boardRequestDisplayName b && boardRequestDescription a == boardRequestDescription b && boardRequestIsAnonymous a == boardRequestIsAnonymous b && boardRequestCanCreateSubBoards a == boardRequestCanCreateSubBoards b && boardRequestCanCreateThreads a == boardRequestCanCreateThreads b && boardRequestSuggestedTags a == boardRequestSuggestedTags b && boardRequestIcon a == boardRequestIcon b && boardRequestTags a == boardRequestTags b && boardRequestGuard a == boardRequestGuard b
+  (==) a b = boardRequestDisplayName a == boardRequestDisplayName b && boardRequestDescription a == boardRequestDescription b && boardRequestIsAnonymous a == boardRequestIsAnonymous b && boardRequestCanCreateSubBoards a == boardRequestCanCreateSubBoards b && boardRequestCanCreateThreads a == boardRequestCanCreateThreads b && boardRequestSuggestedTags a == boardRequestSuggestedTags b && boardRequestIcon a == boardRequestIcon b && boardRequestTags a == boardRequestTags b && boardRequestGuard a == boardRequestGuard b && boardRequestStateSuggestedTag a == boardRequestStateSuggestedTag b && boardRequestStateTag a == boardRequestStateTag b
 
 instance Show BoardRequest where
-    show rec = "boardRequestDisplayName: " <> show (boardRequestDisplayName rec) <> ", " <> "boardRequestDescription: " <> show (boardRequestDescription rec) <> ", " <> "boardRequestIsAnonymous: " <> show (boardRequestIsAnonymous rec) <> ", " <> "boardRequestCanCreateSubBoards: " <> show (boardRequestCanCreateSubBoards rec) <> ", " <> "boardRequestCanCreateThreads: " <> show (boardRequestCanCreateThreads rec) <> ", " <> "boardRequestSuggestedTags: " <> show (boardRequestSuggestedTags rec) <> ", " <> "boardRequestIcon: " <> show (boardRequestIcon rec) <> ", " <> "boardRequestTags: " <> show (boardRequestTags rec) <> ", " <> "boardRequestGuard: " <> show (boardRequestGuard rec)
+    show rec = "boardRequestDisplayName: " <> show (boardRequestDisplayName rec) <> ", " <> "boardRequestDescription: " <> show (boardRequestDescription rec) <> ", " <> "boardRequestIsAnonymous: " <> show (boardRequestIsAnonymous rec) <> ", " <> "boardRequestCanCreateSubBoards: " <> show (boardRequestCanCreateSubBoards rec) <> ", " <> "boardRequestCanCreateThreads: " <> show (boardRequestCanCreateThreads rec) <> ", " <> "boardRequestSuggestedTags: " <> show (boardRequestSuggestedTags rec) <> ", " <> "boardRequestIcon: " <> show (boardRequestIcon rec) <> ", " <> "boardRequestTags: " <> show (boardRequestTags rec) <> ", " <> "boardRequestGuard: " <> show (boardRequestGuard rec) <> ", " <> "boardRequestStateSuggestedTag: " <> show (boardRequestStateSuggestedTag rec) <> ", " <> "boardRequestStateTag: " <> show (boardRequestStateTag rec)
 
 data BoardResponse = BoardResponse {
   boardResponseId :: !(Int64),
