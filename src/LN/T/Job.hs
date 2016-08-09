@@ -92,6 +92,10 @@ data Queue
   | QPing 
   | QCreateUserProfile 
   | QCreateUserApi 
+  | QAddThreadPostToSet 
+  | QRemoveThreadPostFromSet 
+  | QFixUserProfiles 
+  | QFixThreadPostSets 
   deriving (Generic,Typeable,NFData)
 
 
@@ -110,6 +114,18 @@ instance FromJSON Queue where
 
       ("QCreateUserApi" :: Text) -> do
         pure QCreateUserApi
+
+      ("QAddThreadPostToSet" :: Text) -> do
+        pure QAddThreadPostToSet
+
+      ("QRemoveThreadPostFromSet" :: Text) -> do
+        pure QRemoveThreadPostFromSet
+
+      ("QFixUserProfiles" :: Text) -> do
+        pure QFixUserProfiles
+
+      ("QFixThreadPostSets" :: Text) -> do
+        pure QFixThreadPostSets
 
       _ -> fail "Could not parse Queue"
 
@@ -133,6 +149,22 @@ instance ToJSON Queue where
     [ "tag" .= ("QCreateUserApi" :: Text)
     , "contents" .= ([] :: [Text])
     ]
+  toJSON (QAddThreadPostToSet ) = object $
+    [ "tag" .= ("QAddThreadPostToSet" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
+  toJSON (QRemoveThreadPostFromSet ) = object $
+    [ "tag" .= ("QRemoveThreadPostFromSet" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
+  toJSON (QFixUserProfiles ) = object $
+    [ "tag" .= ("QFixUserProfiles" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
+  toJSON (QFixThreadPostSets ) = object $
+    [ "tag" .= ("QFixThreadPostSets" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
 
 
 instance Eq Queue where
@@ -140,6 +172,10 @@ instance Eq Queue where
   (==) QPing QPing = True
   (==) QCreateUserProfile QCreateUserProfile = True
   (==) QCreateUserApi QCreateUserApi = True
+  (==) QAddThreadPostToSet QAddThreadPostToSet = True
+  (==) QRemoveThreadPostFromSet QRemoveThreadPostFromSet = True
+  (==) QFixUserProfiles QFixUserProfiles = True
+  (==) QFixThreadPostSets QFixThreadPostSets = True
   (==) _ _ = False
 
 instance Show Queue where
@@ -147,5 +183,9 @@ instance Show Queue where
   show QPing = "qping"
   show QCreateUserProfile = "qcreate_user_profile"
   show QCreateUserApi = "qcreate_user_api"
+  show QAddThreadPostToSet = "qadd_thread_post_to_set"
+  show QRemoveThreadPostFromSet = "qremove_thread_post_from_set"
+  show QFixUserProfiles = "qfix_user_profiles"
+  show QFixThreadPostSets = "qfix_thread_post_sets"
 
 -- footer
