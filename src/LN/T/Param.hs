@@ -996,6 +996,7 @@ data ParamTag
   | ParamTag_WithForum 
   | ParamTag_WithBoard 
   | ParamTag_WithThread 
+  | ParamTag_WithThreadPosts 
   | ParamTag_WithResource 
   deriving (Generic,Typeable,NFData,Ord)
 
@@ -1189,6 +1190,9 @@ instance FromJSON ParamTag where
 
       ("ParamTag_WithThread" :: Text) -> do
         pure ParamTag_WithThread
+
+      ("ParamTag_WithThreadPosts" :: Text) -> do
+        pure ParamTag_WithThreadPosts
 
       ("ParamTag_WithResource" :: Text) -> do
         pure ParamTag_WithResource
@@ -1447,6 +1451,10 @@ instance ToJSON ParamTag where
     [ "tag" .= ("ParamTag_WithThread" :: Text)
     , "contents" .= ([] :: [Text])
     ]
+  toJSON (ParamTag_WithThreadPosts ) = object $
+    [ "tag" .= ("ParamTag_WithThreadPosts" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
   toJSON (ParamTag_WithResource ) = object $
     [ "tag" .= ("ParamTag_WithResource" :: Text)
     , "contents" .= ([] :: [Text])
@@ -1516,6 +1524,7 @@ instance Eq ParamTag where
   (==) ParamTag_WithForum ParamTag_WithForum = True
   (==) ParamTag_WithBoard ParamTag_WithBoard = True
   (==) ParamTag_WithThread ParamTag_WithThread = True
+  (==) ParamTag_WithThreadPosts ParamTag_WithThreadPosts = True
   (==) ParamTag_WithResource ParamTag_WithResource = True
   (==) _ _ = False
 
@@ -1582,6 +1591,7 @@ instance Show ParamTag where
   show ParamTag_WithForum = "with_forum"
   show ParamTag_WithBoard = "with_board"
   show ParamTag_WithThread = "with_thread"
+  show ParamTag_WithThreadPosts = "with_thread_posts"
   show ParamTag_WithResource = "with_resource"
 
 
@@ -1648,6 +1658,7 @@ instance Read ParamTag where
   readsPrec _ "with_forum" = [(ParamTag_WithForum, "")]
   readsPrec _ "with_board" = [(ParamTag_WithBoard, "")]
   readsPrec _ "with_thread" = [(ParamTag_WithThread, "")]
+  readsPrec _ "with_thread_posts" = [(ParamTag_WithThreadPosts, "")]
   readsPrec _ "with_resource" = [(ParamTag_WithResource, "")]
   readsPrec _ _ = []
 
