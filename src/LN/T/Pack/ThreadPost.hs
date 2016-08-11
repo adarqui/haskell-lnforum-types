@@ -46,7 +46,7 @@ data ThreadPostPackResponse = ThreadPostPackResponse {
   threadPostPackResponseWithForum :: !((Maybe ForumResponse)),
   threadPostPackResponseWithBoard :: !((Maybe BoardResponse)),
   threadPostPackResponseWithThread :: !((Maybe ThreadResponse)),
-  threadPostPackResponseWithThreadPosts :: !((Maybe ThreadPostResponses)),
+  threadPostPackResponseWithThreadPosts :: !((Maybe [Int64])),
   threadPostPackResponseWithThreadPostsOffset :: !((Maybe Int64)),
   threadPostPackResponseWithThreadPostsLimit :: !((Maybe Int64)),
   threadPostPackResponsePermissions :: !(Permissions)
