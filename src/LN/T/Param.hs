@@ -89,6 +89,7 @@ data Param
   | WithForum !(Bool)
   | WithBoard !(Bool)
   | WithThread !(Bool)
+  | WithThreadPosts !(Bool)
   | WithResource !(Bool)
   deriving (Generic,Typeable,NFData)
 
@@ -469,6 +470,12 @@ instance FromJSON Param where
           [x0] -> WithThread <$> parseJSON x0
           _ -> fail "FromJON Typemismatch: WithThread"
 
+      ("WithThreadPosts" :: Text) -> do
+        r <- o .: "contents"
+        case r of
+          [x0] -> WithThreadPosts <$> parseJSON x0
+          _ -> fail "FromJON Typemismatch: WithThreadPosts"
+
       ("WithResource" :: Text) -> do
         r <- o .: "contents"
         case r of
@@ -729,6 +736,10 @@ instance ToJSON Param where
     [ "tag" .= ("WithThread" :: Text)
     , "contents" .= [toJSON x0]
     ]
+  toJSON (WithThreadPosts x0) = object $
+    [ "tag" .= ("WithThreadPosts" :: Text)
+    , "contents" .= [toJSON x0]
+    ]
   toJSON (WithResource x0) = object $
     [ "tag" .= ("WithResource" :: Text)
     , "contents" .= [toJSON x0]
@@ -798,6 +809,7 @@ instance Eq Param where
   (==) (WithForum x0a) (WithForum x0b) = x0a == x0b
   (==) (WithBoard x0a) (WithBoard x0b) = x0a == x0b
   (==) (WithThread x0a) (WithThread x0b) = x0a == x0b
+  (==) (WithThreadPosts x0a) (WithThreadPosts x0b) = x0a == x0b
   (==) (WithResource x0a) (WithResource x0b) = x0a == x0b
   (==) _ _ = False
 
@@ -864,6 +876,7 @@ instance Show Param where
   show (WithForum x0) = "with_forum: " <> show x0
   show (WithBoard x0) = "with_board: " <> show x0
   show (WithThread x0) = "with_thread: " <> show x0
+  show (WithThreadPosts x0) = "with_thread_posts: " <> show x0
   show (WithResource x0) = "with_resource: " <> show x0
 
 
@@ -930,6 +943,7 @@ instance QueryParam Param where
   qp (WithForum x0) = ("with_forum", (T.pack $ show x0))
   qp (WithBoard x0) = ("with_board", (T.pack $ show x0))
   qp (WithThread x0) = ("with_thread", (T.pack $ show x0))
+  qp (WithThreadPosts x0) = ("with_thread_posts", (T.pack $ show x0))
   qp (WithResource x0) = ("with_resource", (T.pack $ show x0))
 
 
