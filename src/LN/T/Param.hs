@@ -78,6 +78,7 @@ data Param
   | ByParentId !(Int64)
   | ByParentsIds !([Int64])
   | ByParentName !(Text)
+  | ByEmail !(Text)
   | BySelf !(Bool)
   | Timestamp !(UTCTime)
   | UnixTimestamp !(Int64)
@@ -404,6 +405,12 @@ instance FromJSON Param where
           [x0] -> ByParentName <$> parseJSON x0
           _ -> fail "FromJON Typemismatch: ByParentName"
 
+      ("ByEmail" :: Text) -> do
+        r <- o .: "contents"
+        case r of
+          [x0] -> ByEmail <$> parseJSON x0
+          _ -> fail "FromJON Typemismatch: ByEmail"
+
       ("BySelf" :: Text) -> do
         r <- o .: "contents"
         case r of
@@ -692,6 +699,10 @@ instance ToJSON Param where
     [ "tag" .= ("ByParentName" :: Text)
     , "contents" .= [toJSON x0]
     ]
+  toJSON (ByEmail x0) = object $
+    [ "tag" .= ("ByEmail" :: Text)
+    , "contents" .= [toJSON x0]
+    ]
   toJSON (BySelf x0) = object $
     [ "tag" .= ("BySelf" :: Text)
     , "contents" .= [toJSON x0]
@@ -798,6 +809,7 @@ instance Eq Param where
   (==) (ByParentId x0a) (ByParentId x0b) = x0a == x0b
   (==) (ByParentsIds x0a) (ByParentsIds x0b) = x0a == x0b
   (==) (ByParentName x0a) (ByParentName x0b) = x0a == x0b
+  (==) (ByEmail x0a) (ByEmail x0b) = x0a == x0b
   (==) (BySelf x0a) (BySelf x0b) = x0a == x0b
   (==) (Timestamp x0a) (Timestamp x0b) = x0a == x0b
   (==) (UnixTimestamp x0a) (UnixTimestamp x0b) = x0a == x0b
@@ -865,6 +877,7 @@ instance Show Param where
   show (ByParentId x0) = "by_parent_id: " <> show x0
   show (ByParentsIds x0) = "by_parents_ids: " <> show x0
   show (ByParentName x0) = "by_parent_name: " <> show x0
+  show (ByEmail x0) = "by_email: " <> show x0
   show (BySelf x0) = "by_self: " <> show x0
   show (Timestamp x0) = "timestamp: " <> show x0
   show (UnixTimestamp x0) = "unix_timestamp: " <> show x0
@@ -932,6 +945,7 @@ instance QueryParam Param where
   qp (ByParentId x0) = ("by_parent_id", (T.pack $ show x0))
   qp (ByParentsIds x0) = ("by_parents_ids", (T.pack $ show x0))
   qp (ByParentName x0) = ("by_parent_name", x0)
+  qp (ByEmail x0) = ("by_email", x0)
   qp (BySelf x0) = ("by_self", (T.pack $ show x0))
   qp (Timestamp x0) = ("timestamp", (T.pack $ show x0))
   qp (UnixTimestamp x0) = ("unix_timestamp", (T.pack $ show x0))
@@ -999,6 +1013,7 @@ data ParamTag
   | ParamTag_ByParentId 
   | ParamTag_ByParentsIds 
   | ParamTag_ByParentName 
+  | ParamTag_ByEmail 
   | ParamTag_BySelf 
   | ParamTag_Timestamp 
   | ParamTag_UnixTimestamp 
@@ -1171,6 +1186,9 @@ instance FromJSON ParamTag where
 
       ("ParamTag_ByParentName" :: Text) -> do
         pure ParamTag_ByParentName
+
+      ("ParamTag_ByEmail" :: Text) -> do
+        pure ParamTag_ByEmail
 
       ("ParamTag_BySelf" :: Text) -> do
         pure ParamTag_BySelf
@@ -1421,6 +1439,10 @@ instance ToJSON ParamTag where
     [ "tag" .= ("ParamTag_ByParentName" :: Text)
     , "contents" .= ([] :: [Text])
     ]
+  toJSON (ParamTag_ByEmail ) = object $
+    [ "tag" .= ("ParamTag_ByEmail" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
   toJSON (ParamTag_BySelf ) = object $
     [ "tag" .= ("ParamTag_BySelf" :: Text)
     , "contents" .= ([] :: [Text])
@@ -1527,6 +1549,7 @@ instance Eq ParamTag where
   (==) ParamTag_ByParentId ParamTag_ByParentId = True
   (==) ParamTag_ByParentsIds ParamTag_ByParentsIds = True
   (==) ParamTag_ByParentName ParamTag_ByParentName = True
+  (==) ParamTag_ByEmail ParamTag_ByEmail = True
   (==) ParamTag_BySelf ParamTag_BySelf = True
   (==) ParamTag_Timestamp ParamTag_Timestamp = True
   (==) ParamTag_UnixTimestamp ParamTag_UnixTimestamp = True
@@ -1594,6 +1617,7 @@ instance Show ParamTag where
   show ParamTag_ByParentId = "by_parent_id"
   show ParamTag_ByParentsIds = "by_parents_ids"
   show ParamTag_ByParentName = "by_parent_name"
+  show ParamTag_ByEmail = "by_email"
   show ParamTag_BySelf = "by_self"
   show ParamTag_Timestamp = "timestamp"
   show ParamTag_UnixTimestamp = "unix_timestamp"
@@ -1661,6 +1685,7 @@ instance Read ParamTag where
   readsPrec _ "by_parent_id" = [(ParamTag_ByParentId, "")]
   readsPrec _ "by_parents_ids" = [(ParamTag_ByParentsIds, "")]
   readsPrec _ "by_parent_name" = [(ParamTag_ByParentName, "")]
+  readsPrec _ "by_email" = [(ParamTag_ByEmail, "")]
   readsPrec _ "by_self" = [(ParamTag_BySelf, "")]
   readsPrec _ "timestamp" = [(ParamTag_Timestamp, "")]
   readsPrec _ "unix_timestamp" = [(ParamTag_UnixTimestamp, "")]
