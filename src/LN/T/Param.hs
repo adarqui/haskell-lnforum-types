@@ -25,6 +25,7 @@ import           Data.Typeable               (Typeable)
 import           Data.Monoid                 ((<>))
 import           GHC.Generics                (Generic)
 import           Haskell.Api.Helpers.Shared  (QueryParam, qp)
+import           Prelude
 
 data Param
   = Limit !(Int64)
@@ -80,6 +81,7 @@ data Param
   | ByParentName !(Text)
   | ByEmail !(Text)
   | BySelf !(Bool)
+  | View !(Bool)
   | Timestamp !(UTCTime)
   | UnixTimestamp !(Int64)
   | CreatedAtTimestamp !(UTCTime)
@@ -417,6 +419,12 @@ instance FromJSON Param where
           [x0] -> BySelf <$> parseJSON x0
           _ -> fail "FromJON Typemismatch: BySelf"
 
+      ("View" :: Text) -> do
+        r <- o .: "contents"
+        case r of
+          [x0] -> View <$> parseJSON x0
+          _ -> fail "FromJON Typemismatch: View"
+
       ("Timestamp" :: Text) -> do
         r <- o .: "contents"
         case r of
@@ -707,6 +715,10 @@ instance ToJSON Param where
     [ "tag" .= ("BySelf" :: Text)
     , "contents" .= [toJSON x0]
     ]
+  toJSON (View x0) = object $
+    [ "tag" .= ("View" :: Text)
+    , "contents" .= [toJSON x0]
+    ]
   toJSON (Timestamp x0) = object $
     [ "tag" .= ("Timestamp" :: Text)
     , "contents" .= [toJSON x0]
@@ -811,6 +823,7 @@ instance Eq Param where
   (==) (ByParentName x0a) (ByParentName x0b) = x0a == x0b
   (==) (ByEmail x0a) (ByEmail x0b) = x0a == x0b
   (==) (BySelf x0a) (BySelf x0b) = x0a == x0b
+  (==) (View x0a) (View x0b) = x0a == x0b
   (==) (Timestamp x0a) (Timestamp x0b) = x0a == x0b
   (==) (UnixTimestamp x0a) (UnixTimestamp x0b) = x0a == x0b
   (==) (CreatedAtTimestamp x0a) (CreatedAtTimestamp x0b) = x0a == x0b
@@ -879,6 +892,7 @@ instance Show Param where
   show (ByParentName x0) = "by_parent_name: " <> show x0
   show (ByEmail x0) = "by_email: " <> show x0
   show (BySelf x0) = "by_self: " <> show x0
+  show (View x0) = "view: " <> show x0
   show (Timestamp x0) = "timestamp: " <> show x0
   show (UnixTimestamp x0) = "unix_timestamp: " <> show x0
   show (CreatedAtTimestamp x0) = "created_at_timestamp: " <> show x0
@@ -947,6 +961,7 @@ instance QueryParam Param where
   qp (ByParentName x0) = ("by_parent_name", x0)
   qp (ByEmail x0) = ("by_email", x0)
   qp (BySelf x0) = ("by_self", (T.pack $ show x0))
+  qp (View x0) = ("view", (T.pack $ show x0))
   qp (Timestamp x0) = ("timestamp", (T.pack $ show x0))
   qp (UnixTimestamp x0) = ("unix_timestamp", (T.pack $ show x0))
   qp (CreatedAtTimestamp x0) = ("created_at_timestamp", (T.pack $ show x0))
@@ -1015,6 +1030,7 @@ data ParamTag
   | ParamTag_ByParentName 
   | ParamTag_ByEmail 
   | ParamTag_BySelf 
+  | ParamTag_View 
   | ParamTag_Timestamp 
   | ParamTag_UnixTimestamp 
   | ParamTag_CreatedAtTimestamp 
@@ -1192,6 +1208,9 @@ instance FromJSON ParamTag where
 
       ("ParamTag_BySelf" :: Text) -> do
         pure ParamTag_BySelf
+
+      ("ParamTag_View" :: Text) -> do
+        pure ParamTag_View
 
       ("ParamTag_Timestamp" :: Text) -> do
         pure ParamTag_Timestamp
@@ -1447,6 +1466,10 @@ instance ToJSON ParamTag where
     [ "tag" .= ("ParamTag_BySelf" :: Text)
     , "contents" .= ([] :: [Text])
     ]
+  toJSON (ParamTag_View ) = object $
+    [ "tag" .= ("ParamTag_View" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
   toJSON (ParamTag_Timestamp ) = object $
     [ "tag" .= ("ParamTag_Timestamp" :: Text)
     , "contents" .= ([] :: [Text])
@@ -1551,6 +1574,7 @@ instance Eq ParamTag where
   (==) ParamTag_ByParentName ParamTag_ByParentName = True
   (==) ParamTag_ByEmail ParamTag_ByEmail = True
   (==) ParamTag_BySelf ParamTag_BySelf = True
+  (==) ParamTag_View ParamTag_View = True
   (==) ParamTag_Timestamp ParamTag_Timestamp = True
   (==) ParamTag_UnixTimestamp ParamTag_UnixTimestamp = True
   (==) ParamTag_CreatedAtTimestamp ParamTag_CreatedAtTimestamp = True
@@ -1619,6 +1643,7 @@ instance Show ParamTag where
   show ParamTag_ByParentName = "by_parent_name"
   show ParamTag_ByEmail = "by_email"
   show ParamTag_BySelf = "by_self"
+  show ParamTag_View = "view"
   show ParamTag_Timestamp = "timestamp"
   show ParamTag_UnixTimestamp = "unix_timestamp"
   show ParamTag_CreatedAtTimestamp = "created_at_timestamp"
@@ -1687,6 +1712,7 @@ instance Read ParamTag where
   readsPrec _ "by_parent_name" = [(ParamTag_ByParentName, "")]
   readsPrec _ "by_email" = [(ParamTag_ByEmail, "")]
   readsPrec _ "by_self" = [(ParamTag_BySelf, "")]
+  readsPrec _ "view" = [(ParamTag_View, "")]
   readsPrec _ "timestamp" = [(ParamTag_Timestamp, "")]
   readsPrec _ "unix_timestamp" = [(ParamTag_UnixTimestamp, "")]
   readsPrec _ "created_at_timestamp" = [(ParamTag_CreatedAtTimestamp, "")]

@@ -28,6 +28,7 @@ import           Data.Typeable               (Typeable)
 import           Data.Monoid                 ((<>))
 import           GHC.Generics                (Generic)
 import           Haskell.Api.Helpers.Shared  (QueryParam, qp)
+import           Prelude
 
 data GroupPackResponse = GroupPackResponse {
   groupPackResponseUser :: !(UserSanitizedResponse),
