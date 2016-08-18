@@ -56,3 +56,4 @@ import           LN.T.Thread              as A
 import           LN.T.ThreadPost          as A
 import           LN.T.User                as A
 import           LN.T.Visibility          as A
+import           LN.T.View                as A
