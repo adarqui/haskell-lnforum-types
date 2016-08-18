@@ -70,6 +70,7 @@ library
                        LN.T.ThreadPost
                        LN.T.User
                        LN.T.Visibility
+                       LN.T.View
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , bytestring
