@@ -642,23 +642,26 @@ threadPostResponseToThreadPostRequest _1 _2 ThreadPostResponse{..} =
   }
 
 
-userRequestToUserResponse :: Int64 -> Text -> Text -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> UserRequest -> UserResponse
-userRequestToUserResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 UserRequest{..} =
+userRequestToUserResponse :: Int64 -> Text -> Text -> (Maybe Text) -> (Maybe UTCTime) -> (Maybe Text) -> (Maybe UTCTime) -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> UserRequest -> UserResponse
+userRequestToUserResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 _11 _12 _13 UserRequest{..} =
   UserResponse {
     userResponseId = _1,
     userResponseName = _2,
     userResponseEmailMD5 = _3,
-    userResponseActive = _4,
-    userResponseGuard = _5,
-    userResponseCreatedAt = _6,
-    userResponseModifiedAt = _7,
-    userResponseDeactivatedAt = _8,
-    userResponseActivityAt = _9,
+    userResponseGithubIdent = _4,
+    userResponseGithubCreatedAt = _5,
+    userResponseGoogleIdent = _6,
+    userResponseGoogleCreatedAt = _7,
+    userResponseActive = _8,
+    userResponseGuard = _9,
+    userResponseCreatedAt = _10,
+    userResponseModifiedAt = _11,
+    userResponseDeactivatedAt = _12,
+    userResponseActivityAt = _13,
     userResponseDisplayName = userRequestDisplayName,
     userResponseFullName = userRequestFullName,
     userResponseEmail = userRequestEmail,
     userResponsePlugin = userRequestPlugin,
-    userResponseIdent = userRequestIdent,
     userResponseAcceptTOS = userRequestAcceptTOS
   }
 
@@ -670,7 +673,6 @@ userResponseToUserRequest  UserResponse{..} =
     userRequestFullName = userResponseFullName,
     userRequestEmail = userResponseEmail,
     userRequestPlugin = userResponsePlugin,
-    userRequestIdent = userResponseIdent,
     userRequestAcceptTOS = userResponseAcceptTOS
   }
 
@@ -689,14 +691,13 @@ userRequestToUserSanitizedResponse _1 _2 _3 _4 _5 _6 _7 UserRequest{..} =
   }
 
 
-userSanitizedResponseToUserRequest :: Text -> Text -> Text -> Text -> (Maybe UTCTime) -> UserSanitizedResponse -> UserRequest
-userSanitizedResponseToUserRequest _1 _2 _3 _4 _5 UserSanitizedResponse{..} =
+userSanitizedResponseToUserRequest :: Text -> Text -> Text -> (Maybe UTCTime) -> UserSanitizedResponse -> UserRequest
+userSanitizedResponseToUserRequest _1 _2 _3 _4 UserSanitizedResponse{..} =
   UserRequest {
     userRequestFullName = _1,
     userRequestEmail = _2,
     userRequestPlugin = _3,
-    userRequestIdent = _4,
-    userRequestAcceptTOS = _5,
+    userRequestAcceptTOS = _4,
     userRequestDisplayName = userSanitizedResponseDisplayName
   }
 

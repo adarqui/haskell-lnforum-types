@@ -32,7 +32,6 @@ data UserRequest = UserRequest {
   userRequestFullName :: !(Text),
   userRequestEmail :: !(Text),
   userRequestPlugin :: !(Text),
-  userRequestIdent :: !(Text),
   userRequestAcceptTOS :: !((Maybe UTCTime))
 }  deriving (Generic,Typeable,NFData)
 
@@ -43,14 +42,12 @@ instance FromJSON UserRequest where
     userRequestFullName <- o .: ("full_name" :: Text)
     userRequestEmail <- o .: ("email" :: Text)
     userRequestPlugin <- o .: ("plugin" :: Text)
-    userRequestIdent <- o .: ("ident" :: Text)
     userRequestAcceptTOS <- o .: ("accept_tos" :: Text)
     pure $ UserRequest {
       userRequestDisplayName = userRequestDisplayName,
       userRequestFullName = userRequestFullName,
       userRequestEmail = userRequestEmail,
       userRequestPlugin = userRequestPlugin,
-      userRequestIdent = userRequestIdent,
       userRequestAcceptTOS = userRequestAcceptTOS
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
@@ -63,16 +60,15 @@ instance ToJSON UserRequest where
     , "full_name" .= userRequestFullName
     , "email" .= userRequestEmail
     , "plugin" .= userRequestPlugin
-    , "ident" .= userRequestIdent
     , "accept_tos" .= userRequestAcceptTOS
     ]
 
 
 instance Eq UserRequest where
-  (==) a b = userRequestDisplayName a == userRequestDisplayName b && userRequestFullName a == userRequestFullName b && userRequestEmail a == userRequestEmail b && userRequestPlugin a == userRequestPlugin b && userRequestIdent a == userRequestIdent b && userRequestAcceptTOS a == userRequestAcceptTOS b
+  (==) a b = userRequestDisplayName a == userRequestDisplayName b && userRequestFullName a == userRequestFullName b && userRequestEmail a == userRequestEmail b && userRequestPlugin a == userRequestPlugin b && userRequestAcceptTOS a == userRequestAcceptTOS b
 
 instance Show UserRequest where
-    show rec = "userRequestDisplayName: " <> show (userRequestDisplayName rec) <> ", " <> "userRequestFullName: " <> show (userRequestFullName rec) <> ", " <> "userRequestEmail: " <> show (userRequestEmail rec) <> ", " <> "userRequestPlugin: " <> show (userRequestPlugin rec) <> ", " <> "userRequestIdent: " <> show (userRequestIdent rec) <> ", " <> "userRequestAcceptTOS: " <> show (userRequestAcceptTOS rec)
+    show rec = "userRequestDisplayName: " <> show (userRequestDisplayName rec) <> ", " <> "userRequestFullName: " <> show (userRequestFullName rec) <> ", " <> "userRequestEmail: " <> show (userRequestEmail rec) <> ", " <> "userRequestPlugin: " <> show (userRequestPlugin rec) <> ", " <> "userRequestAcceptTOS: " <> show (userRequestAcceptTOS rec)
 
 data UserResponse = UserResponse {
   userResponseId :: !(Int64),
@@ -82,7 +78,10 @@ data UserResponse = UserResponse {
   userResponseEmail :: !(Text),
   userResponseEmailMD5 :: !(Text),
   userResponsePlugin :: !(Text),
-  userResponseIdent :: !(Text),
+  userResponseGithubIdent :: !((Maybe Text)),
+  userResponseGithubCreatedAt :: !((Maybe UTCTime)),
+  userResponseGoogleIdent :: !((Maybe Text)),
+  userResponseGoogleCreatedAt :: !((Maybe UTCTime)),
   userResponseAcceptTOS :: !((Maybe UTCTime)),
   userResponseActive :: !(Bool),
   userResponseGuard :: !(Int),
@@ -102,7 +101,10 @@ instance FromJSON UserResponse where
     userResponseEmail <- o .: ("email" :: Text)
     userResponseEmailMD5 <- o .: ("email_md5" :: Text)
     userResponsePlugin <- o .: ("plugin" :: Text)
-    userResponseIdent <- o .: ("ident" :: Text)
+    userResponseGithubIdent <- o .: ("github_ident" :: Text)
+    userResponseGithubCreatedAt <- o .: ("github_created_at" :: Text)
+    userResponseGoogleIdent <- o .: ("google_ident" :: Text)
+    userResponseGoogleCreatedAt <- o .: ("google_created_at" :: Text)
     userResponseAcceptTOS <- o .: ("accept_tos" :: Text)
     userResponseActive <- o .: ("active" :: Text)
     userResponseGuard <- o .: ("guard" :: Text)
@@ -118,7 +120,10 @@ instance FromJSON UserResponse where
       userResponseEmail = userResponseEmail,
       userResponseEmailMD5 = userResponseEmailMD5,
       userResponsePlugin = userResponsePlugin,
-      userResponseIdent = userResponseIdent,
+      userResponseGithubIdent = userResponseGithubIdent,
+      userResponseGithubCreatedAt = userResponseGithubCreatedAt,
+      userResponseGoogleIdent = userResponseGoogleIdent,
+      userResponseGoogleCreatedAt = userResponseGoogleCreatedAt,
       userResponseAcceptTOS = userResponseAcceptTOS,
       userResponseActive = userResponseActive,
       userResponseGuard = userResponseGuard,
@@ -140,7 +145,10 @@ instance ToJSON UserResponse where
     , "email" .= userResponseEmail
     , "email_md5" .= userResponseEmailMD5
     , "plugin" .= userResponsePlugin
-    , "ident" .= userResponseIdent
+    , "github_ident" .= userResponseGithubIdent
+    , "github_created_at" .= userResponseGithubCreatedAt
+    , "google_ident" .= userResponseGoogleIdent
+    , "google_created_at" .= userResponseGoogleCreatedAt
     , "accept_tos" .= userResponseAcceptTOS
     , "active" .= userResponseActive
     , "guard" .= userResponseGuard
@@ -152,10 +160,10 @@ instance ToJSON UserResponse where
 
 
 instance Eq UserResponse where
-  (==) a b = userResponseId a == userResponseId b && userResponseName a == userResponseName b && userResponseDisplayName a == userResponseDisplayName b && userResponseFullName a == userResponseFullName b && userResponseEmail a == userResponseEmail b && userResponseEmailMD5 a == userResponseEmailMD5 b && userResponsePlugin a == userResponsePlugin b && userResponseIdent a == userResponseIdent b && userResponseAcceptTOS a == userResponseAcceptTOS b && userResponseActive a == userResponseActive b && userResponseGuard a == userResponseGuard b && userResponseCreatedAt a == userResponseCreatedAt b && userResponseModifiedAt a == userResponseModifiedAt b && userResponseDeactivatedAt a == userResponseDeactivatedAt b && userResponseActivityAt a == userResponseActivityAt b
+  (==) a b = userResponseId a == userResponseId b && userResponseName a == userResponseName b && userResponseDisplayName a == userResponseDisplayName b && userResponseFullName a == userResponseFullName b && userResponseEmail a == userResponseEmail b && userResponseEmailMD5 a == userResponseEmailMD5 b && userResponsePlugin a == userResponsePlugin b && userResponseGithubIdent a == userResponseGithubIdent b && userResponseGithubCreatedAt a == userResponseGithubCreatedAt b && userResponseGoogleIdent a == userResponseGoogleIdent b && userResponseGoogleCreatedAt a == userResponseGoogleCreatedAt b && userResponseAcceptTOS a == userResponseAcceptTOS b && userResponseActive a == userResponseActive b && userResponseGuard a == userResponseGuard b && userResponseCreatedAt a == userResponseCreatedAt b && userResponseModifiedAt a == userResponseModifiedAt b && userResponseDeactivatedAt a == userResponseDeactivatedAt b && userResponseActivityAt a == userResponseActivityAt b
 
 instance Show UserResponse where
-    show rec = "userResponseId: " <> show (userResponseId rec) <> ", " <> "userResponseName: " <> show (userResponseName rec) <> ", " <> "userResponseDisplayName: " <> show (userResponseDisplayName rec) <> ", " <> "userResponseFullName: " <> show (userResponseFullName rec) <> ", " <> "userResponseEmail: " <> show (userResponseEmail rec) <> ", " <> "userResponseEmailMD5: " <> show (userResponseEmailMD5 rec) <> ", " <> "userResponsePlugin: " <> show (userResponsePlugin rec) <> ", " <> "userResponseIdent: " <> show (userResponseIdent rec) <> ", " <> "userResponseAcceptTOS: " <> show (userResponseAcceptTOS rec) <> ", " <> "userResponseActive: " <> show (userResponseActive rec) <> ", " <> "userResponseGuard: " <> show (userResponseGuard rec) <> ", " <> "userResponseCreatedAt: " <> show (userResponseCreatedAt rec) <> ", " <> "userResponseModifiedAt: " <> show (userResponseModifiedAt rec) <> ", " <> "userResponseDeactivatedAt: " <> show (userResponseDeactivatedAt rec) <> ", " <> "userResponseActivityAt: " <> show (userResponseActivityAt rec)
+    show rec = "userResponseId: " <> show (userResponseId rec) <> ", " <> "userResponseName: " <> show (userResponseName rec) <> ", " <> "userResponseDisplayName: " <> show (userResponseDisplayName rec) <> ", " <> "userResponseFullName: " <> show (userResponseFullName rec) <> ", " <> "userResponseEmail: " <> show (userResponseEmail rec) <> ", " <> "userResponseEmailMD5: " <> show (userResponseEmailMD5 rec) <> ", " <> "userResponsePlugin: " <> show (userResponsePlugin rec) <> ", " <> "userResponseGithubIdent: " <> show (userResponseGithubIdent rec) <> ", " <> "userResponseGithubCreatedAt: " <> show (userResponseGithubCreatedAt rec) <> ", " <> "userResponseGoogleIdent: " <> show (userResponseGoogleIdent rec) <> ", " <> "userResponseGoogleCreatedAt: " <> show (userResponseGoogleCreatedAt rec) <> ", " <> "userResponseAcceptTOS: " <> show (userResponseAcceptTOS rec) <> ", " <> "userResponseActive: " <> show (userResponseActive rec) <> ", " <> "userResponseGuard: " <> show (userResponseGuard rec) <> ", " <> "userResponseCreatedAt: " <> show (userResponseCreatedAt rec) <> ", " <> "userResponseModifiedAt: " <> show (userResponseModifiedAt rec) <> ", " <> "userResponseDeactivatedAt: " <> show (userResponseDeactivatedAt rec) <> ", " <> "userResponseActivityAt: " <> show (userResponseActivityAt rec)
 
 data UserResponses = UserResponses {
   userResponses :: !([UserResponse])
