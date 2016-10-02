@@ -46,7 +46,8 @@ data BoardPackResponse = BoardPackResponse {
   boardPackResponseLatestThreadPostUser :: !((Maybe UserSanitizedResponse)),
   boardPackResponseWithOrganization :: !((Maybe OrganizationResponse)),
   boardPackResponseWithForum :: !((Maybe ForumResponse)),
-  boardPackResponsePermissions :: !(Permissions)
+  boardPackResponsePermissions :: !(Permissions),
+  boardPackResponseThreadPermissions :: !(Permissions)
 }  deriving (Generic,Typeable,NFData)
 
 
@@ -63,6 +64,7 @@ instance FromJSON BoardPackResponse where
     boardPackResponseWithOrganization <- o .: ("with_organization" :: Text)
     boardPackResponseWithForum <- o .: ("with_forum" :: Text)
     boardPackResponsePermissions <- o .: ("permissions" :: Text)
+    boardPackResponseThreadPermissions <- o .: ("thread_permissions" :: Text)
     pure $ BoardPackResponse {
       boardPackResponseBoard = boardPackResponseBoard,
       boardPackResponseBoardId = boardPackResponseBoardId,
@@ -74,7 +76,8 @@ instance FromJSON BoardPackResponse where
       boardPackResponseLatestThreadPostUser = boardPackResponseLatestThreadPostUser,
       boardPackResponseWithOrganization = boardPackResponseWithOrganization,
       boardPackResponseWithForum = boardPackResponseWithForum,
-      boardPackResponsePermissions = boardPackResponsePermissions
+      boardPackResponsePermissions = boardPackResponsePermissions,
+      boardPackResponseThreadPermissions = boardPackResponseThreadPermissions
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -93,14 +96,15 @@ instance ToJSON BoardPackResponse where
     , "with_organization" .= boardPackResponseWithOrganization
     , "with_forum" .= boardPackResponseWithForum
     , "permissions" .= boardPackResponsePermissions
+    , "thread_permissions" .= boardPackResponseThreadPermissions
     ]
 
 
 instance Eq BoardPackResponse where
-  (==) a b = boardPackResponseBoard a == boardPackResponseBoard b && boardPackResponseBoardId a == boardPackResponseBoardId b && boardPackResponseStat a == boardPackResponseStat b && boardPackResponseLike a == boardPackResponseLike b && boardPackResponseStar a == boardPackResponseStar b && boardPackResponseLatestThread a == boardPackResponseLatestThread b && boardPackResponseLatestThreadPost a == boardPackResponseLatestThreadPost b && boardPackResponseLatestThreadPostUser a == boardPackResponseLatestThreadPostUser b && boardPackResponseWithOrganization a == boardPackResponseWithOrganization b && boardPackResponseWithForum a == boardPackResponseWithForum b && boardPackResponsePermissions a == boardPackResponsePermissions b
+  (==) a b = boardPackResponseBoard a == boardPackResponseBoard b && boardPackResponseBoardId a == boardPackResponseBoardId b && boardPackResponseStat a == boardPackResponseStat b && boardPackResponseLike a == boardPackResponseLike b && boardPackResponseStar a == boardPackResponseStar b && boardPackResponseLatestThread a == boardPackResponseLatestThread b && boardPackResponseLatestThreadPost a == boardPackResponseLatestThreadPost b && boardPackResponseLatestThreadPostUser a == boardPackResponseLatestThreadPostUser b && boardPackResponseWithOrganization a == boardPackResponseWithOrganization b && boardPackResponseWithForum a == boardPackResponseWithForum b && boardPackResponsePermissions a == boardPackResponsePermissions b && boardPackResponseThreadPermissions a == boardPackResponseThreadPermissions b
 
 instance Show BoardPackResponse where
-    show rec = "boardPackResponseBoard: " <> show (boardPackResponseBoard rec) <> ", " <> "boardPackResponseBoardId: " <> show (boardPackResponseBoardId rec) <> ", " <> "boardPackResponseStat: " <> show (boardPackResponseStat rec) <> ", " <> "boardPackResponseLike: " <> show (boardPackResponseLike rec) <> ", " <> "boardPackResponseStar: " <> show (boardPackResponseStar rec) <> ", " <> "boardPackResponseLatestThread: " <> show (boardPackResponseLatestThread rec) <> ", " <> "boardPackResponseLatestThreadPost: " <> show (boardPackResponseLatestThreadPost rec) <> ", " <> "boardPackResponseLatestThreadPostUser: " <> show (boardPackResponseLatestThreadPostUser rec) <> ", " <> "boardPackResponseWithOrganization: " <> show (boardPackResponseWithOrganization rec) <> ", " <> "boardPackResponseWithForum: " <> show (boardPackResponseWithForum rec) <> ", " <> "boardPackResponsePermissions: " <> show (boardPackResponsePermissions rec)
+    show rec = "boardPackResponseBoard: " <> show (boardPackResponseBoard rec) <> ", " <> "boardPackResponseBoardId: " <> show (boardPackResponseBoardId rec) <> ", " <> "boardPackResponseStat: " <> show (boardPackResponseStat rec) <> ", " <> "boardPackResponseLike: " <> show (boardPackResponseLike rec) <> ", " <> "boardPackResponseStar: " <> show (boardPackResponseStar rec) <> ", " <> "boardPackResponseLatestThread: " <> show (boardPackResponseLatestThread rec) <> ", " <> "boardPackResponseLatestThreadPost: " <> show (boardPackResponseLatestThreadPost rec) <> ", " <> "boardPackResponseLatestThreadPostUser: " <> show (boardPackResponseLatestThreadPostUser rec) <> ", " <> "boardPackResponseWithOrganization: " <> show (boardPackResponseWithOrganization rec) <> ", " <> "boardPackResponseWithForum: " <> show (boardPackResponseWithForum rec) <> ", " <> "boardPackResponsePermissions: " <> show (boardPackResponsePermissions rec) <> ", " <> "boardPackResponseThreadPermissions: " <> show (boardPackResponseThreadPermissions rec)
 
 data BoardPackResponses = BoardPackResponses {
   boardPackResponses :: !([BoardPackResponse])
