@@ -1,0 +1,70 @@
+name:                haskell-lnotes-types
+version:             0.1.0.110
+synopsis:            Initial project template from stack
+description:         Please see README.md
+homepage:            https://github.com/adarqui/haskell-lnotes-types#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Andrew Darqui
+maintainer:          andrew.darqui@gmail.com
+copyright:           2016 Andrew Darqui
+category:            Development
+build-type:          Simple
+-- extra-source-files:
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     LN.T
+                       LN.T.ACL
+                       LN.T.Api
+                       LN.T.Bucket
+                       LN.T.Count
+                       LN.T.DepList
+                       LN.T.Ent
+                       LN.T.Error
+                       LN.T.Job
+                       LN.T.Leuron
+                       LN.T.LeuronTraining
+                       LN.T.Like
+                       LN.T.Like.Extra
+                       LN.T.Membership
+                       LN.T.Param
+                       LN.T.Pack.User
+                       LN.T.Pack.Sanitized.User
+                       LN.T.Pack.Resource
+                       LN.T.Pack.Leuron
+                       LN.T.Permission
+                       LN.T.Profile
+                       LN.T.Resource
+                       LN.T.Size
+                       LN.T.Splits
+                       LN.T.Substitutions
+                       LN.T.Star
+                       LN.T.User
+                       LN.T.Visibility
+                       LN.T.Templates
+  build-depends:       base >= 4.7 && < 5
+                     , aeson
+                     , bytestring
+                     , containers
+                     , data-default
+                     , deepseq
+                     , text
+                     , time
+                     , haskell-api-helpers-shared
+  ghc-options:         -Wall
+  default-language:    Haskell2010
+
+test-suite haskell-ln-types-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , haskell-ln-types
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/adarqui/haskell-lnotes-types
