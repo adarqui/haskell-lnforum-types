@@ -16,6 +16,7 @@ import           LN.T.LeuronTraining      as A
 import           LN.T.Like                as A
 import           LN.T.Like.Extra          as A
 import           LN.T.Membership          as A
+import           LN.T.Pack.Bucket         as A
 import           LN.T.Pack.Leuron         as A
 import           LN.T.Pack.Resource       as A
 import           LN.T.Pack.Sanitized.User as A
