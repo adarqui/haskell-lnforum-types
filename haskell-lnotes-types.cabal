@@ -1,5 +1,5 @@
 name:                haskell-lnotes-types
-version:             0.1.0.111
+version:             0.1.0.112
 synopsis:            Initial project template from stack
 description:         Please see README.md
 homepage:            https://github.com/adarqui/haskell-lnotes-types#readme
@@ -23,6 +23,7 @@ library
                        LN.T.DepList
                        LN.T.Ent
                        LN.T.Error
+                       LN.T.Id
                        LN.T.Job
                        LN.T.Leuron
                        LN.T.LeuronTraining

@@ -11,6 +11,7 @@ import           LN.T.Count               as A
 import           LN.T.DepList             as A
 import           LN.T.Ent                 as A
 import           LN.T.Error               as A
+import           LN.T.Id                  as A
 import           LN.T.Leuron              as A
 import           LN.T.LeuronTraining      as A
 import           LN.T.Like                as A

@@ -131,6 +131,27 @@ leuronResponseToLeuronRequest  LeuronResponse{..} =
   }
 
 
+idRequestToIdResponse :: Int64 -> Int64 -> Int64 -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> IdRequest -> IdResponse
+idRequestToIdResponse _1 _2 _3 _4 _5 _6 IdRequest{..} =
+  IdResponse {
+    idResponseId = _1,
+    idResponseUserId = _2,
+    idResponseGuard = _3,
+    idResponseCreatedAt = _4,
+    idResponseModifiedAt = _5,
+    idResponseActivityAt = _6,
+    idResponseTargetId = idRequestTargetId
+  }
+
+
+idResponseToIdRequest :: Int -> IdResponse -> IdRequest
+idResponseToIdRequest _1 IdResponse{..} =
+  IdRequest {
+    idRequestGuard = _1,
+    idRequestTargetId = idResponseTargetId
+  }
+
+
 leuronTrainingRequestToLeuronTrainingResponse :: Int64 -> Int64 -> Int64 -> (Maybe UTCTime) -> (Maybe UTCTime) -> LeuronTrainingRequest -> LeuronTrainingResponse
 leuronTrainingRequestToLeuronTrainingResponse _1 _2 _3 _4 _5 LeuronTrainingRequest{..} =
   LeuronTrainingResponse {
