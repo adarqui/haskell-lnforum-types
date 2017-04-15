@@ -26,6 +26,7 @@ import           LN.T.Param               as A
 import           LN.T.Permission          as A
 import           LN.T.Profile             as A
 import           LN.T.Resource            as A
+import           LN.T.Simple              as A
 import           LN.T.Size                as A
 import           LN.T.Splits              as A
 import           LN.T.Star                as A

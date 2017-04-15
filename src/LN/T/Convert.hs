@@ -312,4 +312,32 @@ userSanitizedResponseToUserRequest _1 _2 _3 _4 UserSanitizedResponse{..} =
     userRequestDisplayName = userSanitizedResponseDisplayName
   }
 
+
+simpleStringRequestToSimpleStringResponse :: SimpleStringRequest -> SimpleStringResponse
+simpleStringRequestToSimpleStringResponse  SimpleStringRequest{..} =
+  SimpleStringResponse {
+    simpleStringResponse = simpleStringRequest
+  }
+
+
+simpleStringsRequestToSimpleStringsResponse :: SimpleStringsRequest -> SimpleStringsResponse
+simpleStringsRequestToSimpleStringsResponse  SimpleStringsRequest{..} =
+  SimpleStringsResponse {
+    simpleStringsResponse = simpleStringsRequest
+  }
+
+
+simpleStringRequestToSimpleStringResponse :: SimpleStringRequest -> SimpleStringResponse
+simpleStringRequestToSimpleStringResponse  SimpleStringRequest{..} =
+  SimpleStringResponse {
+    simpleStringResponse = simpleStringRequest
+  }
+
+
+simpleStringsRequestToSimpleStringsResponse :: SimpleStringsRequest -> SimpleStringsResponse
+simpleStringsRequestToSimpleStringsResponse  SimpleStringsRequest{..} =
+  SimpleStringsResponse {
+    simpleStringsResponse = simpleStringsRequest
+  }
+
 -- footer

@@ -39,6 +39,7 @@ library
                        LN.T.Permission
                        LN.T.Profile
                        LN.T.Resource
+                       LN.T.Simple
                        LN.T.Size
                        LN.T.Splits
                        LN.T.Substitutions
