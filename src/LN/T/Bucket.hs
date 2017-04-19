@@ -11,7 +11,7 @@
 module LN.T.Bucket where
 
 
-
+import LN.T.Training
 
 
 import           Control.DeepSeq             (NFData)
@@ -98,6 +98,7 @@ data BucketResponse = BucketResponse {
   bucketResponseResources :: !([Int64]),
   bucketResponseCategories :: !([Text]),
   bucketResponseFilters :: !([Int64]),
+  bucketResponseTrainingNode :: !(TrainingNode),
   bucketResponseActive :: !(Bool),
   bucketResponseGuard :: !(Int),
   bucketResponseCreatedAt :: !((Maybe UTCTime)),
@@ -119,6 +120,7 @@ instance FromJSON BucketResponse where
     bucketResponseResources <- o .: ("resources" :: Text)
     bucketResponseCategories <- o .: ("categories" :: Text)
     bucketResponseFilters <- o .: ("filters" :: Text)
+    bucketResponseTrainingNode <- o .: ("training_node" :: Text)
     bucketResponseActive <- o .: ("active" :: Text)
     bucketResponseGuard <- o .: ("guard" :: Text)
     bucketResponseCreatedAt <- o .: ("created_at" :: Text)
@@ -136,6 +138,7 @@ instance FromJSON BucketResponse where
       bucketResponseResources = bucketResponseResources,
       bucketResponseCategories = bucketResponseCategories,
       bucketResponseFilters = bucketResponseFilters,
+      bucketResponseTrainingNode = bucketResponseTrainingNode,
       bucketResponseActive = bucketResponseActive,
       bucketResponseGuard = bucketResponseGuard,
       bucketResponseCreatedAt = bucketResponseCreatedAt,
@@ -159,6 +162,7 @@ instance ToJSON BucketResponse where
     , "resources" .= bucketResponseResources
     , "categories" .= bucketResponseCategories
     , "filters" .= bucketResponseFilters
+    , "training_node" .= bucketResponseTrainingNode
     , "active" .= bucketResponseActive
     , "guard" .= bucketResponseGuard
     , "created_at" .= bucketResponseCreatedAt
@@ -168,10 +172,10 @@ instance ToJSON BucketResponse where
 
 
 instance Eq BucketResponse where
-  (==) a b = bucketResponseId a == bucketResponseId b && bucketResponseUserId a == bucketResponseUserId b && bucketResponseName a == bucketResponseName b && bucketResponseDisplayName a == bucketResponseDisplayName b && bucketResponseDescription a == bucketResponseDescription b && bucketResponseScoreLo a == bucketResponseScoreLo b && bucketResponseScoreHi a == bucketResponseScoreHi b && bucketResponseLeurons a == bucketResponseLeurons b && bucketResponseResources a == bucketResponseResources b && bucketResponseCategories a == bucketResponseCategories b && bucketResponseFilters a == bucketResponseFilters b && bucketResponseActive a == bucketResponseActive b && bucketResponseGuard a == bucketResponseGuard b && bucketResponseCreatedAt a == bucketResponseCreatedAt b && bucketResponseModifiedAt a == bucketResponseModifiedAt b && bucketResponseActivityAt a == bucketResponseActivityAt b
+  (==) a b = bucketResponseId a == bucketResponseId b && bucketResponseUserId a == bucketResponseUserId b && bucketResponseName a == bucketResponseName b && bucketResponseDisplayName a == bucketResponseDisplayName b && bucketResponseDescription a == bucketResponseDescription b && bucketResponseScoreLo a == bucketResponseScoreLo b && bucketResponseScoreHi a == bucketResponseScoreHi b && bucketResponseLeurons a == bucketResponseLeurons b && bucketResponseResources a == bucketResponseResources b && bucketResponseCategories a == bucketResponseCategories b && bucketResponseFilters a == bucketResponseFilters b && bucketResponseTrainingNode a == bucketResponseTrainingNode b && bucketResponseActive a == bucketResponseActive b && bucketResponseGuard a == bucketResponseGuard b && bucketResponseCreatedAt a == bucketResponseCreatedAt b && bucketResponseModifiedAt a == bucketResponseModifiedAt b && bucketResponseActivityAt a == bucketResponseActivityAt b
 
 instance Show BucketResponse where
-    show rec = "bucketResponseId: " <> show (bucketResponseId rec) <> ", " <> "bucketResponseUserId: " <> show (bucketResponseUserId rec) <> ", " <> "bucketResponseName: " <> show (bucketResponseName rec) <> ", " <> "bucketResponseDisplayName: " <> show (bucketResponseDisplayName rec) <> ", " <> "bucketResponseDescription: " <> show (bucketResponseDescription rec) <> ", " <> "bucketResponseScoreLo: " <> show (bucketResponseScoreLo rec) <> ", " <> "bucketResponseScoreHi: " <> show (bucketResponseScoreHi rec) <> ", " <> "bucketResponseLeurons: " <> show (bucketResponseLeurons rec) <> ", " <> "bucketResponseResources: " <> show (bucketResponseResources rec) <> ", " <> "bucketResponseCategories: " <> show (bucketResponseCategories rec) <> ", " <> "bucketResponseFilters: " <> show (bucketResponseFilters rec) <> ", " <> "bucketResponseActive: " <> show (bucketResponseActive rec) <> ", " <> "bucketResponseGuard: " <> show (bucketResponseGuard rec) <> ", " <> "bucketResponseCreatedAt: " <> show (bucketResponseCreatedAt rec) <> ", " <> "bucketResponseModifiedAt: " <> show (bucketResponseModifiedAt rec) <> ", " <> "bucketResponseActivityAt: " <> show (bucketResponseActivityAt rec)
+    show rec = "bucketResponseId: " <> show (bucketResponseId rec) <> ", " <> "bucketResponseUserId: " <> show (bucketResponseUserId rec) <> ", " <> "bucketResponseName: " <> show (bucketResponseName rec) <> ", " <> "bucketResponseDisplayName: " <> show (bucketResponseDisplayName rec) <> ", " <> "bucketResponseDescription: " <> show (bucketResponseDescription rec) <> ", " <> "bucketResponseScoreLo: " <> show (bucketResponseScoreLo rec) <> ", " <> "bucketResponseScoreHi: " <> show (bucketResponseScoreHi rec) <> ", " <> "bucketResponseLeurons: " <> show (bucketResponseLeurons rec) <> ", " <> "bucketResponseResources: " <> show (bucketResponseResources rec) <> ", " <> "bucketResponseCategories: " <> show (bucketResponseCategories rec) <> ", " <> "bucketResponseFilters: " <> show (bucketResponseFilters rec) <> ", " <> "bucketResponseTrainingNode: " <> show (bucketResponseTrainingNode rec) <> ", " <> "bucketResponseActive: " <> show (bucketResponseActive rec) <> ", " <> "bucketResponseGuard: " <> show (bucketResponseGuard rec) <> ", " <> "bucketResponseCreatedAt: " <> show (bucketResponseCreatedAt rec) <> ", " <> "bucketResponseModifiedAt: " <> show (bucketResponseModifiedAt rec) <> ", " <> "bucketResponseActivityAt: " <> show (bucketResponseActivityAt rec)
 
 data BucketResponses = BucketResponses {
   bucketResponses :: !([BucketResponse])

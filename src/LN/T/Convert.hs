@@ -49,16 +49,17 @@ apiResponseToApiRequest  ApiResponse{..} =
   }
 
 
-bucketRequestToBucketResponse :: Int64 -> Int64 -> Text -> Bool -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketRequest -> BucketResponse
-bucketRequestToBucketResponse _1 _2 _3 _4 _5 _6 _7 BucketRequest{..} =
+bucketRequestToBucketResponse :: Int64 -> Int64 -> Text -> TrainingNode -> Bool -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketRequest -> BucketResponse
+bucketRequestToBucketResponse _1 _2 _3 _4 _5 _6 _7 _8 BucketRequest{..} =
   BucketResponse {
     bucketResponseId = _1,
     bucketResponseUserId = _2,
     bucketResponseName = _3,
-    bucketResponseActive = _4,
-    bucketResponseCreatedAt = _5,
-    bucketResponseModifiedAt = _6,
-    bucketResponseActivityAt = _7,
+    bucketResponseTrainingNode = _4,
+    bucketResponseActive = _5,
+    bucketResponseCreatedAt = _6,
+    bucketResponseModifiedAt = _7,
+    bucketResponseActivityAt = _8,
     bucketResponseDisplayName = bucketRequestDisplayName,
     bucketResponseDescription = bucketRequestDescription,
     bucketResponseScoreLo = bucketRequestScoreLo,
@@ -83,6 +84,81 @@ bucketResponseToBucketRequest  BucketResponse{..} =
     bucketRequestCategories = bucketResponseCategories,
     bucketRequestFilters = bucketResponseFilters,
     bucketRequestGuard = bucketResponseGuard
+  }
+
+
+bucketRoundRequestToBucketRoundResponse :: Int64 -> Int64 -> Int64 -> Int64 -> TrainingNode -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketRoundRequest -> BucketRoundResponse
+bucketRoundRequestToBucketRoundResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 BucketRoundRequest{..} =
+  BucketRoundResponse {
+    bucketRoundResponseId = _1,
+    bucketRoundResponseUserId = _2,
+    bucketRoundResponseBucketId = _3,
+    bucketRoundResponseBucketTrainingId = _4,
+    bucketRoundResponseTrainingNode = _5,
+    bucketRoundResponseActive = _6,
+    bucketRoundResponseGuard = _7,
+    bucketRoundResponseCreatedAt = _8,
+    bucketRoundResponseModifiedAt = _9,
+    bucketRoundResponseActivityAt = _10,
+    bucketRoundResponseStyles = bucketRoundRequestStyles,
+    bucketRoundResponseThreshold = bucketRoundRequestThreshold,
+    bucketRoundResponseTimeLimit = bucketRoundRequestTimeLimit
+  }
+
+
+bucketRoundResponseToBucketRoundRequest :: Int -> BucketRoundResponse -> BucketRoundRequest
+bucketRoundResponseToBucketRoundRequest _1 BucketRoundResponse{..} =
+  BucketRoundRequest {
+    bucketRoundRequestRequestGuard = _1,
+    bucketRoundRequestStyles = bucketRoundResponseStyles,
+    bucketRoundRequestThreshold = bucketRoundResponseThreshold,
+    bucketRoundRequestTimeLimit = bucketRoundResponseTimeLimit
+  }
+
+
+bucketNodeRequestToBucketNodeResponse :: Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Text -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketNodeRequest -> BucketNodeResponse
+bucketNodeRequestToBucketNodeResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 _11 _12 BucketNodeRequest{..} =
+  BucketNodeResponse {
+    bucketNodeResponseId = _1,
+    bucketNodeResponseUserId = _2,
+    bucketNodeResponseBucketId = _3,
+    bucketNodeResponseBucketTrainingId = _4,
+    bucketNodeResponseLeuronId = _5,
+    bucketNodeResponseTimeLimit = _6,
+    bucketNodeResponseTimeLimitExceeded = _7,
+    bucketNodeResponseStyle = _8,
+    bucketNodeResponseActive = _9,
+    bucketNodeResponseGuard = _10,
+    bucketNodeResponseCreatedAt = _11,
+    bucketNodeResponseModifiedAt = _12
+  }
+
+
+bucketNodeResponseToBucketNodeRequest :: Int -> BucketNodeResponse -> BucketNodeRequest
+bucketNodeResponseToBucketNodeRequest _1 BucketNodeResponse{..} =
+  BucketNodeRequest {
+    bucketNodeRequestRequestGuard = _1
+  }
+
+
+idRequestToIdResponse :: Int64 -> Int64 -> Int64 -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> IdRequest -> IdResponse
+idRequestToIdResponse _1 _2 _3 _4 _5 _6 IdRequest{..} =
+  IdResponse {
+    idResponseId = _1,
+    idResponseUserId = _2,
+    idResponseGuard = _3,
+    idResponseCreatedAt = _4,
+    idResponseModifiedAt = _5,
+    idResponseActivityAt = _6,
+    idResponseTargetId = idRequestTargetId
+  }
+
+
+idResponseToIdRequest :: Int -> IdResponse -> IdRequest
+idResponseToIdRequest _1 IdResponse{..} =
+  IdRequest {
+    idRequestGuard = _1,
+    idRequestTargetId = idResponseTargetId
   }
 
 
@@ -131,27 +207,6 @@ leuronResponseToLeuronRequest  LeuronResponse{..} =
   }
 
 
-idRequestToIdResponse :: Int64 -> Int64 -> Int64 -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> IdRequest -> IdResponse
-idRequestToIdResponse _1 _2 _3 _4 _5 _6 IdRequest{..} =
-  IdResponse {
-    idResponseId = _1,
-    idResponseUserId = _2,
-    idResponseGuard = _3,
-    idResponseCreatedAt = _4,
-    idResponseModifiedAt = _5,
-    idResponseActivityAt = _6,
-    idResponseTargetId = idRequestTargetId
-  }
-
-
-idResponseToIdRequest :: Int -> IdResponse -> IdRequest
-idResponseToIdRequest _1 IdResponse{..} =
-  IdRequest {
-    idRequestGuard = _1,
-    idRequestTargetId = idResponseTargetId
-  }
-
-
 leuronTrainingRequestToLeuronTrainingResponse :: Int64 -> Int64 -> Int64 -> (Maybe UTCTime) -> (Maybe UTCTime) -> LeuronTrainingRequest -> LeuronTrainingResponse
 leuronTrainingRequestToLeuronTrainingResponse _1 _2 _3 _4 _5 LeuronTrainingRequest{..} =
   LeuronTrainingResponse {
@@ -170,6 +225,27 @@ leuronTrainingResponseToLeuronTrainingRequest  LeuronTrainingResponse{..} =
   LeuronTrainingRequest {
     leuronTrainingRequestSummary = leuronTrainingResponseSummary,
     leuronTrainingRequestGuard = leuronTrainingResponseGuard
+  }
+
+
+leuronNodeRequestToLeuronNodeResponse :: Int64 -> Int64 -> Int64 -> TrainingNode -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> LeuronNodeRequest -> LeuronNodeResponse
+leuronNodeRequestToLeuronNodeResponse _1 _2 _3 _4 _5 _6 _7 _8 LeuronNodeRequest{..} =
+  LeuronNodeResponse {
+    leuronNodeResponseId = _1,
+    leuronNodeResponseUserId = _2,
+    leuronNodeResponseLeuronId = _3,
+    leuronNodeResponseTrainingNode = _4,
+    leuronNodeResponseActive = _5,
+    leuronNodeResponseGuard = _6,
+    leuronNodeResponseCreatedAt = _7,
+    leuronNodeResponseModifiedAt = _8
+  }
+
+
+leuronNodeResponseToLeuronNodeRequest :: Int -> LeuronNodeResponse -> LeuronNodeRequest
+leuronNodeResponseToLeuronNodeRequest _1 LeuronNodeResponse{..} =
+  LeuronNodeRequest {
+    leuronNodeRequestRequestGuard = _1
   }
 
 
