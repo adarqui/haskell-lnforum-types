@@ -87,50 +87,48 @@ bucketResponseToBucketRequest  BucketResponse{..} =
   }
 
 
-bucketRoundRequestToBucketRoundResponse :: Int64 -> Int64 -> Int64 -> Int64 -> TrainingNode -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketRoundRequest -> BucketRoundResponse
-bucketRoundRequestToBucketRoundResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 BucketRoundRequest{..} =
+bucketRoundRequestToBucketRoundResponse :: Int64 -> Int64 -> Int64 -> TrainingNode -> Bool -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketRoundRequest -> BucketRoundResponse
+bucketRoundRequestToBucketRoundResponse _1 _2 _3 _4 _5 _6 _7 _8 BucketRoundRequest{..} =
   BucketRoundResponse {
     bucketRoundResponseId = _1,
     bucketRoundResponseUserId = _2,
     bucketRoundResponseBucketId = _3,
-    bucketRoundResponseBucketTrainingId = _4,
-    bucketRoundResponseTrainingNode = _5,
-    bucketRoundResponseActive = _6,
-    bucketRoundResponseGuard = _7,
-    bucketRoundResponseCreatedAt = _8,
-    bucketRoundResponseModifiedAt = _9,
-    bucketRoundResponseActivityAt = _10,
-    bucketRoundResponseStyles = bucketRoundRequestStyles,
+    bucketRoundResponseTrainingNode = _4,
+    bucketRoundResponseActive = _5,
+    bucketRoundResponseCreatedAt = _6,
+    bucketRoundResponseModifiedAt = _7,
+    bucketRoundResponseActivityAt = _8,
+    bucketRoundResponseTrainingStyles = bucketRoundRequestTrainingStyles,
     bucketRoundResponseThreshold = bucketRoundRequestThreshold,
-    bucketRoundResponseTimeLimit = bucketRoundRequestTimeLimit
+    bucketRoundResponseTimeLimit = bucketRoundRequestTimeLimit,
+    bucketRoundResponseGuard = bucketRoundRequestGuard
   }
 
 
-bucketRoundResponseToBucketRoundRequest :: Int -> BucketRoundResponse -> BucketRoundRequest
-bucketRoundResponseToBucketRoundRequest _1 BucketRoundResponse{..} =
+bucketRoundResponseToBucketRoundRequest :: BucketRoundResponse -> BucketRoundRequest
+bucketRoundResponseToBucketRoundRequest  BucketRoundResponse{..} =
   BucketRoundRequest {
-    bucketRoundRequestRequestGuard = _1,
-    bucketRoundRequestStyles = bucketRoundResponseStyles,
+    bucketRoundRequestTrainingStyles = bucketRoundResponseTrainingStyles,
     bucketRoundRequestThreshold = bucketRoundResponseThreshold,
-    bucketRoundRequestTimeLimit = bucketRoundResponseTimeLimit
+    bucketRoundRequestTimeLimit = bucketRoundResponseTimeLimit,
+    bucketRoundRequestGuard = bucketRoundResponseGuard
   }
 
 
-bucketNodeRequestToBucketNodeResponse :: Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Text -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketNodeRequest -> BucketNodeResponse
-bucketNodeRequestToBucketNodeResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 _11 _12 BucketNodeRequest{..} =
+bucketNodeRequestToBucketNodeResponse :: Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Int64 -> Text -> Bool -> Int -> (Maybe UTCTime) -> (Maybe UTCTime) -> BucketNodeRequest -> BucketNodeResponse
+bucketNodeRequestToBucketNodeResponse _1 _2 _3 _4 _5 _6 _7 _8 _9 _10 _11 BucketNodeRequest{..} =
   BucketNodeResponse {
     bucketNodeResponseId = _1,
     bucketNodeResponseUserId = _2,
     bucketNodeResponseBucketId = _3,
-    bucketNodeResponseBucketTrainingId = _4,
-    bucketNodeResponseLeuronId = _5,
-    bucketNodeResponseTimeLimit = _6,
-    bucketNodeResponseTimeLimitExceeded = _7,
-    bucketNodeResponseStyle = _8,
-    bucketNodeResponseActive = _9,
-    bucketNodeResponseGuard = _10,
-    bucketNodeResponseCreatedAt = _11,
-    bucketNodeResponseModifiedAt = _12
+    bucketNodeResponseLeuronId = _4,
+    bucketNodeResponseTimeLimit = _5,
+    bucketNodeResponseTimeLimitExceeded = _6,
+    bucketNodeResponseStyle = _7,
+    bucketNodeResponseActive = _8,
+    bucketNodeResponseGuard = _9,
+    bucketNodeResponseCreatedAt = _10,
+    bucketNodeResponseModifiedAt = _11
   }
 
 
@@ -162,16 +160,17 @@ idResponseToIdRequest _1 IdResponse{..} =
   }
 
 
-leuronRequestToLeuronResponse :: Int64 -> Int64 -> Int64 -> Bool -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> LeuronRequest -> LeuronResponse
-leuronRequestToLeuronResponse _1 _2 _3 _4 _5 _6 _7 LeuronRequest{..} =
+leuronRequestToLeuronResponse :: Int64 -> Int64 -> Int64 -> Text -> Bool -> (Maybe UTCTime) -> (Maybe UTCTime) -> (Maybe UTCTime) -> LeuronRequest -> LeuronResponse
+leuronRequestToLeuronResponse _1 _2 _3 _4 _5 _6 _7 _8 LeuronRequest{..} =
   LeuronResponse {
     leuronResponseId = _1,
     leuronResponseUserId = _2,
     leuronResponseResourceId = _3,
-    leuronResponseActive = _4,
-    leuronResponseCreatedAt = _5,
-    leuronResponseModifiedAt = _6,
-    leuronResponseActivityAt = _7,
+    leuronResponseChecksum = _4,
+    leuronResponseActive = _5,
+    leuronResponseCreatedAt = _6,
+    leuronResponseModifiedAt = _7,
+    leuronResponseActivityAt = _8,
     leuronResponseData = leuronRequestData,
     leuronResponseTitle = leuronRequestTitle,
     leuronResponseDescription = leuronRequestDescription,

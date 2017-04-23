@@ -120,6 +120,7 @@ data LeuronResponse = LeuronResponse {
   leuronResponseSubstitutions :: !((Maybe [Substitutions])),
   leuronResponseTags :: !([Text]),
   leuronResponseStyle :: !((Maybe [Text])),
+  leuronResponseChecksum :: !(Text),
   leuronResponseActive :: !(Bool),
   leuronResponseGuard :: !(Int),
   leuronResponseCreatedAt :: !((Maybe UTCTime)),
@@ -145,6 +146,7 @@ instance FromJSON LeuronResponse where
     leuronResponseSubstitutions <- o .: ("substitutions" :: Text)
     leuronResponseTags <- o .: ("tags" :: Text)
     leuronResponseStyle <- o .: ("style" :: Text)
+    leuronResponseChecksum <- o .: ("checksum" :: Text)
     leuronResponseActive <- o .: ("active" :: Text)
     leuronResponseGuard <- o .: ("guard" :: Text)
     leuronResponseCreatedAt <- o .: ("created_at" :: Text)
@@ -166,6 +168,7 @@ instance FromJSON LeuronResponse where
       leuronResponseSubstitutions = leuronResponseSubstitutions,
       leuronResponseTags = leuronResponseTags,
       leuronResponseStyle = leuronResponseStyle,
+      leuronResponseChecksum = leuronResponseChecksum,
       leuronResponseActive = leuronResponseActive,
       leuronResponseGuard = leuronResponseGuard,
       leuronResponseCreatedAt = leuronResponseCreatedAt,
@@ -193,6 +196,7 @@ instance ToJSON LeuronResponse where
     , "substitutions" .= leuronResponseSubstitutions
     , "tags" .= leuronResponseTags
     , "style" .= leuronResponseStyle
+    , "checksum" .= leuronResponseChecksum
     , "active" .= leuronResponseActive
     , "guard" .= leuronResponseGuard
     , "created_at" .= leuronResponseCreatedAt
@@ -202,10 +206,10 @@ instance ToJSON LeuronResponse where
 
 
 instance Eq LeuronResponse where
-  (==) a b = leuronResponseId a == leuronResponseId b && leuronResponseUserId a == leuronResponseUserId b && leuronResponseResourceId a == leuronResponseResourceId b && leuronResponseData a == leuronResponseData b && leuronResponseTitle a == leuronResponseTitle b && leuronResponseDescription a == leuronResponseDescription b && leuronResponseSection a == leuronResponseSection b && leuronResponsePage a == leuronResponsePage b && leuronResponseExamples a == leuronResponseExamples b && leuronResponseStrengths a == leuronResponseStrengths b && leuronResponseCategories a == leuronResponseCategories b && leuronResponseSplits a == leuronResponseSplits b && leuronResponseSubstitutions a == leuronResponseSubstitutions b && leuronResponseTags a == leuronResponseTags b && leuronResponseStyle a == leuronResponseStyle b && leuronResponseActive a == leuronResponseActive b && leuronResponseGuard a == leuronResponseGuard b && leuronResponseCreatedAt a == leuronResponseCreatedAt b && leuronResponseModifiedAt a == leuronResponseModifiedAt b && leuronResponseActivityAt a == leuronResponseActivityAt b
+  (==) a b = leuronResponseId a == leuronResponseId b && leuronResponseUserId a == leuronResponseUserId b && leuronResponseResourceId a == leuronResponseResourceId b && leuronResponseData a == leuronResponseData b && leuronResponseTitle a == leuronResponseTitle b && leuronResponseDescription a == leuronResponseDescription b && leuronResponseSection a == leuronResponseSection b && leuronResponsePage a == leuronResponsePage b && leuronResponseExamples a == leuronResponseExamples b && leuronResponseStrengths a == leuronResponseStrengths b && leuronResponseCategories a == leuronResponseCategories b && leuronResponseSplits a == leuronResponseSplits b && leuronResponseSubstitutions a == leuronResponseSubstitutions b && leuronResponseTags a == leuronResponseTags b && leuronResponseStyle a == leuronResponseStyle b && leuronResponseChecksum a == leuronResponseChecksum b && leuronResponseActive a == leuronResponseActive b && leuronResponseGuard a == leuronResponseGuard b && leuronResponseCreatedAt a == leuronResponseCreatedAt b && leuronResponseModifiedAt a == leuronResponseModifiedAt b && leuronResponseActivityAt a == leuronResponseActivityAt b
 
 instance Show LeuronResponse where
-    show rec = "leuronResponseId: " <> show (leuronResponseId rec) <> ", " <> "leuronResponseUserId: " <> show (leuronResponseUserId rec) <> ", " <> "leuronResponseResourceId: " <> show (leuronResponseResourceId rec) <> ", " <> "leuronResponseData: " <> show (leuronResponseData rec) <> ", " <> "leuronResponseTitle: " <> show (leuronResponseTitle rec) <> ", " <> "leuronResponseDescription: " <> show (leuronResponseDescription rec) <> ", " <> "leuronResponseSection: " <> show (leuronResponseSection rec) <> ", " <> "leuronResponsePage: " <> show (leuronResponsePage rec) <> ", " <> "leuronResponseExamples: " <> show (leuronResponseExamples rec) <> ", " <> "leuronResponseStrengths: " <> show (leuronResponseStrengths rec) <> ", " <> "leuronResponseCategories: " <> show (leuronResponseCategories rec) <> ", " <> "leuronResponseSplits: " <> show (leuronResponseSplits rec) <> ", " <> "leuronResponseSubstitutions: " <> show (leuronResponseSubstitutions rec) <> ", " <> "leuronResponseTags: " <> show (leuronResponseTags rec) <> ", " <> "leuronResponseStyle: " <> show (leuronResponseStyle rec) <> ", " <> "leuronResponseActive: " <> show (leuronResponseActive rec) <> ", " <> "leuronResponseGuard: " <> show (leuronResponseGuard rec) <> ", " <> "leuronResponseCreatedAt: " <> show (leuronResponseCreatedAt rec) <> ", " <> "leuronResponseModifiedAt: " <> show (leuronResponseModifiedAt rec) <> ", " <> "leuronResponseActivityAt: " <> show (leuronResponseActivityAt rec)
+    show rec = "leuronResponseId: " <> show (leuronResponseId rec) <> ", " <> "leuronResponseUserId: " <> show (leuronResponseUserId rec) <> ", " <> "leuronResponseResourceId: " <> show (leuronResponseResourceId rec) <> ", " <> "leuronResponseData: " <> show (leuronResponseData rec) <> ", " <> "leuronResponseTitle: " <> show (leuronResponseTitle rec) <> ", " <> "leuronResponseDescription: " <> show (leuronResponseDescription rec) <> ", " <> "leuronResponseSection: " <> show (leuronResponseSection rec) <> ", " <> "leuronResponsePage: " <> show (leuronResponsePage rec) <> ", " <> "leuronResponseExamples: " <> show (leuronResponseExamples rec) <> ", " <> "leuronResponseStrengths: " <> show (leuronResponseStrengths rec) <> ", " <> "leuronResponseCategories: " <> show (leuronResponseCategories rec) <> ", " <> "leuronResponseSplits: " <> show (leuronResponseSplits rec) <> ", " <> "leuronResponseSubstitutions: " <> show (leuronResponseSubstitutions rec) <> ", " <> "leuronResponseTags: " <> show (leuronResponseTags rec) <> ", " <> "leuronResponseStyle: " <> show (leuronResponseStyle rec) <> ", " <> "leuronResponseChecksum: " <> show (leuronResponseChecksum rec) <> ", " <> "leuronResponseActive: " <> show (leuronResponseActive rec) <> ", " <> "leuronResponseGuard: " <> show (leuronResponseGuard rec) <> ", " <> "leuronResponseCreatedAt: " <> show (leuronResponseCreatedAt rec) <> ", " <> "leuronResponseModifiedAt: " <> show (leuronResponseModifiedAt rec) <> ", " <> "leuronResponseActivityAt: " <> show (leuronResponseActivityAt rec)
 
 data LeuronResponses = LeuronResponses {
   leuronResponses :: !([LeuronResponse])

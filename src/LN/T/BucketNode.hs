@@ -58,7 +58,6 @@ data BucketNodeResponse = BucketNodeResponse {
   bucketNodeResponseId :: !(Int64),
   bucketNodeResponseUserId :: !(Int64),
   bucketNodeResponseBucketId :: !(Int64),
-  bucketNodeResponseBucketTrainingId :: !(Int64),
   bucketNodeResponseLeuronId :: !(Int64),
   bucketNodeResponseTimeLimit :: !(Int64),
   bucketNodeResponseTimeLimitExceeded :: !(Int64),
@@ -75,7 +74,6 @@ instance FromJSON BucketNodeResponse where
     bucketNodeResponseId <- o .: ("id" :: Text)
     bucketNodeResponseUserId <- o .: ("user_id" :: Text)
     bucketNodeResponseBucketId <- o .: ("bucket_id" :: Text)
-    bucketNodeResponseBucketTrainingId <- o .: ("bucket_training_id" :: Text)
     bucketNodeResponseLeuronId <- o .: ("leuron_id" :: Text)
     bucketNodeResponseTimeLimit <- o .: ("time_limit" :: Text)
     bucketNodeResponseTimeLimitExceeded <- o .: ("time_limit_exceeded" :: Text)
@@ -88,7 +86,6 @@ instance FromJSON BucketNodeResponse where
       bucketNodeResponseId = bucketNodeResponseId,
       bucketNodeResponseUserId = bucketNodeResponseUserId,
       bucketNodeResponseBucketId = bucketNodeResponseBucketId,
-      bucketNodeResponseBucketTrainingId = bucketNodeResponseBucketTrainingId,
       bucketNodeResponseLeuronId = bucketNodeResponseLeuronId,
       bucketNodeResponseTimeLimit = bucketNodeResponseTimeLimit,
       bucketNodeResponseTimeLimitExceeded = bucketNodeResponseTimeLimitExceeded,
@@ -107,7 +104,6 @@ instance ToJSON BucketNodeResponse where
     , "id" .= bucketNodeResponseId
     , "user_id" .= bucketNodeResponseUserId
     , "bucket_id" .= bucketNodeResponseBucketId
-    , "bucket_training_id" .= bucketNodeResponseBucketTrainingId
     , "leuron_id" .= bucketNodeResponseLeuronId
     , "time_limit" .= bucketNodeResponseTimeLimit
     , "time_limit_exceeded" .= bucketNodeResponseTimeLimitExceeded
@@ -120,10 +116,10 @@ instance ToJSON BucketNodeResponse where
 
 
 instance Eq BucketNodeResponse where
-  (==) a b = bucketNodeResponseId a == bucketNodeResponseId b && bucketNodeResponseUserId a == bucketNodeResponseUserId b && bucketNodeResponseBucketId a == bucketNodeResponseBucketId b && bucketNodeResponseBucketTrainingId a == bucketNodeResponseBucketTrainingId b && bucketNodeResponseLeuronId a == bucketNodeResponseLeuronId b && bucketNodeResponseTimeLimit a == bucketNodeResponseTimeLimit b && bucketNodeResponseTimeLimitExceeded a == bucketNodeResponseTimeLimitExceeded b && bucketNodeResponseStyle a == bucketNodeResponseStyle b && bucketNodeResponseActive a == bucketNodeResponseActive b && bucketNodeResponseGuard a == bucketNodeResponseGuard b && bucketNodeResponseCreatedAt a == bucketNodeResponseCreatedAt b && bucketNodeResponseModifiedAt a == bucketNodeResponseModifiedAt b
+  (==) a b = bucketNodeResponseId a == bucketNodeResponseId b && bucketNodeResponseUserId a == bucketNodeResponseUserId b && bucketNodeResponseBucketId a == bucketNodeResponseBucketId b && bucketNodeResponseLeuronId a == bucketNodeResponseLeuronId b && bucketNodeResponseTimeLimit a == bucketNodeResponseTimeLimit b && bucketNodeResponseTimeLimitExceeded a == bucketNodeResponseTimeLimitExceeded b && bucketNodeResponseStyle a == bucketNodeResponseStyle b && bucketNodeResponseActive a == bucketNodeResponseActive b && bucketNodeResponseGuard a == bucketNodeResponseGuard b && bucketNodeResponseCreatedAt a == bucketNodeResponseCreatedAt b && bucketNodeResponseModifiedAt a == bucketNodeResponseModifiedAt b
 
 instance Show BucketNodeResponse where
-    show rec = "bucketNodeResponseId: " <> show (bucketNodeResponseId rec) <> ", " <> "bucketNodeResponseUserId: " <> show (bucketNodeResponseUserId rec) <> ", " <> "bucketNodeResponseBucketId: " <> show (bucketNodeResponseBucketId rec) <> ", " <> "bucketNodeResponseBucketTrainingId: " <> show (bucketNodeResponseBucketTrainingId rec) <> ", " <> "bucketNodeResponseLeuronId: " <> show (bucketNodeResponseLeuronId rec) <> ", " <> "bucketNodeResponseTimeLimit: " <> show (bucketNodeResponseTimeLimit rec) <> ", " <> "bucketNodeResponseTimeLimitExceeded: " <> show (bucketNodeResponseTimeLimitExceeded rec) <> ", " <> "bucketNodeResponseStyle: " <> show (bucketNodeResponseStyle rec) <> ", " <> "bucketNodeResponseActive: " <> show (bucketNodeResponseActive rec) <> ", " <> "bucketNodeResponseGuard: " <> show (bucketNodeResponseGuard rec) <> ", " <> "bucketNodeResponseCreatedAt: " <> show (bucketNodeResponseCreatedAt rec) <> ", " <> "bucketNodeResponseModifiedAt: " <> show (bucketNodeResponseModifiedAt rec)
+    show rec = "bucketNodeResponseId: " <> show (bucketNodeResponseId rec) <> ", " <> "bucketNodeResponseUserId: " <> show (bucketNodeResponseUserId rec) <> ", " <> "bucketNodeResponseBucketId: " <> show (bucketNodeResponseBucketId rec) <> ", " <> "bucketNodeResponseLeuronId: " <> show (bucketNodeResponseLeuronId rec) <> ", " <> "bucketNodeResponseTimeLimit: " <> show (bucketNodeResponseTimeLimit rec) <> ", " <> "bucketNodeResponseTimeLimitExceeded: " <> show (bucketNodeResponseTimeLimitExceeded rec) <> ", " <> "bucketNodeResponseStyle: " <> show (bucketNodeResponseStyle rec) <> ", " <> "bucketNodeResponseActive: " <> show (bucketNodeResponseActive rec) <> ", " <> "bucketNodeResponseGuard: " <> show (bucketNodeResponseGuard rec) <> ", " <> "bucketNodeResponseCreatedAt: " <> show (bucketNodeResponseCreatedAt rec) <> ", " <> "bucketNodeResponseModifiedAt: " <> show (bucketNodeResponseModifiedAt rec)
 
 data BucketNodeResponses = BucketNodeResponses {
   bucketNodeResponses :: !([BucketNodeResponse])

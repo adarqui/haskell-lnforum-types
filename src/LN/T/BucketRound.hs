@@ -28,24 +28,24 @@ import           Haskell.Api.Helpers.Shared  (QueryParam, qp)
 import           Prelude
 
 data BucketRoundRequest = BucketRoundRequest {
-  bucketRoundRequestStyles :: !([Text]),
+  bucketRoundRequestTrainingStyles :: !([TrainingStyle]),
   bucketRoundRequestThreshold :: !(Int64),
   bucketRoundRequestTimeLimit :: !(Int64),
-  bucketRoundRequestRequestGuard :: !(Int)
+  bucketRoundRequestGuard :: !(Int)
 }  deriving (Generic,Typeable,NFData)
 
 
 instance FromJSON BucketRoundRequest where
   parseJSON (Object o) = do
-    bucketRoundRequestStyles <- o .: ("styles" :: Text)
+    bucketRoundRequestTrainingStyles <- o .: ("training_styles" :: Text)
     bucketRoundRequestThreshold <- o .: ("threshold" :: Text)
     bucketRoundRequestTimeLimit <- o .: ("time_limit" :: Text)
-    bucketRoundRequestRequestGuard <- o .: ("request_guard" :: Text)
+    bucketRoundRequestGuard <- o .: ("guard" :: Text)
     pure $ BucketRoundRequest {
-      bucketRoundRequestStyles = bucketRoundRequestStyles,
+      bucketRoundRequestTrainingStyles = bucketRoundRequestTrainingStyles,
       bucketRoundRequestThreshold = bucketRoundRequestThreshold,
       bucketRoundRequestTimeLimit = bucketRoundRequestTimeLimit,
-      bucketRoundRequestRequestGuard = bucketRoundRequestRequestGuard
+      bucketRoundRequestGuard = bucketRoundRequestGuard
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
 
@@ -53,25 +53,24 @@ instance FromJSON BucketRoundRequest where
 instance ToJSON BucketRoundRequest where
   toJSON BucketRoundRequest{..} = object $
     [ "tag" .= ("BucketRoundRequest" :: Text)
-    , "styles" .= bucketRoundRequestStyles
+    , "training_styles" .= bucketRoundRequestTrainingStyles
     , "threshold" .= bucketRoundRequestThreshold
     , "time_limit" .= bucketRoundRequestTimeLimit
-    , "request_guard" .= bucketRoundRequestRequestGuard
+    , "guard" .= bucketRoundRequestGuard
     ]
 
 
 instance Eq BucketRoundRequest where
-  (==) a b = bucketRoundRequestStyles a == bucketRoundRequestStyles b && bucketRoundRequestThreshold a == bucketRoundRequestThreshold b && bucketRoundRequestTimeLimit a == bucketRoundRequestTimeLimit b && bucketRoundRequestRequestGuard a == bucketRoundRequestRequestGuard b
+  (==) a b = bucketRoundRequestTrainingStyles a == bucketRoundRequestTrainingStyles b && bucketRoundRequestThreshold a == bucketRoundRequestThreshold b && bucketRoundRequestTimeLimit a == bucketRoundRequestTimeLimit b && bucketRoundRequestGuard a == bucketRoundRequestGuard b
 
 instance Show BucketRoundRequest where
-    show rec = "bucketRoundRequestStyles: " <> show (bucketRoundRequestStyles rec) <> ", " <> "bucketRoundRequestThreshold: " <> show (bucketRoundRequestThreshold rec) <> ", " <> "bucketRoundRequestTimeLimit: " <> show (bucketRoundRequestTimeLimit rec) <> ", " <> "bucketRoundRequestRequestGuard: " <> show (bucketRoundRequestRequestGuard rec)
+    show rec = "bucketRoundRequestTrainingStyles: " <> show (bucketRoundRequestTrainingStyles rec) <> ", " <> "bucketRoundRequestThreshold: " <> show (bucketRoundRequestThreshold rec) <> ", " <> "bucketRoundRequestTimeLimit: " <> show (bucketRoundRequestTimeLimit rec) <> ", " <> "bucketRoundRequestGuard: " <> show (bucketRoundRequestGuard rec)
 
 data BucketRoundResponse = BucketRoundResponse {
   bucketRoundResponseId :: !(Int64),
   bucketRoundResponseUserId :: !(Int64),
   bucketRoundResponseBucketId :: !(Int64),
-  bucketRoundResponseBucketTrainingId :: !(Int64),
-  bucketRoundResponseStyles :: !([Text]),
+  bucketRoundResponseTrainingStyles :: !([TrainingStyle]),
   bucketRoundResponseThreshold :: !(Int64),
   bucketRoundResponseTimeLimit :: !(Int64),
   bucketRoundResponseTrainingNode :: !(TrainingNode),
@@ -88,8 +87,7 @@ instance FromJSON BucketRoundResponse where
     bucketRoundResponseId <- o .: ("id" :: Text)
     bucketRoundResponseUserId <- o .: ("user_id" :: Text)
     bucketRoundResponseBucketId <- o .: ("bucket_id" :: Text)
-    bucketRoundResponseBucketTrainingId <- o .: ("bucket_training_id" :: Text)
-    bucketRoundResponseStyles <- o .: ("styles" :: Text)
+    bucketRoundResponseTrainingStyles <- o .: ("training_styles" :: Text)
     bucketRoundResponseThreshold <- o .: ("threshold" :: Text)
     bucketRoundResponseTimeLimit <- o .: ("time_limit" :: Text)
     bucketRoundResponseTrainingNode <- o .: ("training_node" :: Text)
@@ -102,8 +100,7 @@ instance FromJSON BucketRoundResponse where
       bucketRoundResponseId = bucketRoundResponseId,
       bucketRoundResponseUserId = bucketRoundResponseUserId,
       bucketRoundResponseBucketId = bucketRoundResponseBucketId,
-      bucketRoundResponseBucketTrainingId = bucketRoundResponseBucketTrainingId,
-      bucketRoundResponseStyles = bucketRoundResponseStyles,
+      bucketRoundResponseTrainingStyles = bucketRoundResponseTrainingStyles,
       bucketRoundResponseThreshold = bucketRoundResponseThreshold,
       bucketRoundResponseTimeLimit = bucketRoundResponseTimeLimit,
       bucketRoundResponseTrainingNode = bucketRoundResponseTrainingNode,
@@ -122,8 +119,7 @@ instance ToJSON BucketRoundResponse where
     , "id" .= bucketRoundResponseId
     , "user_id" .= bucketRoundResponseUserId
     , "bucket_id" .= bucketRoundResponseBucketId
-    , "bucket_training_id" .= bucketRoundResponseBucketTrainingId
-    , "styles" .= bucketRoundResponseStyles
+    , "training_styles" .= bucketRoundResponseTrainingStyles
     , "threshold" .= bucketRoundResponseThreshold
     , "time_limit" .= bucketRoundResponseTimeLimit
     , "training_node" .= bucketRoundResponseTrainingNode
@@ -136,10 +132,10 @@ instance ToJSON BucketRoundResponse where
 
 
 instance Eq BucketRoundResponse where
-  (==) a b = bucketRoundResponseId a == bucketRoundResponseId b && bucketRoundResponseUserId a == bucketRoundResponseUserId b && bucketRoundResponseBucketId a == bucketRoundResponseBucketId b && bucketRoundResponseBucketTrainingId a == bucketRoundResponseBucketTrainingId b && bucketRoundResponseStyles a == bucketRoundResponseStyles b && bucketRoundResponseThreshold a == bucketRoundResponseThreshold b && bucketRoundResponseTimeLimit a == bucketRoundResponseTimeLimit b && bucketRoundResponseTrainingNode a == bucketRoundResponseTrainingNode b && bucketRoundResponseActive a == bucketRoundResponseActive b && bucketRoundResponseGuard a == bucketRoundResponseGuard b && bucketRoundResponseCreatedAt a == bucketRoundResponseCreatedAt b && bucketRoundResponseModifiedAt a == bucketRoundResponseModifiedAt b && bucketRoundResponseActivityAt a == bucketRoundResponseActivityAt b
+  (==) a b = bucketRoundResponseId a == bucketRoundResponseId b && bucketRoundResponseUserId a == bucketRoundResponseUserId b && bucketRoundResponseBucketId a == bucketRoundResponseBucketId b && bucketRoundResponseTrainingStyles a == bucketRoundResponseTrainingStyles b && bucketRoundResponseThreshold a == bucketRoundResponseThreshold b && bucketRoundResponseTimeLimit a == bucketRoundResponseTimeLimit b && bucketRoundResponseTrainingNode a == bucketRoundResponseTrainingNode b && bucketRoundResponseActive a == bucketRoundResponseActive b && bucketRoundResponseGuard a == bucketRoundResponseGuard b && bucketRoundResponseCreatedAt a == bucketRoundResponseCreatedAt b && bucketRoundResponseModifiedAt a == bucketRoundResponseModifiedAt b && bucketRoundResponseActivityAt a == bucketRoundResponseActivityAt b
 
 instance Show BucketRoundResponse where
-    show rec = "bucketRoundResponseId: " <> show (bucketRoundResponseId rec) <> ", " <> "bucketRoundResponseUserId: " <> show (bucketRoundResponseUserId rec) <> ", " <> "bucketRoundResponseBucketId: " <> show (bucketRoundResponseBucketId rec) <> ", " <> "bucketRoundResponseBucketTrainingId: " <> show (bucketRoundResponseBucketTrainingId rec) <> ", " <> "bucketRoundResponseStyles: " <> show (bucketRoundResponseStyles rec) <> ", " <> "bucketRoundResponseThreshold: " <> show (bucketRoundResponseThreshold rec) <> ", " <> "bucketRoundResponseTimeLimit: " <> show (bucketRoundResponseTimeLimit rec) <> ", " <> "bucketRoundResponseTrainingNode: " <> show (bucketRoundResponseTrainingNode rec) <> ", " <> "bucketRoundResponseActive: " <> show (bucketRoundResponseActive rec) <> ", " <> "bucketRoundResponseGuard: " <> show (bucketRoundResponseGuard rec) <> ", " <> "bucketRoundResponseCreatedAt: " <> show (bucketRoundResponseCreatedAt rec) <> ", " <> "bucketRoundResponseModifiedAt: " <> show (bucketRoundResponseModifiedAt rec) <> ", " <> "bucketRoundResponseActivityAt: " <> show (bucketRoundResponseActivityAt rec)
+    show rec = "bucketRoundResponseId: " <> show (bucketRoundResponseId rec) <> ", " <> "bucketRoundResponseUserId: " <> show (bucketRoundResponseUserId rec) <> ", " <> "bucketRoundResponseBucketId: " <> show (bucketRoundResponseBucketId rec) <> ", " <> "bucketRoundResponseTrainingStyles: " <> show (bucketRoundResponseTrainingStyles rec) <> ", " <> "bucketRoundResponseThreshold: " <> show (bucketRoundResponseThreshold rec) <> ", " <> "bucketRoundResponseTimeLimit: " <> show (bucketRoundResponseTimeLimit rec) <> ", " <> "bucketRoundResponseTrainingNode: " <> show (bucketRoundResponseTrainingNode rec) <> ", " <> "bucketRoundResponseActive: " <> show (bucketRoundResponseActive rec) <> ", " <> "bucketRoundResponseGuard: " <> show (bucketRoundResponseGuard rec) <> ", " <> "bucketRoundResponseCreatedAt: " <> show (bucketRoundResponseCreatedAt rec) <> ", " <> "bucketRoundResponseModifiedAt: " <> show (bucketRoundResponseModifiedAt rec) <> ", " <> "bucketRoundResponseActivityAt: " <> show (bucketRoundResponseActivityAt rec)
 
 data BucketRoundResponses = BucketRoundResponses {
   bucketRoundResponses :: !([BucketRoundResponse])
