@@ -301,4 +301,13 @@ instance Show TrainingStyle where
   show TS_Subs = "ts_subs"
   show TS_Splits = "ts_splits"
 
+
+instance Read TrainingStyle where
+  readsPrec _ "ts_simple" = [(TS_Simple, "")]
+  readsPrec _ "ts_boolean" = [(TS_Boolean, "")]
+  readsPrec _ "ts_matching" = [(TS_Matching, "")]
+  readsPrec _ "ts_subs" = [(TS_Subs, "")]
+  readsPrec _ "ts_splits" = [(TS_Splits, "")]
+  readsPrec _ _ = []
+
 -- footer
