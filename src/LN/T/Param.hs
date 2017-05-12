@@ -67,6 +67,7 @@ data Param
   | ByThreadPostStarId !(Int64)
   | ByThreadPostStarsIds !([Int64])
   | ByBucketId !(Int64)
+  | ByBucketRoundId !(Int64)
   | ByResourceId !(Int64)
   | ByResourcesIds !([Int64])
   | ByResourceName !(Text)
@@ -334,6 +335,12 @@ instance FromJSON Param where
         case r of
           [x0] -> ByBucketId <$> parseJSON x0
           _ -> fail "FromJON Typemismatch: ByBucketId"
+
+      ("ByBucketRoundId" :: Text) -> do
+        r <- o .: "contents"
+        case r of
+          [x0] -> ByBucketRoundId <$> parseJSON x0
+          _ -> fail "FromJON Typemismatch: ByBucketRoundId"
 
       ("ByResourceId" :: Text) -> do
         r <- o .: "contents"
@@ -659,6 +666,10 @@ instance ToJSON Param where
     [ "tag" .= ("ByBucketId" :: Text)
     , "contents" .= [toJSON x0]
     ]
+  toJSON (ByBucketRoundId x0) = object $
+    [ "tag" .= ("ByBucketRoundId" :: Text)
+    , "contents" .= [toJSON x0]
+    ]
   toJSON (ByResourceId x0) = object $
     [ "tag" .= ("ByResourceId" :: Text)
     , "contents" .= [toJSON x0]
@@ -809,6 +820,7 @@ instance Eq Param where
   (==) (ByThreadPostStarId x0a) (ByThreadPostStarId x0b) = x0a == x0b
   (==) (ByThreadPostStarsIds x0a) (ByThreadPostStarsIds x0b) = x0a == x0b
   (==) (ByBucketId x0a) (ByBucketId x0b) = x0a == x0b
+  (==) (ByBucketRoundId x0a) (ByBucketRoundId x0b) = x0a == x0b
   (==) (ByResourceId x0a) (ByResourceId x0b) = x0a == x0b
   (==) (ByResourcesIds x0a) (ByResourcesIds x0b) = x0a == x0b
   (==) (ByResourceName x0a) (ByResourceName x0b) = x0a == x0b
@@ -878,6 +890,7 @@ instance Show Param where
   show (ByThreadPostStarId x0) = "by_thread_post_star_id: " <> show x0
   show (ByThreadPostStarsIds x0) = "by_thread_post_stars_ids: " <> show x0
   show (ByBucketId x0) = "by_bucket_id: " <> show x0
+  show (ByBucketRoundId x0) = "by_bucket_round_id: " <> show x0
   show (ByResourceId x0) = "by_resource_id: " <> show x0
   show (ByResourcesIds x0) = "by_resources_ids: " <> show x0
   show (ByResourceName x0) = "by_resource_name: " <> show x0
@@ -947,6 +960,7 @@ instance QueryParam Param where
   qp (ByThreadPostStarId x0) = ("by_thread_post_star_id", (T.pack $ show x0))
   qp (ByThreadPostStarsIds x0) = ("by_thread_post_stars_ids", (T.pack $ show x0))
   qp (ByBucketId x0) = ("by_bucket_id", (T.pack $ show x0))
+  qp (ByBucketRoundId x0) = ("by_bucket_round_id", (T.pack $ show x0))
   qp (ByResourceId x0) = ("by_resource_id", (T.pack $ show x0))
   qp (ByResourcesIds x0) = ("by_resources_ids", (T.pack $ show x0))
   qp (ByResourceName x0) = ("by_resource_name", x0)
@@ -1016,6 +1030,7 @@ data ParamTag
   | ParamTag_ByThreadPostStarId 
   | ParamTag_ByThreadPostStarsIds 
   | ParamTag_ByBucketId 
+  | ParamTag_ByBucketRoundId 
   | ParamTag_ByResourceId 
   | ParamTag_ByResourcesIds 
   | ParamTag_ByResourceName 
@@ -1166,6 +1181,9 @@ instance FromJSON ParamTag where
 
       ("ParamTag_ByBucketId" :: Text) -> do
         pure ParamTag_ByBucketId
+
+      ("ParamTag_ByBucketRoundId" :: Text) -> do
+        pure ParamTag_ByBucketRoundId
 
       ("ParamTag_ByResourceId" :: Text) -> do
         pure ParamTag_ByResourceId
@@ -1410,6 +1428,10 @@ instance ToJSON ParamTag where
     [ "tag" .= ("ParamTag_ByBucketId" :: Text)
     , "contents" .= ([] :: [Text])
     ]
+  toJSON (ParamTag_ByBucketRoundId ) = object $
+    [ "tag" .= ("ParamTag_ByBucketRoundId" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
   toJSON (ParamTag_ByResourceId ) = object $
     [ "tag" .= ("ParamTag_ByResourceId" :: Text)
     , "contents" .= ([] :: [Text])
@@ -1560,6 +1582,7 @@ instance Eq ParamTag where
   (==) ParamTag_ByThreadPostStarId ParamTag_ByThreadPostStarId = True
   (==) ParamTag_ByThreadPostStarsIds ParamTag_ByThreadPostStarsIds = True
   (==) ParamTag_ByBucketId ParamTag_ByBucketId = True
+  (==) ParamTag_ByBucketRoundId ParamTag_ByBucketRoundId = True
   (==) ParamTag_ByResourceId ParamTag_ByResourceId = True
   (==) ParamTag_ByResourcesIds ParamTag_ByResourcesIds = True
   (==) ParamTag_ByResourceName ParamTag_ByResourceName = True
@@ -1629,6 +1652,7 @@ instance Show ParamTag where
   show ParamTag_ByThreadPostStarId = "by_thread_post_star_id"
   show ParamTag_ByThreadPostStarsIds = "by_thread_post_stars_ids"
   show ParamTag_ByBucketId = "by_bucket_id"
+  show ParamTag_ByBucketRoundId = "by_bucket_round_id"
   show ParamTag_ByResourceId = "by_resource_id"
   show ParamTag_ByResourcesIds = "by_resources_ids"
   show ParamTag_ByResourceName = "by_resource_name"
@@ -1698,6 +1722,7 @@ instance Read ParamTag where
   readsPrec _ "by_thread_post_star_id" = [(ParamTag_ByThreadPostStarId, "")]
   readsPrec _ "by_thread_post_stars_ids" = [(ParamTag_ByThreadPostStarsIds, "")]
   readsPrec _ "by_bucket_id" = [(ParamTag_ByBucketId, "")]
+  readsPrec _ "by_bucket_round_id" = [(ParamTag_ByBucketRoundId, "")]
   readsPrec _ "by_resource_id" = [(ParamTag_ByResourceId, "")]
   readsPrec _ "by_resources_ids" = [(ParamTag_ByResourcesIds, "")]
   readsPrec _ "by_resource_name" = [(ParamTag_ByResourceName, "")]

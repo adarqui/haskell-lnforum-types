@@ -718,6 +718,68 @@ instance Show TyLeuron where
   show TyLnEmpty = "ty_ln_empty"
 
 
+data LeuronStatus
+  = LeuronKnow 
+  | LeuronDontKnow 
+  | LeuronDontCare 
+  | LeuronProtest 
+  deriving (Generic,Typeable,NFData)
+
+
+instance FromJSON LeuronStatus where
+  parseJSON (Object o) = do
+    tag <- o .: ("tag" :: Text)
+    case tag of
+      ("LeuronKnow" :: Text) -> do
+        pure LeuronKnow
+
+      ("LeuronDontKnow" :: Text) -> do
+        pure LeuronDontKnow
+
+      ("LeuronDontCare" :: Text) -> do
+        pure LeuronDontCare
+
+      ("LeuronProtest" :: Text) -> do
+        pure LeuronProtest
+
+      _ -> fail "Could not parse LeuronStatus"
+
+  parseJSON x = fail $ "Could not parse object: " <> show x
+
+
+instance ToJSON LeuronStatus where
+  toJSON (LeuronKnow ) = object $
+    [ "tag" .= ("LeuronKnow" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
+  toJSON (LeuronDontKnow ) = object $
+    [ "tag" .= ("LeuronDontKnow" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
+  toJSON (LeuronDontCare ) = object $
+    [ "tag" .= ("LeuronDontCare" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
+  toJSON (LeuronProtest ) = object $
+    [ "tag" .= ("LeuronProtest" :: Text)
+    , "contents" .= ([] :: [Text])
+    ]
+
+
+instance Eq LeuronStatus where
+  (==) LeuronKnow LeuronKnow = True
+  (==) LeuronDontKnow LeuronDontKnow = True
+  (==) LeuronDontCare LeuronDontCare = True
+  (==) LeuronProtest LeuronProtest = True
+  (==) _ _ = False
+
+instance Show LeuronStatus where
+  show LeuronKnow = "leuron_know"
+  show LeuronDontKnow = "leuron_dont_know"
+  show LeuronDontCare = "leuron_dont_care"
+  show LeuronProtest = "leuron_protest"
+
+
 data Fact = Fact {
   factText :: !(Text)
 }  deriving (Generic,Typeable,NFData)

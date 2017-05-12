@@ -231,9 +231,9 @@ instance Show TrainingNode where
     show rec = "numTotal: " <> show (numTotal rec) <> ", " <> "numKnow: " <> show (numKnow rec) <> ", " <> "numDontKnow: " <> show (numDontKnow rec) <> ", " <> "numDontCare: " <> show (numDontCare rec) <> ", " <> "numProtest: " <> show (numProtest rec) <> ", " <> "honorKnow: " <> show (honorKnow rec) <> ", " <> "honorDontKnow: " <> show (honorDontKnow rec) <> ", " <> "honorDontCare: " <> show (honorDontCare rec) <> ", " <> "honorProtest: " <> show (honorProtest rec) <> ", " <> "honorKnowAt: " <> show (honorKnowAt rec) <> ", " <> "honorDontKnowAt: " <> show (honorDontKnowAt rec) <> ", " <> "honorDontCareAt: " <> show (honorDontCareAt rec) <> ", " <> "honorProtestAt: " <> show (honorProtestAt rec) <> ", " <> "booleanKnow: " <> show (booleanKnow rec) <> ", " <> "booleanDontKnow: " <> show (booleanDontKnow rec) <> ", " <> "booleanDontCare: " <> show (booleanDontCare rec) <> ", " <> "booleanProtest: " <> show (booleanProtest rec) <> ", " <> "booleanKnowAt: " <> show (booleanKnowAt rec) <> ", " <> "booleanDontKnowAt: " <> show (booleanDontKnowAt rec) <> ", " <> "booleanDontCareAt: " <> show (booleanDontCareAt rec) <> ", " <> "booleanProtestAt: " <> show (booleanProtestAt rec) <> ", " <> "matchKnow: " <> show (matchKnow rec) <> ", " <> "matchDontKnow: " <> show (matchDontKnow rec) <> ", " <> "matchDontCare: " <> show (matchDontCare rec) <> ", " <> "matchProtest: " <> show (matchProtest rec) <> ", " <> "matchKnowAt: " <> show (matchKnowAt rec) <> ", " <> "matchDontKnowAt: " <> show (matchDontKnowAt rec) <> ", " <> "matchDontCareAt: " <> show (matchDontCareAt rec) <> ", " <> "matchProtestAt: " <> show (matchProtestAt rec) <> ", " <> "subsKnow: " <> show (subsKnow rec) <> ", " <> "subsDontKnow: " <> show (subsDontKnow rec) <> ", " <> "subsDontCare: " <> show (subsDontCare rec) <> ", " <> "subsProtest: " <> show (subsProtest rec) <> ", " <> "subsKnowAt: " <> show (subsKnowAt rec) <> ", " <> "subsDontKnowAt: " <> show (subsDontKnowAt rec) <> ", " <> "subsDontCareAt: " <> show (subsDontCareAt rec) <> ", " <> "subsProtestAt: " <> show (subsProtestAt rec) <> ", " <> "splitsKnow: " <> show (splitsKnow rec) <> ", " <> "splitsDontKnow: " <> show (splitsDontKnow rec) <> ", " <> "splitsDontCare: " <> show (splitsDontCare rec) <> ", " <> "splitsProtest: " <> show (splitsProtest rec) <> ", " <> "splitsKnowAt: " <> show (splitsKnowAt rec) <> ", " <> "splitsDontKnowAt: " <> show (splitsDontKnowAt rec) <> ", " <> "splitsDontCareAt: " <> show (splitsDontCareAt rec) <> ", " <> "splitsProtestAt: " <> show (splitsProtestAt rec)
 
 data TrainingStyle
-  = TS_Simple 
+  = TS_Honor 
   | TS_Boolean 
-  | TS_Matching 
+  | TS_Match 
   | TS_Subs 
   | TS_Splits 
   deriving (Generic,Typeable,NFData)
@@ -243,14 +243,14 @@ instance FromJSON TrainingStyle where
   parseJSON (Object o) = do
     tag <- o .: ("tag" :: Text)
     case tag of
-      ("TS_Simple" :: Text) -> do
-        pure TS_Simple
+      ("TS_Honor" :: Text) -> do
+        pure TS_Honor
 
       ("TS_Boolean" :: Text) -> do
         pure TS_Boolean
 
-      ("TS_Matching" :: Text) -> do
-        pure TS_Matching
+      ("TS_Match" :: Text) -> do
+        pure TS_Match
 
       ("TS_Subs" :: Text) -> do
         pure TS_Subs
@@ -264,16 +264,16 @@ instance FromJSON TrainingStyle where
 
 
 instance ToJSON TrainingStyle where
-  toJSON (TS_Simple ) = object $
-    [ "tag" .= ("TS_Simple" :: Text)
+  toJSON (TS_Honor ) = object $
+    [ "tag" .= ("TS_Honor" :: Text)
     , "contents" .= ([] :: [Text])
     ]
   toJSON (TS_Boolean ) = object $
     [ "tag" .= ("TS_Boolean" :: Text)
     , "contents" .= ([] :: [Text])
     ]
-  toJSON (TS_Matching ) = object $
-    [ "tag" .= ("TS_Matching" :: Text)
+  toJSON (TS_Match ) = object $
+    [ "tag" .= ("TS_Match" :: Text)
     , "contents" .= ([] :: [Text])
     ]
   toJSON (TS_Subs ) = object $
@@ -287,25 +287,25 @@ instance ToJSON TrainingStyle where
 
 
 instance Eq TrainingStyle where
-  (==) TS_Simple TS_Simple = True
+  (==) TS_Honor TS_Honor = True
   (==) TS_Boolean TS_Boolean = True
-  (==) TS_Matching TS_Matching = True
+  (==) TS_Match TS_Match = True
   (==) TS_Subs TS_Subs = True
   (==) TS_Splits TS_Splits = True
   (==) _ _ = False
 
 instance Show TrainingStyle where
-  show TS_Simple = "ts_simple"
+  show TS_Honor = "ts_honor"
   show TS_Boolean = "ts_boolean"
-  show TS_Matching = "ts_matching"
+  show TS_Match = "ts_match"
   show TS_Subs = "ts_subs"
   show TS_Splits = "ts_splits"
 
 
 instance Read TrainingStyle where
-  readsPrec _ "ts_simple" = [(TS_Simple, "")]
+  readsPrec _ "ts_honor" = [(TS_Honor, "")]
   readsPrec _ "ts_boolean" = [(TS_Boolean, "")]
-  readsPrec _ "ts_matching" = [(TS_Matching, "")]
+  readsPrec _ "ts_match" = [(TS_Match, "")]
   readsPrec _ "ts_subs" = [(TS_Subs, "")]
   readsPrec _ "ts_splits" = [(TS_Splits, "")]
   readsPrec _ _ = []
