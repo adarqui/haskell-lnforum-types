@@ -1,8 +1,8 @@
-name:                haskell-lnotes-types
+name:                haskell-lnforum-types
 version:             0.1.0.117
 synopsis:            Initial project template from stack
 description:         Please see README.md
-homepage:            https://github.com/adarqui/haskell-lnotes-types#readme
+homepage:            https://github.com/adarqui/haskell-lnforum-types#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Andrew Darqui
@@ -18,39 +18,23 @@ library
   exposed-modules:     LN.T
                        LN.T.ACL
                        LN.T.Api
-                       LN.T.Bucket
-                       LN.T.BucketRound
-                       LN.T.BucketNode
                        LN.T.Count
-                       LN.T.DepList
                        LN.T.Ent
                        LN.T.Error
                        LN.T.Id
                        LN.T.Job
-                       LN.T.Leuron
-                       LN.T.LeuronNode
-                       LN.T.LeuronTraining
                        LN.T.Like
                        LN.T.Like.Extra
                        LN.T.Membership
                        LN.T.Param
                        LN.T.Pack.User
                        LN.T.Pack.Sanitized.User
-                       LN.T.Pack.Resource
-                       LN.T.Pack.Leuron
-                       LN.T.Pack.Bucket
                        LN.T.Permission
                        LN.T.Profile
-                       LN.T.Resource
-                       LN.T.Simple
                        LN.T.Size
-                       LN.T.Splits
-                       LN.T.Substitutions
                        LN.T.Star
                        LN.T.User
                        LN.T.Visibility
-                       LN.T.Templates
-                       LN.T.Training
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , bytestring
@@ -63,15 +47,15 @@ library
   ghc-options:         -Wall
   default-language:    Haskell2010
 
-test-suite haskell-lnotes-types-test
+test-suite haskell-lnforum-types-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       base
-                     , haskell-lnotes-types
+                     , haskell-lnforum-types
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 source-repository head
   type:     git
-  location: https://github.com/adarqui/haskell-lnotes-types
+  location: https://github.com/adarqui/haskell-lnforum-types
