@@ -66,13 +66,6 @@ data Param
   | ByThreadPostLikesIds !([Int64])
   | ByThreadPostStarId !(Int64)
   | ByThreadPostStarsIds !([Int64])
-  | ByBucketId !(Int64)
-  | ByBucketRoundId !(Int64)
-  | ByResourceId !(Int64)
-  | ByResourcesIds !([Int64])
-  | ByResourceName !(Text)
-  | ByLeuronId !(Int64)
-  | ByLeuronsIds !([Int64])
   | ByPmId !(Int64)
   | ByPmsIds !([Int64])
   | ByReminderId !(Int64)
@@ -94,7 +87,6 @@ data Param
   | WithBoard !(Bool)
   | WithThread !(Bool)
   | WithThreadPosts !(Bool)
-  | WithResource !(Bool)
   deriving (Generic,Typeable,NFData)
 
 
@@ -330,48 +322,6 @@ instance FromJSON Param where
           [x0] -> ByThreadPostStarsIds <$> parseJSON x0
           _ -> fail "FromJON Typemismatch: ByThreadPostStarsIds"
 
-      ("ByBucketId" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> ByBucketId <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: ByBucketId"
-
-      ("ByBucketRoundId" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> ByBucketRoundId <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: ByBucketRoundId"
-
-      ("ByResourceId" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> ByResourceId <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: ByResourceId"
-
-      ("ByResourcesIds" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> ByResourcesIds <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: ByResourcesIds"
-
-      ("ByResourceName" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> ByResourceName <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: ByResourceName"
-
-      ("ByLeuronId" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> ByLeuronId <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: ByLeuronId"
-
-      ("ByLeuronsIds" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> ByLeuronsIds <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: ByLeuronsIds"
-
       ("ByPmId" :: Text) -> do
         r <- o .: "contents"
         case r of
@@ -497,12 +447,6 @@ instance FromJSON Param where
         case r of
           [x0] -> WithThreadPosts <$> parseJSON x0
           _ -> fail "FromJON Typemismatch: WithThreadPosts"
-
-      ("WithResource" :: Text) -> do
-        r <- o .: "contents"
-        case r of
-          [x0] -> WithResource <$> parseJSON x0
-          _ -> fail "FromJON Typemismatch: WithResource"
 
       _ -> fail "Could not parse Param"
 
@@ -662,34 +606,6 @@ instance ToJSON Param where
     [ "tag" .= ("ByThreadPostStarsIds" :: Text)
     , "contents" .= [toJSON x0]
     ]
-  toJSON (ByBucketId x0) = object $
-    [ "tag" .= ("ByBucketId" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
-  toJSON (ByBucketRoundId x0) = object $
-    [ "tag" .= ("ByBucketRoundId" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
-  toJSON (ByResourceId x0) = object $
-    [ "tag" .= ("ByResourceId" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
-  toJSON (ByResourcesIds x0) = object $
-    [ "tag" .= ("ByResourcesIds" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
-  toJSON (ByResourceName x0) = object $
-    [ "tag" .= ("ByResourceName" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
-  toJSON (ByLeuronId x0) = object $
-    [ "tag" .= ("ByLeuronId" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
-  toJSON (ByLeuronsIds x0) = object $
-    [ "tag" .= ("ByLeuronsIds" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
   toJSON (ByPmId x0) = object $
     [ "tag" .= ("ByPmId" :: Text)
     , "contents" .= [toJSON x0]
@@ -774,10 +690,6 @@ instance ToJSON Param where
     [ "tag" .= ("WithThreadPosts" :: Text)
     , "contents" .= [toJSON x0]
     ]
-  toJSON (WithResource x0) = object $
-    [ "tag" .= ("WithResource" :: Text)
-    , "contents" .= [toJSON x0]
-    ]
 
 
 instance Eq Param where
@@ -819,13 +731,6 @@ instance Eq Param where
   (==) (ByThreadPostLikesIds x0a) (ByThreadPostLikesIds x0b) = x0a == x0b
   (==) (ByThreadPostStarId x0a) (ByThreadPostStarId x0b) = x0a == x0b
   (==) (ByThreadPostStarsIds x0a) (ByThreadPostStarsIds x0b) = x0a == x0b
-  (==) (ByBucketId x0a) (ByBucketId x0b) = x0a == x0b
-  (==) (ByBucketRoundId x0a) (ByBucketRoundId x0b) = x0a == x0b
-  (==) (ByResourceId x0a) (ByResourceId x0b) = x0a == x0b
-  (==) (ByResourcesIds x0a) (ByResourcesIds x0b) = x0a == x0b
-  (==) (ByResourceName x0a) (ByResourceName x0b) = x0a == x0b
-  (==) (ByLeuronId x0a) (ByLeuronId x0b) = x0a == x0b
-  (==) (ByLeuronsIds x0a) (ByLeuronsIds x0b) = x0a == x0b
   (==) (ByPmId x0a) (ByPmId x0b) = x0a == x0b
   (==) (ByPmsIds x0a) (ByPmsIds x0b) = x0a == x0b
   (==) (ByReminderId x0a) (ByReminderId x0b) = x0a == x0b
@@ -847,7 +752,6 @@ instance Eq Param where
   (==) (WithBoard x0a) (WithBoard x0b) = x0a == x0b
   (==) (WithThread x0a) (WithThread x0b) = x0a == x0b
   (==) (WithThreadPosts x0a) (WithThreadPosts x0b) = x0a == x0b
-  (==) (WithResource x0a) (WithResource x0b) = x0a == x0b
   (==) _ _ = False
 
 instance Show Param where
@@ -889,13 +793,6 @@ instance Show Param where
   show (ByThreadPostLikesIds x0) = "by_thread_post_likes_ids: " <> show x0
   show (ByThreadPostStarId x0) = "by_thread_post_star_id: " <> show x0
   show (ByThreadPostStarsIds x0) = "by_thread_post_stars_ids: " <> show x0
-  show (ByBucketId x0) = "by_bucket_id: " <> show x0
-  show (ByBucketRoundId x0) = "by_bucket_round_id: " <> show x0
-  show (ByResourceId x0) = "by_resource_id: " <> show x0
-  show (ByResourcesIds x0) = "by_resources_ids: " <> show x0
-  show (ByResourceName x0) = "by_resource_name: " <> show x0
-  show (ByLeuronId x0) = "by_leuron_id: " <> show x0
-  show (ByLeuronsIds x0) = "by_leurons_ids: " <> show x0
   show (ByPmId x0) = "by_pm_id: " <> show x0
   show (ByPmsIds x0) = "by_pms_ids: " <> show x0
   show (ByReminderId x0) = "by_reminder_id: " <> show x0
@@ -917,7 +814,6 @@ instance Show Param where
   show (WithBoard x0) = "with_board: " <> show x0
   show (WithThread x0) = "with_thread: " <> show x0
   show (WithThreadPosts x0) = "with_thread_posts: " <> show x0
-  show (WithResource x0) = "with_resource: " <> show x0
 
 
 instance QueryParam Param where
@@ -959,13 +855,6 @@ instance QueryParam Param where
   qp (ByThreadPostLikesIds x0) = ("by_thread_post_likes_ids", (T.pack $ show x0))
   qp (ByThreadPostStarId x0) = ("by_thread_post_star_id", (T.pack $ show x0))
   qp (ByThreadPostStarsIds x0) = ("by_thread_post_stars_ids", (T.pack $ show x0))
-  qp (ByBucketId x0) = ("by_bucket_id", (T.pack $ show x0))
-  qp (ByBucketRoundId x0) = ("by_bucket_round_id", (T.pack $ show x0))
-  qp (ByResourceId x0) = ("by_resource_id", (T.pack $ show x0))
-  qp (ByResourcesIds x0) = ("by_resources_ids", (T.pack $ show x0))
-  qp (ByResourceName x0) = ("by_resource_name", x0)
-  qp (ByLeuronId x0) = ("by_leuron_id", (T.pack $ show x0))
-  qp (ByLeuronsIds x0) = ("by_leurons_ids", (T.pack $ show x0))
   qp (ByPmId x0) = ("by_pm_id", (T.pack $ show x0))
   qp (ByPmsIds x0) = ("by_pms_ids", (T.pack $ show x0))
   qp (ByReminderId x0) = ("by_reminder_id", (T.pack $ show x0))
@@ -987,7 +876,6 @@ instance QueryParam Param where
   qp (WithBoard x0) = ("with_board", (T.pack $ show x0))
   qp (WithThread x0) = ("with_thread", (T.pack $ show x0))
   qp (WithThreadPosts x0) = ("with_thread_posts", (T.pack $ show x0))
-  qp (WithResource x0) = ("with_resource", (T.pack $ show x0))
 
 
 data ParamTag
@@ -1029,13 +917,6 @@ data ParamTag
   | ParamTag_ByThreadPostLikesIds 
   | ParamTag_ByThreadPostStarId 
   | ParamTag_ByThreadPostStarsIds 
-  | ParamTag_ByBucketId 
-  | ParamTag_ByBucketRoundId 
-  | ParamTag_ByResourceId 
-  | ParamTag_ByResourcesIds 
-  | ParamTag_ByResourceName 
-  | ParamTag_ByLeuronId 
-  | ParamTag_ByLeuronsIds 
   | ParamTag_ByPmId 
   | ParamTag_ByPmsIds 
   | ParamTag_ByReminderId 
@@ -1057,7 +938,6 @@ data ParamTag
   | ParamTag_WithBoard 
   | ParamTag_WithThread 
   | ParamTag_WithThreadPosts 
-  | ParamTag_WithResource 
   deriving (Generic,Typeable,NFData,Ord)
 
 
@@ -1179,27 +1059,6 @@ instance FromJSON ParamTag where
       ("ParamTag_ByThreadPostStarsIds" :: Text) -> do
         pure ParamTag_ByThreadPostStarsIds
 
-      ("ParamTag_ByBucketId" :: Text) -> do
-        pure ParamTag_ByBucketId
-
-      ("ParamTag_ByBucketRoundId" :: Text) -> do
-        pure ParamTag_ByBucketRoundId
-
-      ("ParamTag_ByResourceId" :: Text) -> do
-        pure ParamTag_ByResourceId
-
-      ("ParamTag_ByResourcesIds" :: Text) -> do
-        pure ParamTag_ByResourcesIds
-
-      ("ParamTag_ByResourceName" :: Text) -> do
-        pure ParamTag_ByResourceName
-
-      ("ParamTag_ByLeuronId" :: Text) -> do
-        pure ParamTag_ByLeuronId
-
-      ("ParamTag_ByLeuronsIds" :: Text) -> do
-        pure ParamTag_ByLeuronsIds
-
       ("ParamTag_ByPmId" :: Text) -> do
         pure ParamTag_ByPmId
 
@@ -1262,9 +1121,6 @@ instance FromJSON ParamTag where
 
       ("ParamTag_WithThreadPosts" :: Text) -> do
         pure ParamTag_WithThreadPosts
-
-      ("ParamTag_WithResource" :: Text) -> do
-        pure ParamTag_WithResource
 
       _ -> fail "Could not parse ParamTag"
 
@@ -1424,34 +1280,6 @@ instance ToJSON ParamTag where
     [ "tag" .= ("ParamTag_ByThreadPostStarsIds" :: Text)
     , "contents" .= ([] :: [Text])
     ]
-  toJSON (ParamTag_ByBucketId ) = object $
-    [ "tag" .= ("ParamTag_ByBucketId" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (ParamTag_ByBucketRoundId ) = object $
-    [ "tag" .= ("ParamTag_ByBucketRoundId" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (ParamTag_ByResourceId ) = object $
-    [ "tag" .= ("ParamTag_ByResourceId" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (ParamTag_ByResourcesIds ) = object $
-    [ "tag" .= ("ParamTag_ByResourcesIds" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (ParamTag_ByResourceName ) = object $
-    [ "tag" .= ("ParamTag_ByResourceName" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (ParamTag_ByLeuronId ) = object $
-    [ "tag" .= ("ParamTag_ByLeuronId" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (ParamTag_ByLeuronsIds ) = object $
-    [ "tag" .= ("ParamTag_ByLeuronsIds" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
   toJSON (ParamTag_ByPmId ) = object $
     [ "tag" .= ("ParamTag_ByPmId" :: Text)
     , "contents" .= ([] :: [Text])
@@ -1536,10 +1364,6 @@ instance ToJSON ParamTag where
     [ "tag" .= ("ParamTag_WithThreadPosts" :: Text)
     , "contents" .= ([] :: [Text])
     ]
-  toJSON (ParamTag_WithResource ) = object $
-    [ "tag" .= ("ParamTag_WithResource" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
 
 
 instance Eq ParamTag where
@@ -1581,13 +1405,6 @@ instance Eq ParamTag where
   (==) ParamTag_ByThreadPostLikesIds ParamTag_ByThreadPostLikesIds = True
   (==) ParamTag_ByThreadPostStarId ParamTag_ByThreadPostStarId = True
   (==) ParamTag_ByThreadPostStarsIds ParamTag_ByThreadPostStarsIds = True
-  (==) ParamTag_ByBucketId ParamTag_ByBucketId = True
-  (==) ParamTag_ByBucketRoundId ParamTag_ByBucketRoundId = True
-  (==) ParamTag_ByResourceId ParamTag_ByResourceId = True
-  (==) ParamTag_ByResourcesIds ParamTag_ByResourcesIds = True
-  (==) ParamTag_ByResourceName ParamTag_ByResourceName = True
-  (==) ParamTag_ByLeuronId ParamTag_ByLeuronId = True
-  (==) ParamTag_ByLeuronsIds ParamTag_ByLeuronsIds = True
   (==) ParamTag_ByPmId ParamTag_ByPmId = True
   (==) ParamTag_ByPmsIds ParamTag_ByPmsIds = True
   (==) ParamTag_ByReminderId ParamTag_ByReminderId = True
@@ -1609,7 +1426,6 @@ instance Eq ParamTag where
   (==) ParamTag_WithBoard ParamTag_WithBoard = True
   (==) ParamTag_WithThread ParamTag_WithThread = True
   (==) ParamTag_WithThreadPosts ParamTag_WithThreadPosts = True
-  (==) ParamTag_WithResource ParamTag_WithResource = True
   (==) _ _ = False
 
 instance Show ParamTag where
@@ -1651,13 +1467,6 @@ instance Show ParamTag where
   show ParamTag_ByThreadPostLikesIds = "by_thread_post_likes_ids"
   show ParamTag_ByThreadPostStarId = "by_thread_post_star_id"
   show ParamTag_ByThreadPostStarsIds = "by_thread_post_stars_ids"
-  show ParamTag_ByBucketId = "by_bucket_id"
-  show ParamTag_ByBucketRoundId = "by_bucket_round_id"
-  show ParamTag_ByResourceId = "by_resource_id"
-  show ParamTag_ByResourcesIds = "by_resources_ids"
-  show ParamTag_ByResourceName = "by_resource_name"
-  show ParamTag_ByLeuronId = "by_leuron_id"
-  show ParamTag_ByLeuronsIds = "by_leurons_ids"
   show ParamTag_ByPmId = "by_pm_id"
   show ParamTag_ByPmsIds = "by_pms_ids"
   show ParamTag_ByReminderId = "by_reminder_id"
@@ -1679,7 +1488,6 @@ instance Show ParamTag where
   show ParamTag_WithBoard = "with_board"
   show ParamTag_WithThread = "with_thread"
   show ParamTag_WithThreadPosts = "with_thread_posts"
-  show ParamTag_WithResource = "with_resource"
 
 
 instance Read ParamTag where
@@ -1721,13 +1529,6 @@ instance Read ParamTag where
   readsPrec _ "by_thread_post_likes_ids" = [(ParamTag_ByThreadPostLikesIds, "")]
   readsPrec _ "by_thread_post_star_id" = [(ParamTag_ByThreadPostStarId, "")]
   readsPrec _ "by_thread_post_stars_ids" = [(ParamTag_ByThreadPostStarsIds, "")]
-  readsPrec _ "by_bucket_id" = [(ParamTag_ByBucketId, "")]
-  readsPrec _ "by_bucket_round_id" = [(ParamTag_ByBucketRoundId, "")]
-  readsPrec _ "by_resource_id" = [(ParamTag_ByResourceId, "")]
-  readsPrec _ "by_resources_ids" = [(ParamTag_ByResourcesIds, "")]
-  readsPrec _ "by_resource_name" = [(ParamTag_ByResourceName, "")]
-  readsPrec _ "by_leuron_id" = [(ParamTag_ByLeuronId, "")]
-  readsPrec _ "by_leurons_ids" = [(ParamTag_ByLeuronsIds, "")]
   readsPrec _ "by_pm_id" = [(ParamTag_ByPmId, "")]
   readsPrec _ "by_pms_ids" = [(ParamTag_ByPmsIds, "")]
   readsPrec _ "by_reminder_id" = [(ParamTag_ByReminderId, "")]
@@ -1749,7 +1550,6 @@ instance Read ParamTag where
   readsPrec _ "with_board" = [(ParamTag_WithBoard, "")]
   readsPrec _ "with_thread" = [(ParamTag_WithThread, "")]
   readsPrec _ "with_thread_posts" = [(ParamTag_WithThreadPosts, "")]
-  readsPrec _ "with_resource" = [(ParamTag_WithResource, "")]
   readsPrec _ _ = []
 
 

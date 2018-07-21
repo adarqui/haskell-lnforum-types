@@ -279,8 +279,6 @@ data UserSanitizedStatResponse = UserSanitizedStatResponse {
   userSanitizedStatResponseThreads :: !(Int64),
   userSanitizedStatResponseThreadPosts :: !(Int64),
   userSanitizedStatResponseRespect :: !(Int64),
-  userSanitizedStatResponseResources :: !(Int64),
-  userSanitizedStatResponseLeurons :: !(Int64),
   userSanitizedStatResponseWorkouts :: !(Int64)
 }  deriving (Generic,Typeable,NFData)
 
@@ -291,16 +289,12 @@ instance FromJSON UserSanitizedStatResponse where
     userSanitizedStatResponseThreads <- o .: ("threads" :: Text)
     userSanitizedStatResponseThreadPosts <- o .: ("thread_posts" :: Text)
     userSanitizedStatResponseRespect <- o .: ("respect" :: Text)
-    userSanitizedStatResponseResources <- o .: ("resources" :: Text)
-    userSanitizedStatResponseLeurons <- o .: ("leurons" :: Text)
     userSanitizedStatResponseWorkouts <- o .: ("workouts" :: Text)
     pure $ UserSanitizedStatResponse {
       userSanitizedStatResponseUserId = userSanitizedStatResponseUserId,
       userSanitizedStatResponseThreads = userSanitizedStatResponseThreads,
       userSanitizedStatResponseThreadPosts = userSanitizedStatResponseThreadPosts,
       userSanitizedStatResponseRespect = userSanitizedStatResponseRespect,
-      userSanitizedStatResponseResources = userSanitizedStatResponseResources,
-      userSanitizedStatResponseLeurons = userSanitizedStatResponseLeurons,
       userSanitizedStatResponseWorkouts = userSanitizedStatResponseWorkouts
     }
   parseJSON x = fail $ "Could not parse object: " <> show x
@@ -313,17 +307,15 @@ instance ToJSON UserSanitizedStatResponse where
     , "threads" .= userSanitizedStatResponseThreads
     , "thread_posts" .= userSanitizedStatResponseThreadPosts
     , "respect" .= userSanitizedStatResponseRespect
-    , "resources" .= userSanitizedStatResponseResources
-    , "leurons" .= userSanitizedStatResponseLeurons
     , "workouts" .= userSanitizedStatResponseWorkouts
     ]
 
 
 instance Eq UserSanitizedStatResponse where
-  (==) a b = userSanitizedStatResponseUserId a == userSanitizedStatResponseUserId b && userSanitizedStatResponseThreads a == userSanitizedStatResponseThreads b && userSanitizedStatResponseThreadPosts a == userSanitizedStatResponseThreadPosts b && userSanitizedStatResponseRespect a == userSanitizedStatResponseRespect b && userSanitizedStatResponseResources a == userSanitizedStatResponseResources b && userSanitizedStatResponseLeurons a == userSanitizedStatResponseLeurons b && userSanitizedStatResponseWorkouts a == userSanitizedStatResponseWorkouts b
+  (==) a b = userSanitizedStatResponseUserId a == userSanitizedStatResponseUserId b && userSanitizedStatResponseThreads a == userSanitizedStatResponseThreads b && userSanitizedStatResponseThreadPosts a == userSanitizedStatResponseThreadPosts b && userSanitizedStatResponseRespect a == userSanitizedStatResponseRespect b && userSanitizedStatResponseWorkouts a == userSanitizedStatResponseWorkouts b
 
 instance Show UserSanitizedStatResponse where
-    show rec = "userSanitizedStatResponseUserId: " <> show (userSanitizedStatResponseUserId rec) <> ", " <> "userSanitizedStatResponseThreads: " <> show (userSanitizedStatResponseThreads rec) <> ", " <> "userSanitizedStatResponseThreadPosts: " <> show (userSanitizedStatResponseThreadPosts rec) <> ", " <> "userSanitizedStatResponseRespect: " <> show (userSanitizedStatResponseRespect rec) <> ", " <> "userSanitizedStatResponseResources: " <> show (userSanitizedStatResponseResources rec) <> ", " <> "userSanitizedStatResponseLeurons: " <> show (userSanitizedStatResponseLeurons rec) <> ", " <> "userSanitizedStatResponseWorkouts: " <> show (userSanitizedStatResponseWorkouts rec)
+    show rec = "userSanitizedStatResponseUserId: " <> show (userSanitizedStatResponseUserId rec) <> ", " <> "userSanitizedStatResponseThreads: " <> show (userSanitizedStatResponseThreads rec) <> ", " <> "userSanitizedStatResponseThreadPosts: " <> show (userSanitizedStatResponseThreadPosts rec) <> ", " <> "userSanitizedStatResponseRespect: " <> show (userSanitizedStatResponseRespect rec) <> ", " <> "userSanitizedStatResponseWorkouts: " <> show (userSanitizedStatResponseWorkouts rec)
 
 data UserSanitizedStatResponses = UserSanitizedStatResponses {
   userSanitizedStatResponses :: !([UserSanitizedStatResponse])

@@ -390,7 +390,6 @@ instance Show BoardResponses where
 
 data BoardStatResponse = BoardStatResponse {
   boardStatResponseBoardId :: !(Int64),
-  boardStatResponseLeurons :: !(Int64),
   boardStatResponseLikes :: !(Int64),
   boardStatResponseNeutral :: !(Int64),
   boardStatResponseDislikes :: !(Int64),
@@ -402,7 +401,6 @@ data BoardStatResponse = BoardStatResponse {
 instance FromJSON BoardStatResponse where
   parseJSON (Object o) = do
     boardStatResponseBoardId <- o .: ("board_id" :: Text)
-    boardStatResponseLeurons <- o .: ("leurons" :: Text)
     boardStatResponseLikes <- o .: ("likes" :: Text)
     boardStatResponseNeutral <- o .: ("neutral" :: Text)
     boardStatResponseDislikes <- o .: ("dislikes" :: Text)
@@ -410,7 +408,6 @@ instance FromJSON BoardStatResponse where
     boardStatResponseViews <- o .: ("views" :: Text)
     pure $ BoardStatResponse {
       boardStatResponseBoardId = boardStatResponseBoardId,
-      boardStatResponseLeurons = boardStatResponseLeurons,
       boardStatResponseLikes = boardStatResponseLikes,
       boardStatResponseNeutral = boardStatResponseNeutral,
       boardStatResponseDislikes = boardStatResponseDislikes,
@@ -424,7 +421,6 @@ instance ToJSON BoardStatResponse where
   toJSON BoardStatResponse{..} = object $
     [ "tag" .= ("BoardStatResponse" :: Text)
     , "board_id" .= boardStatResponseBoardId
-    , "leurons" .= boardStatResponseLeurons
     , "likes" .= boardStatResponseLikes
     , "neutral" .= boardStatResponseNeutral
     , "dislikes" .= boardStatResponseDislikes
@@ -434,10 +430,10 @@ instance ToJSON BoardStatResponse where
 
 
 instance Eq BoardStatResponse where
-  (==) a b = boardStatResponseBoardId a == boardStatResponseBoardId b && boardStatResponseLeurons a == boardStatResponseLeurons b && boardStatResponseLikes a == boardStatResponseLikes b && boardStatResponseNeutral a == boardStatResponseNeutral b && boardStatResponseDislikes a == boardStatResponseDislikes b && boardStatResponseStars a == boardStatResponseStars b && boardStatResponseViews a == boardStatResponseViews b
+  (==) a b = boardStatResponseBoardId a == boardStatResponseBoardId b && boardStatResponseLikes a == boardStatResponseLikes b && boardStatResponseNeutral a == boardStatResponseNeutral b && boardStatResponseDislikes a == boardStatResponseDislikes b && boardStatResponseStars a == boardStatResponseStars b && boardStatResponseViews a == boardStatResponseViews b
 
 instance Show BoardStatResponse where
-    show rec = "boardStatResponseBoardId: " <> show (boardStatResponseBoardId rec) <> ", " <> "boardStatResponseLeurons: " <> show (boardStatResponseLeurons rec) <> ", " <> "boardStatResponseLikes: " <> show (boardStatResponseLikes rec) <> ", " <> "boardStatResponseNeutral: " <> show (boardStatResponseNeutral rec) <> ", " <> "boardStatResponseDislikes: " <> show (boardStatResponseDislikes rec) <> ", " <> "boardStatResponseStars: " <> show (boardStatResponseStars rec) <> ", " <> "boardStatResponseViews: " <> show (boardStatResponseViews rec)
+    show rec = "boardStatResponseBoardId: " <> show (boardStatResponseBoardId rec) <> ", " <> "boardStatResponseLikes: " <> show (boardStatResponseLikes rec) <> ", " <> "boardStatResponseNeutral: " <> show (boardStatResponseNeutral rec) <> ", " <> "boardStatResponseDislikes: " <> show (boardStatResponseDislikes rec) <> ", " <> "boardStatResponseStars: " <> show (boardStatResponseStars rec) <> ", " <> "boardStatResponseViews: " <> show (boardStatResponseViews rec)
 
 data BoardStatResponses = BoardStatResponses {
   boardStatResponses :: !([BoardStatResponse])

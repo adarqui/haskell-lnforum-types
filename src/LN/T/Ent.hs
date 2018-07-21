@@ -29,8 +29,6 @@ import           Prelude
 
 data Ent
   = Ent_Organization 
-  | Ent_Team 
-  | Ent_TeamMember 
   | Ent_GlobalGroup 
   | Ent_Group 
   | Ent_GroupMember 
@@ -40,12 +38,6 @@ data Ent
   | Ent_Board 
   | Ent_Thread 
   | Ent_ThreadPost 
-  | Ent_Blog 
-  | Ent_BlogPost 
-  | Ent_BlogComment 
-  | Ent_Resource 
-  | Ent_Leuron 
-  | Ent_Comment 
   | Ent_Api 
   | Ent_Like 
   | Ent_Star 
@@ -59,12 +51,6 @@ instance FromJSON Ent where
     case tag of
       ("Ent_Organization" :: Text) -> do
         pure Ent_Organization
-
-      ("Ent_Team" :: Text) -> do
-        pure Ent_Team
-
-      ("Ent_TeamMember" :: Text) -> do
-        pure Ent_TeamMember
 
       ("Ent_GlobalGroup" :: Text) -> do
         pure Ent_GlobalGroup
@@ -93,24 +79,6 @@ instance FromJSON Ent where
       ("Ent_ThreadPost" :: Text) -> do
         pure Ent_ThreadPost
 
-      ("Ent_Blog" :: Text) -> do
-        pure Ent_Blog
-
-      ("Ent_BlogPost" :: Text) -> do
-        pure Ent_BlogPost
-
-      ("Ent_BlogComment" :: Text) -> do
-        pure Ent_BlogComment
-
-      ("Ent_Resource" :: Text) -> do
-        pure Ent_Resource
-
-      ("Ent_Leuron" :: Text) -> do
-        pure Ent_Leuron
-
-      ("Ent_Comment" :: Text) -> do
-        pure Ent_Comment
-
       ("Ent_Api" :: Text) -> do
         pure Ent_Api
 
@@ -131,14 +99,6 @@ instance FromJSON Ent where
 instance ToJSON Ent where
   toJSON (Ent_Organization ) = object $
     [ "tag" .= ("Ent_Organization" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (Ent_Team ) = object $
-    [ "tag" .= ("Ent_Team" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (Ent_TeamMember ) = object $
-    [ "tag" .= ("Ent_TeamMember" :: Text)
     , "contents" .= ([] :: [Text])
     ]
   toJSON (Ent_GlobalGroup ) = object $
@@ -177,30 +137,6 @@ instance ToJSON Ent where
     [ "tag" .= ("Ent_ThreadPost" :: Text)
     , "contents" .= ([] :: [Text])
     ]
-  toJSON (Ent_Blog ) = object $
-    [ "tag" .= ("Ent_Blog" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (Ent_BlogPost ) = object $
-    [ "tag" .= ("Ent_BlogPost" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (Ent_BlogComment ) = object $
-    [ "tag" .= ("Ent_BlogComment" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (Ent_Resource ) = object $
-    [ "tag" .= ("Ent_Resource" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (Ent_Leuron ) = object $
-    [ "tag" .= ("Ent_Leuron" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
-  toJSON (Ent_Comment ) = object $
-    [ "tag" .= ("Ent_Comment" :: Text)
-    , "contents" .= ([] :: [Text])
-    ]
   toJSON (Ent_Api ) = object $
     [ "tag" .= ("Ent_Api" :: Text)
     , "contents" .= ([] :: [Text])
@@ -221,8 +157,6 @@ instance ToJSON Ent where
 
 instance Eq Ent where
   (==) Ent_Organization Ent_Organization = True
-  (==) Ent_Team Ent_Team = True
-  (==) Ent_TeamMember Ent_TeamMember = True
   (==) Ent_GlobalGroup Ent_GlobalGroup = True
   (==) Ent_Group Ent_Group = True
   (==) Ent_GroupMember Ent_GroupMember = True
@@ -232,12 +166,6 @@ instance Eq Ent where
   (==) Ent_Board Ent_Board = True
   (==) Ent_Thread Ent_Thread = True
   (==) Ent_ThreadPost Ent_ThreadPost = True
-  (==) Ent_Blog Ent_Blog = True
-  (==) Ent_BlogPost Ent_BlogPost = True
-  (==) Ent_BlogComment Ent_BlogComment = True
-  (==) Ent_Resource Ent_Resource = True
-  (==) Ent_Leuron Ent_Leuron = True
-  (==) Ent_Comment Ent_Comment = True
   (==) Ent_Api Ent_Api = True
   (==) Ent_Like Ent_Like = True
   (==) Ent_Star Ent_Star = True
@@ -246,8 +174,6 @@ instance Eq Ent where
 
 instance Show Ent where
   show Ent_Organization = "organization"
-  show Ent_Team = "team"
-  show Ent_TeamMember = "team_member"
   show Ent_GlobalGroup = "global_group"
   show Ent_Group = "group"
   show Ent_GroupMember = "group_member"
@@ -257,12 +183,6 @@ instance Show Ent where
   show Ent_Board = "board"
   show Ent_Thread = "thread"
   show Ent_ThreadPost = "thread_post"
-  show Ent_Blog = "blog"
-  show Ent_BlogPost = "blog_post"
-  show Ent_BlogComment = "blog_comment"
-  show Ent_Resource = "resource"
-  show Ent_Leuron = "leuron"
-  show Ent_Comment = "comment"
   show Ent_Api = "api"
   show Ent_Like = "like"
   show Ent_Star = "star"
@@ -271,8 +191,6 @@ instance Show Ent where
 
 instance Read Ent where
   readsPrec _ "organization" = [(Ent_Organization, "")]
-  readsPrec _ "team" = [(Ent_Team, "")]
-  readsPrec _ "team_member" = [(Ent_TeamMember, "")]
   readsPrec _ "global_group" = [(Ent_GlobalGroup, "")]
   readsPrec _ "group" = [(Ent_Group, "")]
   readsPrec _ "group_member" = [(Ent_GroupMember, "")]
@@ -282,12 +200,6 @@ instance Read Ent where
   readsPrec _ "board" = [(Ent_Board, "")]
   readsPrec _ "thread" = [(Ent_Thread, "")]
   readsPrec _ "thread_post" = [(Ent_ThreadPost, "")]
-  readsPrec _ "blog" = [(Ent_Blog, "")]
-  readsPrec _ "blog_post" = [(Ent_BlogPost, "")]
-  readsPrec _ "blog_comment" = [(Ent_BlogComment, "")]
-  readsPrec _ "resource" = [(Ent_Resource, "")]
-  readsPrec _ "leuron" = [(Ent_Leuron, "")]
-  readsPrec _ "comment" = [(Ent_Comment, "")]
   readsPrec _ "api" = [(Ent_Api, "")]
   readsPrec _ "like" = [(Ent_Like, "")]
   readsPrec _ "star" = [(Ent_Star, "")]
