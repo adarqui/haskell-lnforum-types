@@ -19,6 +19,7 @@ library
                        LN.T.ACL
                        LN.T.Api
                        LN.T.Count
+                       LN.T.DepList
                        LN.T.Ent
                        LN.T.Error
                        LN.T.Id
